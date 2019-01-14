@@ -1,0 +1,3 @@
+C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.csproj.CoreCompileInputs.cache
+C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.AssemblyInfoInputs.cache
+C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.AssemblyInfo.cs
