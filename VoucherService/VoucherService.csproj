@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GiftVoucher\GiftVoucher.csproj" />
+    <ProjectReference Include="..\GiftVoucher\DiscountVoucher.csproj" />
+  
   </ItemGroup>
 
 </Project>

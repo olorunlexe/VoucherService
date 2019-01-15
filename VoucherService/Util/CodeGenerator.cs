@@ -37,8 +37,6 @@ namespace VoucherService.Util
         /// <returns>code as string</returns>
         public static string GenerateCodeWithPattern(string pattern, string characters, string separator)
         {
-            //##-##
-            
             // int separatorPosition = pattern.IndexOf(separator);
             var charsBeforeAfterSeparator = pattern.Split(separator, 2); //[##, ##] 
             var charsBeforeLength = charsBeforeAfterSeparator[0].Length;
