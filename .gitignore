@@ -1,6 +1,6 @@
 
 *.lock
-bin
+bin/
 .vscode
-obj
+obj/
 .csproj
