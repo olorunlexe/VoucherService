@@ -53,7 +53,7 @@ namespace VoucherService.Controllers
             }
 
             [HttpPost]
-            public async Task<ActionResult> ImportVouchers()
+            public async Task<ActionResult> UpdateVouchers()
             {
                 return new JsonResult(Response);
             }
