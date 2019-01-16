@@ -4341,14 +4341,14 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "GiftVoucher/1.0.0": {
+      "VoucherSerViceBL/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "compile": {
-          "bin/placeholder/GiftVoucher.dll": {}
+          "bin/placeholder/VoucherSerViceBL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/GiftVoucher.dll": {}
+          "bin/placeholder/VoucherSerViceBL.dll": {}
         }
       }
     }
@@ -11847,19 +11847,19 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
-    "GiftVoucher/1.0.0": {
+    "VoucherSerViceBL/1.0.0": {
       "type": "project",
-      "path": "../GiftVoucher/GiftVoucher.csproj",
-      "msbuildProject": "../GiftVoucher/GiftVoucher.csproj"
+      "path": "../VoucherServiceBL/VoucherSerViceBL.csproj",
+      "msbuildProject": "../VoucherServiceBL/VoucherSerViceBL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "GiftVoucher >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
-      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.0.2105168"
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.0.2105168",
+      "VoucherSerViceBL >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -11890,8 +11890,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "/home/dunamis/DotNetApps/VoucherService/GiftVoucher/GiftVoucher.csproj": {
-              "projectPath": "/home/dunamis/DotNetApps/VoucherService/GiftVoucher/GiftVoucher.csproj"
+            "/home/dunamis/DotNetApps/VoucherService/VoucherServiceBL/VoucherSerViceBL.csproj": {
+              "projectPath": "/home/dunamis/DotNetApps/VoucherService/VoucherServiceBL/VoucherSerViceBL.csproj"
             }
           }
         }

@@ -17,9 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GiftVoucher\GiftVoucher.csproj" />
-    <ProjectReference Include="..\GiftVoucher\DiscountVoucher.csproj" />
-  
+    <ProjectReference Include="..\VoucherServiceBL\VoucherSerViceBL.csproj" />
   </ItemGroup>
 
 </Project>
