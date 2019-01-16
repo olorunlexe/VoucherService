@@ -6,14 +6,15 @@ using System.Text;
 
 namespace VoucherServiceBL.Domain
 {
-    [Table("Discount")]
-    class Discount
+    [Table("DiscountVoucher")]
+    class DiscountVoucher:Voucher,ISingleVoucher
     {
-        public BigInteger Id { get; set; }
+        public DiscountType discountType;
         public long Amount { get; set; }
         public long Unit { get; set; }
         public float Percent { get; set; }
         public BigInteger VoucherId { get; set; }
-        public BigInteger RedemptionCount { get; set; }
+        public string status { get; set; }
+        public BigInteger redemptionCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
