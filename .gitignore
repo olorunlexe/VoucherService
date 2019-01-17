@@ -339,3 +339,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database 
 healthchecksdb
+
+.vs/VoucherService/v15/Server/sqlite3/storage.ide
+.vs/VoucherService/v15/Server/sqlite3/storage.ide-wal
