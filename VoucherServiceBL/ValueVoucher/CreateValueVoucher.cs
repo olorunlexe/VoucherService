@@ -17,7 +17,7 @@ namespace VoucherServiceBL.ValueVoucher
         public static async Task<string> CreateValueVoucherAsync(string sample)
         {
 
-            try
+            try  
             {
                 int rowAffected = 0;
                 using (var conn = Connection)
