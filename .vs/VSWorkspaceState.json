@@ -2,7 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\VoucherServiceBL",
-    "\\VoucherServiceBL\\DiscountVoucher"
+    "\\VoucherServiceBL\\ValueVoucher\\Repository"
   ],
+  "SelectedNode": "\\VoucherServiceBL\\DiscountVoucher",
   "PreviewInSolutionExplorer": false
 }

@@ -16,6 +16,7 @@ namespace VoucherServiceBL.Domain
         public BigInteger MerchantId { get; set; }
         public string Metadata { get; set; }
         public string Description { get; set; }
+        public string Status { get; set; }
 
     }
 }

@@ -1,23 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
+using VoucherServiceBL.Domain;
 
 namespace VoucherServiceBL.ValueVoucher.Repository
 {
     public interface IValueRepository
     {
-        ValueVoucher GetValueVoucherById(BigInteger id, string merchantId);
-        ValueVoucher GetValueVoucherByCode(string code, string merchantId);
-        ValueVoucher GetValueVoucherByCreationDate(DateTime creationDate, string merchantId);
-        ValueVoucher GetValueVoucherByExpiryDate(DateTime expiryDate, string merchantId);
-        ValueVoucher GetValueVoucherByStatus(string status, merchantId);
+        Value GetValueVoucherById(BigInteger id, string merchantId);
+        Value GetValueVoucherByCode(string code, string merchantId);
+        Value GetValueVoucherByCreationDate(DateTime creationDate, string merchantId);
+        Value GetValueVoucherByExpiryDate(DateTime expiryDate, string merchantId);
+        Value GetValueVoucherByStatus(string status, string merchantId);
 
 
-        IEnumerable<ValueVoucher> GetAllValueVouchers(string merchantId);
+        IEnumerable<Value> GetAllValueVouchers(string merchantId);
 
-        ValueVoucher CreateValueVoucher(ValueVoucher voucher);
+        Value CreateValueVoucher(Value voucher);
 
-        void UpdateValueVoucherExpiryDate(BigInteger id, ValueVoucher valueVoucher);
-        void UpdateValueVoucherStatus(BigInteger id, ValueVoucher valueVoucher);
+        void UpdateValueVoucherExpiryDate(BigInteger id, Value valueVoucher);
+        void UpdateValueVoucherStatus(BigInteger id, Value valueVoucher);
 
         void DeleteValueVoucher(BigInteger id);
     }

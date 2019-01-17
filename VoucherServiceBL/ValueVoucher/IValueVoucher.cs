@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using VoucherServiceBL.Domain;
 using VoucherServiceBL.ValueVoucher.Repository;
 
 namespace VoucherServiceBL.ValueVoucher
@@ -21,19 +22,19 @@ namespace VoucherServiceBL.ValueVoucher
         /// </summary>
         /// <param name="code">the code to create a voucher from</param>
         /// <returns>a single voucher</returns>            
-        IEnumerable<ValueVoucher> CreateGiftVoucher(IEnumerable<string> codes);
+        IEnumerable<Value> CreateValueVoucher(IEnumerable<string> codes);
 
         /// <summary>
         /// Create multiple vouchers at once given a list of codes
         /// </summary>
         /// <param name="codes">a list of codes</param>
         /// <returns>an immutable list of vouchers</returns>
-        ValueVoucher CreateValueVoucher(string code);
+        Value CreateValueVoucher(string code);
 
         #endregion
 
         #region Read Methods          
-        ValueVoucher GetValueVoucherById(BigInteger id, string merchantId);
+        Value GetValueVoucherById(BigInteger id, string merchantId);
 
         /// <summary>
         /// Returns a value voucher given a voucher code
@@ -42,7 +43,7 @@ namespace VoucherServiceBL.ValueVoucher
         /// <param name="code">code of the voucher</param>
         /// <param name="merchantId">id of the merchant that created the voucher</param>
         /// <returns></returns>
-        ValueVoucher GetValueVoucherByCode(string code, string merchantId);
+        Value GetValueVoucherByCode(string code, string merchantId);
 
         /// <summary>
         /// Returns a value voucher given a voucher code
@@ -51,11 +52,11 @@ namespace VoucherServiceBL.ValueVoucher
         /// <param name="creationDate">id of the merchant that created the voucher</param>
         /// <param name="merchantId"></param>
         /// <returns></returns>
-        ValueVoucher GetValueVoucherByCreationDate(DateTime creationDate, string merchantId);
+        Value GetValueVoucherByCreationDate(DateTime creationDate, string merchantId);
 
-        ValueVoucher GetValueVoucherByExpiryDate(DateTime expiryDate, string merchantId);
-        ValueVoucher GetValueVoucherByStatus(string status, string merchantId);
-        IEnumerable<ValueVoucher> GetAllValueVouchers(string merchantId);
+        Value GetValueVoucherByExpiryDate(DateTime expiryDate, string merchantId);
+        Value GetValueVoucherByStatus(string status, string merchantId);
+        IEnumerable<Value> GetAllValueVouchers(string merchantId);
         #endregion
     }
 }
