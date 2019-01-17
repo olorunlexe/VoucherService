@@ -23,7 +23,7 @@ namespace VoucherServiceBL
 
 
        
-        public List<Voucher> GetAllVouchers()
+        public IEnumerable<Voucher> GetAllVouchers()
         {
             using (var conn = Connection)
             {
@@ -35,7 +35,7 @@ namespace VoucherServiceBL
 
         }
 
-        public List<Voucher> GetAllVouchersFilterByMerchantId(Voucher voucher)
+        public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(Voucher voucher)
         {
             using (var conn = Connection)
             {

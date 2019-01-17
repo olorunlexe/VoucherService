@@ -64,7 +64,7 @@ namespace VoucherServiceBL.DiscountVoucher
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public List<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount)
+        public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount)
         {
             using (var conn = Connection)
             {
