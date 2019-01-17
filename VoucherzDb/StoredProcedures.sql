@@ -274,12 +274,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[usp_GetAllDiscountVouchersFilterByMerchantId] 
-@MercahntId BIGINT
+@MerchantId BIGINT
 
 AS
 SELECT VoucherId, MerchantId, Code, VoucherType, CreationDate, VoucherStatus, ExpiryDate, DiscountAmount, DiscountPercentage, DiscountUnit, RedemptionCount
 FROM Voucher_DiscountView
-WHERE @MercahntId = MerchantId
+WHERE @MerchantId = MerchantId
 
 GO
 
