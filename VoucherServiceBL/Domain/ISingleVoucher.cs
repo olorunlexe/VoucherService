@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VoucherServiceBL.Domain
 {
-    interface ISingleVoucher
+    public interface ISingleVoucher
     {
         BigInteger redemptionCount { get; set; }
     }

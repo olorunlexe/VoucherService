@@ -7,7 +7,7 @@ using System.Text;
 namespace VoucherServiceBL.Domain
 {
     [Table("GiftVoucher")]
-    class GiftVoucher:Voucher
+    public class Gift:Voucher
     {
         public BigInteger giftAmount { get; set; }
         public BigInteger giftUnit { get; set; }

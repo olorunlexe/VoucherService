@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VoucherServiceBL.Domain
 {
-    enum DiscountType
+    public enum DiscountType
     {
         Amount,Percent,Unit
     }

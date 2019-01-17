@@ -7,7 +7,7 @@ using System.Text;
 namespace VoucherServiceBL.Domain
 {
     [Table("DiscountVoucher")]
-    class DiscountVoucher:Voucher,ISingleVoucher
+    public class Discount:Voucher,ISingleVoucher
     {
         public DiscountType discountType;
         public long Amount { get; set; }
@@ -15,6 +15,6 @@ namespace VoucherServiceBL.Domain
         public float Percent { get; set; }
         public BigInteger VoucherId { get; set; }
         public string status { get; set; }
-        public BigInteger redemptionCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public BigInteger redemptionCount { get; set; }
     }
 }
