@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\VoucherServiceBL",
+    "\\VoucherServiceBL\\DiscountVoucher"
   ],
   "PreviewInSolutionExplorer": false
 }
