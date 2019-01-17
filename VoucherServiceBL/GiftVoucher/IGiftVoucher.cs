@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using VoucherServiceBL.GiftVoucher.Repository;
+using VoucherServiceBL.Domain;
 
 namespace VoucherServiceBL.GiftVoucher
 {
@@ -18,14 +19,14 @@ namespace VoucherServiceBL.GiftVoucher
         /// </summary>
         /// <param name="code">the code to create a voucher from</param>
         /// <returns>a single voucher</returns>            
-        IEnumerable<GiftVoucher> CreateGiftVoucher(IEnumerable<string> codes);   
+        IEnumerable<Gift> CreateGiftVoucher(IEnumerable<string> codes);   
         
         /// <summary>
         /// Create multiple vouchers at once given a list of codes
         /// </summary>
         /// <param name="codes">a list of codes</param>
         /// <returns>an immutable list of vouchers</returns>
-        GiftVoucher CreateGiftVoucher(string code);
+        Gift CreateGiftVoucher(string code);
 
         #endregion
 

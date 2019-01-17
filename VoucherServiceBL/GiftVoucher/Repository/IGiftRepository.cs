@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using VoucherServiceBL.Domain;
 
 namespace VoucherServiceBL.GiftVoucher.Repository
 {
@@ -10,17 +11,9 @@ namespace VoucherServiceBL.GiftVoucher.Repository
     /// </summary>
     public interface IGiftRepository
     {
-        GiftVoucher GetGiftVoucherById(BigInteger id, string merchantId);
+        IEnumerable<Gift> GetAllGiftVouchers(string merchantId);
 
-        GiftVoucher GetGiftVoucherByCode(string code, string merchantId);
-        
-        GiftVoucher GetGiftVoucherByCreationDate(DateTime creationDate, string merchantId);
-        
-        GiftVoucher GetGiftVoucherByExpiryDate(DateTime expiryDate, string merchantId);
-        GiftVoucher GetGiftVoucherByStatus(string status, string merchantId);
-        IEnumerable<GiftVoucher> GetAllGiftVouchers(string merchantId);
-
-        GiftVoucher CreateGiftVoucher(GiftVoucher voucher);
+        Gift CreateGiftVoucher(Gift voucher);
 
         /// <summary>
         /// Upward review of the amount on a gift voucher
@@ -29,9 +22,34 @@ namespace VoucherServiceBL.GiftVoucher.Repository
         /// </summary>
         /// <param name="amountToAdd">Amount to add to the current balance on the gift voucher</param>
         /// <returns>The gift voucher</returns>
-        void UpdateGiftVoucherAmount(BigInteger id, GiftVoucher voucher); //TODO: decide to either return the modified voucher or void
+        void UpdateGiftVoucherAmount(BigInteger id, Gift voucher); //TODO: decide to either return the modified voucher or void
 
-        void usp_DeleteVoucher(BigInteger id);
+        // void usp_DeleteVoucher(BigInteger id);
+
+                // public Gift GetGiftVoucherByCode(string code, string merchantId)
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public Gift GetGiftVoucherByCreationDate(DateTime creationDate, string merchantId)
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public Gift GetGiftVoucherByExpiryDate(DateTime expiryDate, string merchantId)
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public Gift GetGiftVoucherById(BigInteger id, string merchantId)
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public Gift GetGiftVoucherByStatus(string status, string merchantId)
+        // {
+        //     throw new NotImplementedException();
+        // }
 
 // [dbo].[usp_DeleteVoucherByCode]
 // [dbo].[usp_DeleteVoucherById]      
