@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.DiscountVoucher
 {

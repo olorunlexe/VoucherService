@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VoucherServiceBL.DiscountVoucher;
 using VoucherServiceBL.Domain;
 
 namespace VoucherService.Controllers
@@ -19,7 +20,7 @@ namespace VoucherService.Controllers
 
         [HttpPost]
         public async Task<VoucherRequest> CreateVoucher([FromBody] VoucherRequest voucher)
-        {
+        { 
             return null;
         }
 
@@ -32,7 +33,7 @@ namespace VoucherService.Controllers
 
         [HttpPost]
         [Route("all")]
-        public async Task<VoucherRequest> GetVoucher()
+        public async Task<VoucherRequest> GetAllVouchers([FromQuery] string merchantId)
         {
             return null;
         }

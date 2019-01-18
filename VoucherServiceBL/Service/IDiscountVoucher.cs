@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Model;
 
 namespace VoucherServiceBL.DiscountVoucher
 {
-    interface IDiscountVoucher
+    public interface IDiscountVoucher
     {
         IDiscountRepository repository { get; set; }
 
-        Discount CreateDiscountVoucher(Discount discount);
+        Discount CreateDiscountVoucher( VoucherRequest voucherRequest);
         //Discount GetAllDiscountVouchers();
-        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount);
+        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(VoucherRequest voucherRequest);
     }
 }
