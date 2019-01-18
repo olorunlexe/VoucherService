@@ -18,7 +18,7 @@ namespace VoucherServiceBL.Service
         public Gift CreateGiftVoucher(VoucherRequest gift)
         {
             
-            Repository.CreateGiftVoucher(gift);
+            Repository.CreateGiftVoucher();
         }
 
         public IEnumerable<Gift> GetAllGiftVouchers()
