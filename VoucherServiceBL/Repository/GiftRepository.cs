@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace VoucherServiceBL.GiftVoucher.Repository
+namespace VoucherServiceBL.Repository
 {
     public class GiftRepository :BaseRepository, IGiftRepository
     {

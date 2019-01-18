@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using VoucherServiceBL.Domain;
 
-namespace VoucherServiceBL
+namespace VoucherServiceBL.Repository
 {
     public class BaseRepository
     {

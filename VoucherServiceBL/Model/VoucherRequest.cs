@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace VoucherService.Controllers
+namespace VoucherServiceBL.Model
 {
     public class VoucherRequest
     {
