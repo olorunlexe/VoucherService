@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using VoucherServiceBL.GiftVoucher.Repository;
 using VoucherServiceBL.Domain;
+using System.Numerics;
 
 namespace VoucherServiceBL.GiftVoucher
 {
@@ -31,7 +32,7 @@ namespace VoucherServiceBL.GiftVoucher
         #endregion
 
         #region Read Methods          
-        GiftVoucher GetGiftVoucherById(BigInteger id, string merchantId);
+        Gift GetGiftVoucherById(BigInteger id, string merchantId);
 
         /// <summary>
         /// Returns a gift voucher given a voucher code
@@ -40,7 +41,7 @@ namespace VoucherServiceBL.GiftVoucher
         /// <param name="code">code of the voucher</param>
         /// <param name="merchantId">id of the merchant that created the voucher</param>
         /// <returns></returns>
-        GiftVoucher GetGiftVoucherByCode(string code, string merchantId);
+        Gift GetGiftVoucherByCode(string code, string merchantId);
         
         /// <summary>
         /// Returns a gift voucher given a voucher code
@@ -49,11 +50,11 @@ namespace VoucherServiceBL.GiftVoucher
         /// <param name="creationDate">id of the merchant that created the voucher</param>
         /// <param name="merchantId"></param>
         /// <returns></returns>
-        GiftVoucher GetGiftVoucherByCreationDate(DateTime creationDate, string merchantId);
+        Gift GetGiftVoucherByCreationDate(DateTime creationDate, string merchantId);
         
-        GiftVoucher GetGiftVoucherByExpiryDate(DateTime expiryDate, string merchantId);
-        GiftVoucher GetGiftVoucherByStatus(string status, string merchantId);
-        IEnumerable<GiftVoucher> GetAllGiftVouchers(string merchantId);
+        Gift GetGiftVoucherByExpiryDate(DateTime expiryDate, string merchantId);
+        Gift GetGiftVoucherByStatus(string status, string merchantId);
+        IEnumerable<Gift> GetAllGiftVouchers(string merchantId);
         #endregion
     }
 

@@ -32,7 +32,6 @@ namespace VoucherServiceBL
 
                 return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
             }
-
         }
 
         public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(Voucher voucher)
