@@ -10,6 +10,6 @@ namespace VoucherServiceBL.DiscountVoucher
     {
         Discount CreateDiscountVoucher(Discount discount);
         //Discount GetAllDiscountVouchers();
-        List<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount);
+        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount);
     }
 }
