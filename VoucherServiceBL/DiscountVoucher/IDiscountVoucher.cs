@@ -9,5 +9,9 @@ namespace VoucherServiceBL.DiscountVoucher
     interface IDiscountVoucher
     {
         IDiscountRepository repository { get; set; }
+
+        Discount CreateDiscountVoucher(Discount discount);
+        //Discount GetAllDiscountVouchers();
+        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount);
     }
 }
