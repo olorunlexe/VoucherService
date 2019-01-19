@@ -23,19 +23,19 @@ namespace VoucherServiceBL
 
 
        
-        public List<Voucher> GetAllVouchers()
-        {
-            using (var conn = Connection)
-            {
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
+        // public List<Voucher> GetAllVouchers()
+        // {
+        //     using (var conn = Connection)
+        //     {
+        //         if (conn.State == ConnectionState.Closed)
+        //             conn.Open();
 
-                return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
-            }
+        //         return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
+        //     }
 
-        }
+        // }
 
-        public List<Voucher> GetAllVouchersFilterByMerchantId(Voucher voucher)
+        public List<Voucher> GetAllVouchers(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -57,14 +57,15 @@ namespace VoucherServiceBL
                     conn.Open();
 
                DynamicParameters parameters = new DynamicParameters();
-              
+                
+                parameters.Add("@Code", voucher.Code);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
                 return conn.QuerySingle("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByCodeFilterByMerchantId(Voucher voucher)
+        public Voucher GetVoucherByCodeAndType(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -80,8 +81,7 @@ namespace VoucherServiceBL
             }
         }
 
-        
-        public Voucher GetVoucherByCreationDateFilterByMerchantId(Voucher voucher)
+        public Voucher GetVoucherByCreationDate(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -92,14 +92,13 @@ namespace VoucherServiceBL
                 //Parameters Declaration to be passed into Stored procdure "usp_GetVoucherByCreationDate"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@CreationDate", voucher.CreationDate);
-                // parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
                 return conn.QuerySingle("usp_GetVoucherByCreationDateFilterByMerchantId",parameters,commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByExpiryDateFilterByMerchantId(Voucher voucher)
+        public Voucher GetVoucherByExpiryDate(Voucher voucher)
         {
 
             using (var conn = Connection)

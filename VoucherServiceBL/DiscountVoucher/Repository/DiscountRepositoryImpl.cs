@@ -39,7 +39,7 @@ namespace VoucherServiceBL.DiscountVoucher
                     parameters.Add("@DiscountUnit", discount.Unit);
                     parameters.Add(" @ExpiryDate", discount.ExpiryDate);
 
-                    rowAffected = conn.Execute("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = conn.Execute("usp_CreateVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
                 return discount;
         }
@@ -74,7 +74,7 @@ namespace VoucherServiceBL.DiscountVoucher
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@MerchanttId", discount.MerchantId);
-                return conn.Query<Discount>("usp_GetAllDiscountVouchers",parameters, commandType: CommandType.StoredProcedure).ToList();
+                return conn.Query<Discount>("usp_GetAllDiscountVouchersFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
     }
