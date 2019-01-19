@@ -12,7 +12,7 @@ namespace VoucherService.Util
         /// <param name="length">the number of characters to be Generated e.g A code with length of 5 (12345)</param>
         /// <param name="characterSet">A pool of Characters to generate number from</param>
         /// <returns></returns>
-        private static string GenerateCode(int length, string characterSet)
+        public static string GenerateCode(int length, string characterSet)
         {
             Random random = new Random();
             StringBuilder result;
@@ -24,8 +24,7 @@ namespace VoucherService.Util
             }
             return result.ToString();
         }
-        
-        
+                
         /// <summary>
         /// Creates a code specifying a pattern, characterset and a separator
         /// </summary>
@@ -71,5 +70,10 @@ namespace VoucherService.Util
             return code + suffix;
         }
 
+        public static string Encrypt(string code)
+        {
+            //apply hashing algorithm to the code
+            return null;
+        }
     }
 }

@@ -10,7 +10,6 @@ namespace VoucherServiceBL.Domain
     public class Gift:Voucher
     {
         public BigInteger GiftAmount { get; set; }
-        public BigInteger GiftUnit { get; set; }
-        public string Status { get; set; }
+        public BigInteger GiftBalance { get; set; }
     }
 }

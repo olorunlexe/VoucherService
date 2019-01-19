@@ -14,7 +14,7 @@ namespace VoucherServiceBL.Domain
         public string VoucherType { get; set; }
         public DateTime ExpiryDate { get; set; }
         public DateTime CreationDate { get; set; }
-        public BigInteger MerchantId { get; set; }
+        public string MerchantId { get; set; }
         public string VoucherStatus { get; set; }
         public string Metadata { get; set; }
         public string Description { get; set; }

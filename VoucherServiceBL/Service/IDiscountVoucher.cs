@@ -4,8 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
+using VoucherServiceBL.Repository;
 
-namespace VoucherServiceBL.DiscountVoucher
+namespace VoucherServiceBL.Service
 {
     public interface IDiscountVoucher
     {

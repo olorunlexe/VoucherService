@@ -22,6 +22,6 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="amountToAdd">Amount to add to the current balance on the gift voucher</param>
         /// <returns>The gift voucher</returns>
-        void UpdateGiftVoucherAmount(BigInteger id, Gift voucher); //TODO: decide to either return the modified voucher or void
-
+        Voucher UpdateGiftVoucherAmount(string code, Gift voucher); //TODO: decide to either return the modified voucher or void
+    }
 }

@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using VoucherServiceBL.DiscountVoucher;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
+using VoucherServiceBL.Repository;
+using VoucherServiceBL.Service;
+using VoucherServiceBL.Model;
+
 
 namespace VoucherService.Controllers
 {
@@ -19,46 +23,92 @@ namespace VoucherService.Controllers
     public class VoucherController : ControllerBase
     {
 
-        [HttpPost]
-        public async Task<VoucherRequest> CreateVoucher([FromBody] VoucherRequest voucher)
-        { 
-            return null;
-        }
-
-        [HttpPost("{code}")]
-        public async Task<VoucherRequest> GetVoucher([FromRoute] string code)
+        // private IGiftVoucher giftVoucher; //TODO: remove
+        // private IDiscountVoucher discountVoucher; //TODO: remove
+        private IVoucherService baseVoucherService;
+        public VoucherController(IGiftVoucher giftService, 
+                IDiscountVoucher discountService, 
+                IVoucherService baseService)
         {
-            return null;
+            // this.giftVoucher = giftService;
+            // this.discountVoucher = discountService;
+            this.baseVoucherService = baseService;
         }
 
+        /// <summary>
+        /// Create voucher(s) passing in the wanted properties
+        /// </summary>
+        /// <param name="voucherReq">the object containing the wanted properties of the voucher(s)
+        /// to create
+        /// </param>
+        /// <returns>the created voucher</returns>
+
+        [HttpPost]
+        public async Task<Voucher> CreateVoucher([FromBody] VoucherRequest voucherReq)
+        {
+            return baseVoucherService.CreateVoucher(voucherReq);
+        }
+
+        /// <summary>
+        /// Retrieve a single voucher 
+        /// </summary>
+        /// <param name="code">code of the voucher to retrieve</param>
+        /// <returns>voucher with a matching code</returns>
+        [HttpPost("{code}")]
+        public async Task<Voucher> GetVoucher([FromRoute] string code)
+        {
+            return baseVoucherService.GetVoucherByCode(code);
+        }
+
+        /// <summary>
+        /// Retrieve all the vouchers created the by a merchant
+        /// </summary>
+        /// <param name="merchantId">the id of the merchant whose vouchers are to be retrieved</param>
+        /// <returns></returns>
 
         [HttpPost]
         [Route("all")]
-        public async Task<VoucherRequest> GetAllVouchers([FromQuery] string merchantId)
+        public async Task<IEnumerable<Voucher>> GetAllVouchers([FromQuery] string merchantId)
         {
-            return null;
+            return baseVoucherService.GetAllVouchers(merchantId);
         }
+
+        /// <summary>
+        /// update the properties of a voucher
+        /// </summary>
+        /// <param name="code">code of the voucher to update</param>
+        /// <param name="voucherUpdateReq">the object carrying the update</param>
+        /// <returns></returns>
 
         [HttpPut("{code}")]
-        public async Task<VoucherRequest> UpdateVoucher([FromRoute] string code, [FromBody] VoucherRequest voucher)
+        public async Task<Voucher> UpdateVoucher([FromRoute] string code, [FromBody] VoucherUpdateReq voucher)
         {
-            return null;
+            return baseVoucherService.UpdateVoucher(voucher);
         }
 
+
+        /// <summary>
+        /// Call this end point to disable a voucher
+        /// </summary>
+        /// <param name="code">code of the voucher to ou </param>
+        /// <param name="voucherUpdateReq">the object carrying the update</param>
+        /// <returns></returns>
         [HttpPatch("{code}")]
-        public async Task<VoucherRequest> ChangeVoucherStatus([FromRoute] string code, [FromBody] VoucherRequest voucher)
+        public async Task EnableOrDisableVoucher([FromRoute] string code, [FromBody] VoucherUpdateReq voucherUpdateReq)
         {
-            return null;
+                baseVoucherService.UpdateVoucher(voucherUpdateReq);
         }
 
-
+        /// <summary>
+        /// Delete a voucher created by a merchant
+        /// </summary>
+        /// <param name="code">code of the voucher to delete</param>
+        /// <returns></returns>
         [HttpDelete("{code}")]
-        public async Task<VoucherRequest> DeleteVoucher([FromRoute] string code)
+        public async Task DeleteVoucher([FromRoute] string code)
         {
-            return null;
+            baseVoucherService.DeleteVoucher(code);
         }
-
-
 
     }
 }

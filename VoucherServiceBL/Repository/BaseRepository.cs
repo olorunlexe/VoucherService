@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Service;
 
 namespace VoucherServiceBL.Repository
 {
@@ -34,7 +35,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(Voucher voucher)
+        public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -43,12 +44,12 @@ namespace VoucherServiceBL.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_GetAllVouchersFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@MerchantId", voucher.MerchantId);
+                parameters.Add("@MerchantId", merchantId);
                 return conn.Query<Voucher>("usp_GetAllVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
 
-        public Voucher GetVoucherByCode()
+        public Voucher GetVoucherByCode(string code)
         {
             using (var conn = Connection)
             {
@@ -69,7 +70,7 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", voucher.Code);
-                parameters.Add("@VoucherType", voucher.VoucherType);
+                // parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
                 return conn.QuerySingle("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
@@ -100,7 +101,6 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_GetVoucherByCreationDate"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@CreationDate", voucher.CreationDate);
-                parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
                 return conn.QuerySingle("usp_GetVoucherByCreationDateFilterByMerchantId",parameters,commandType: CommandType.StoredProcedure);
@@ -136,7 +136,6 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_GetVoucherByExpiryDateFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@ExpiryDate", voucher.ExpiryDate);
-                parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
                 return conn.QuerySingle("usp_GetVoucherByExpiryDateFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
@@ -250,7 +249,7 @@ namespace VoucherServiceBL.Repository
             return voucher;
         }
 
-        public Voucher DeleteVoucherByCode(Voucher voucher)
+        public void DeleteVoucherByCode(string code)
         {
             var rowAffected = 0;
             using (var conn = Connection)
@@ -260,12 +259,10 @@ namespace VoucherServiceBL.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_DeleteVoucherByCode"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@Code", voucher.Code);
+                parameters.Add("@Code", code);
 
                 rowAffected = conn.Execute("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
             }
-            return voucher;
-
         }
 
         public Voucher DeleteVoucherById(Voucher voucher)
@@ -286,5 +283,9 @@ namespace VoucherServiceBL.Repository
             return voucher;
         }
 
+        // public static implicit operator BaseRepository(GiftVoucher v)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }
