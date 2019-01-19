@@ -4,9 +4,9 @@ using System.Numerics;
 using System.Text;
 using VoucherServiceBL.Domain;
 
-namespace VoucherServiceBL.DiscountVoucher
+namespace VoucherServiceBL.Repository
 {
-    interface IDiscountRepository
+    public interface IDiscountRepository
     {
         Discount CreateDiscountVoucher(Discount discount);
         //Discount GetAllDiscountVouchers();

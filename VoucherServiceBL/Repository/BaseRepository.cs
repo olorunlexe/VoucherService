@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Service;
 
 namespace VoucherServiceBL.Repository
 {
@@ -34,7 +35,11 @@ namespace VoucherServiceBL.Repository
         //     }
         // }
 
+<<<<<<< HEAD
         public IEnumerable<Voucher> GetAllVouchers(Voucher voucher)
+=======
+        public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(string merchantId)
+>>>>>>> 57b5f2e70cb83b909bc8d274a6258f7757e9e1cf
         {
             using (var conn = Connection)
             {
@@ -43,12 +48,16 @@ namespace VoucherServiceBL.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_GetAllVouchersFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@MerchantId", voucher.MerchantId);
+                parameters.Add("@MerchantId", merchantId);
                 return conn.Query<Voucher>("usp_GetAllVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
 
+<<<<<<< HEAD
         public Voucher GetVoucherByCode(Voucher voucher)
+=======
+        public Voucher GetVoucherByCode(string code)
+>>>>>>> 57b5f2e70cb83b909bc8d274a6258f7757e9e1cf
         {
             using (var conn = Connection)
             {
@@ -74,7 +83,7 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", voucher.Code);
-                parameters.Add("@VoucherType", voucher.VoucherType);
+                // parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
                 return conn.QuerySingle("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
@@ -168,7 +177,7 @@ namespace VoucherServiceBL.Repository
             return voucher;
         }
 
-        public Voucher DeleteVoucherByCode(Voucher voucher)
+        public void DeleteVoucherByCode(string code)
         {
             var rowAffected = 0;
             using (var conn = Connection)
@@ -178,14 +187,16 @@ namespace VoucherServiceBL.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_DeleteVoucherByCode"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@Code", voucher.Code);
+                parameters.Add("@Code", code);
 
                 rowAffected = conn.Execute("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
             }
-            return voucher;
-
         }
 
 
+        // public static implicit operator BaseRepository(GiftVoucher v)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }
