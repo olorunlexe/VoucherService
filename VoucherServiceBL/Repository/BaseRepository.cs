@@ -23,8 +23,7 @@ namespace VoucherServiceBL.Repository
 
 
        
-<<<<<<< HEAD:VoucherServiceBL/BaseRepository.cs
-        // public List<Voucher> GetAllVouchers()
+        // public IEnumerable<Voucher> GetAllVouchers()
         // {
         //     using (var conn = Connection)
         //     {
@@ -33,24 +32,9 @@ namespace VoucherServiceBL.Repository
 
         //         return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
         //     }
-
         // }
 
-        public List<Voucher> GetAllVouchers(Voucher voucher)
-=======
-        public IEnumerable<Voucher> GetAllVouchers()
-        {
-            using (var conn = Connection)
-            {
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-
-                return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
-            }
-        }
-
-        public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(Voucher voucher)
->>>>>>> 19b5ad66dfb6cdca8d178c29eb70084645ce64a1:VoucherServiceBL/Repository/BaseRepository.cs
+        public IEnumerable<Voucher> GetAllVouchers(Voucher voucher)
         {
             using (var conn = Connection)
             {

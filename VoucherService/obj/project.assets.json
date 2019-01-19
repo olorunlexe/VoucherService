@@ -8723,7 +8723,6 @@
       "path": "system.diagnostics.contracts/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11142,7 +11141,6 @@
       "path": "system.runtime.serialization.xml/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12223,7 +12221,6 @@
       "path": "system.threading.tasks.parallel/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12475,7 +12472,6 @@
       "path": "system.xml.xmldocument/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12584,7 +12580,6 @@
       "path": "system.xml.xpath/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12679,11 +12674,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
+      "projectUniqueName": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
       "projectName": "VoucherService",
-      "projectPath": "c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
+      "projectPath": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
       "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\obj\\",
+      "outputPath": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12702,8 +12697,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj": {
-              "projectPath": "c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj"
+            "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj": {
+              "projectPath": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj"
             }
           }
         }
@@ -12753,26 +12748,5 @@
         "warn": true
       }
     }
-<<<<<<< HEAD
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\obj\\VoucherService.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
-    {
-      "code": "NU1107",
-      "level": "Error",
-      "message": "Version conflict detected for Microsoft.Extensions.Configuration. Install/reference Microsoft.Extensions.Configuration 2.2.0 directly to project VoucherService to resolve this issue. \r\n VoucherService -> VoucherServiceBL -> Microsoft.Extensions.Configuration (>= 2.2.0) \r\n VoucherService -> Microsoft.AspNetCore.App 2.1.1 -> Microsoft.Extensions.Configuration (>= 2.1.1 && < 2.2.0).",
-      "libraryId": "Microsoft.Extensions.Configuration",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.1"
-      ]
-    }
-  ]
-=======
   }
->>>>>>> 19b5ad66dfb6cdca8d178c29eb70084645ce64a1
 }

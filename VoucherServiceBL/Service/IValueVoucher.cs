@@ -12,8 +12,10 @@ namespace VoucherServiceBL.ValueVoucher
     
 
     public interface IValueVoucher
-{
-    IValueRepository Repository { get; set; }
+    {
+        Value CreateValueVoucher(VoucherRequest value);
+
+        IEnumerable<Value> GetAllValueVouchers();
 
     }
 }

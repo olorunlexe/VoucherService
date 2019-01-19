@@ -6,6 +6,7 @@ using System.Text;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.ValueVoucher.Repository
 {
