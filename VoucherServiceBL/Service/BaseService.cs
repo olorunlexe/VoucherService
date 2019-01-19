@@ -13,7 +13,7 @@ namespace VoucherServiceBL.Service
         private IDiscountVoucher discountVoucherService;
         private BaseRepository baseRepository;
 
-        public BaseService(IGiftVoucher giftService, IDiscountVoucher discountService, BaseRepository baseRepository)
+        public BaseService(IGiftVoucher giftService, IDiscountVoucher discountService)
         {
             this.giftVoucherService = giftService;
             this.discountVoucherService = discountService;

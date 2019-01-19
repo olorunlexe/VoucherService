@@ -10,11 +10,11 @@ using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Repository;
 
-namespace VoucherServiceBL.DiscountVoucher
+namespace VoucherServiceBL.Repository
 {
-    class DiscountRepositoryImpl : BaseRepository,IDiscountRepository
+    public class DiscountRepository : BaseRepository,IDiscountRepository
     {
-        public DiscountRepositoryImpl(IConfiguration config) : base(config)
+        public DiscountRepository(IConfiguration config) : base(config)
         {
         }
 

@@ -25,8 +25,8 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@MerchantId", voucher.MerchantId);
                 parameters.Add("@GiftAmount", voucher.GiftAmount);
 
-                connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-
+                var result=connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+                voucher.Id = result;
                 return voucher;
             }
         }

@@ -9,7 +9,7 @@ namespace VoucherServiceBL.Domain
     [Table("GiftVoucher")]
     public class Gift:Voucher
     {
-        public BigInteger GiftAmount { get; set; }
-        public BigInteger GiftBalance { get; set; }
+        public long GiftAmount { get; set; }
+        public long GiftBalance { get; set; }
     }
 }

@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\VoucherServiceBL",
-    "\\VoucherServiceBL\\DiscountVoucher"
+    "\\VoucherServiceBL\\obj\\Debug",
+    "\\VoucherServiceBL\\obj\\Debug\\netcoreapp2.1",
+    "\\VoucherServiceBL\\ValueVoucher",
+    "\\VoucherServiceBL\\ValueVoucher\\Repository",
+    "\\VoucherService\\bin\\Debug",
+    "\\VoucherService\\bin\\Debug\\netcoreapp2.1",
+    "\\VoucherService\\obj\\Debug",
+    "\\VoucherService\\obj\\Debug\\netcoreapp2.1",
+    "\\VoucherzDb"
   ],
+  "SelectedNode": "\\VoucherzDb\\StoredProcedures.sql",
   "PreviewInSolutionExplorer": false
 }

@@ -9,7 +9,7 @@ namespace VoucherServiceBL.Domain
     [Table("Voucher")]
     public class Voucher
     {
-        public BigInteger Id { get; set; }
+        public long Id { get; set; }
         public string Code { get; set; }
         public string VoucherType { get; set; }
         public DateTime ExpiryDate { get; set; }

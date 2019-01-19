@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.csproj.CoreCompileInputs.cache
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.AssemblyInfoInputs.cache
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.AssemblyInfo.cs
-C:/Users/therapy/source/repos/VoucherService/VoucherService/bin/Debug/netcoreapp2.1/VoucherService.deps.json
-C:/Users/therapy/source/repos/VoucherService/VoucherService/bin/Debug/netcoreapp2.1/VoucherService.runtimeconfig.json
-C:/Users/therapy/source/repos/VoucherService/VoucherService/bin/Debug/netcoreapp2.1/VoucherService.runtimeconfig.dev.json
-C:/Users/therapy/source/repos/VoucherService/VoucherService/bin/Debug/netcoreapp2.1/VoucherService.dll
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.csprojAssemblyReference.cache
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.RazorAssemblyInfo.cache
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.RazorAssemblyInfo.cs
-C:/Users/therapy/source/repos/VoucherService/VoucherService/obj/Debug/netcoreapp2.1/VoucherService.RazorTargetAssemblyInfo.cache
 =======
 C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp2.1\VoucherService.deps.json
 C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp2.1\VoucherService.runtimeconfig.json
@@ -25,4 +13,7 @@ C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp
 C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp2.1\VoucherService.pdb
 C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.dll
 C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.pdb
->>>>>>> 0100c38562f0c498c04ee94ea205c12950e2dd01
+C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp2.1\VoucherServiceBL.dll
+C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp2.1\VoucherServiceBL.pdb
+C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.csproj.CopyComplete

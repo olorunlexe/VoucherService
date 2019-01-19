@@ -13,8 +13,8 @@ namespace VoucherServiceBL.Domain
         public long Amount { get; set; }
         public long Unit { get; set; }
         public float Percent { get; set; }
-        public BigInteger VoucherId { get; set; }
+        public long VoucherId { get; set; }
         public string status { get; set; }
-        public BigInteger redemptionCount { get; set; }
+        public long redemptionCount { get; set; }
     }
 }

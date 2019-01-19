@@ -19,7 +19,7 @@ namespace VoucherServiceBL.Repository
 
         public static IDbConnection Connection
         {
-            get { return new SqlConnection(_config.GetConnectionString("ConnectionString")); }
+            get { return new SqlConnection(_config.GetConnectionString("MainConnString")); }
         }
 
 
@@ -56,7 +56,11 @@ namespace VoucherServiceBL.Repository
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
 
-                return conn.QuerySingle("usp_GetVoucherByCode", commandType: CommandType.StoredProcedure);
+                //Parameters Declaration to be passed into Stored procdure "usp_GetAllVouchersFilterByMerchantId"..
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Code", code);
+
+                return conn.QuerySingle<Voucher>("usp_GetVoucherByCode",parameters,commandType: CommandType.StoredProcedure);
             }
         }
 
