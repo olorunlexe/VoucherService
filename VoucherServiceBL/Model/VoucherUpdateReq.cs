@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 
-namespace VoucherServiceBL.Service
+namespace VoucherServiceBL.Model
 {
     public class VoucherUpdateReq
     {

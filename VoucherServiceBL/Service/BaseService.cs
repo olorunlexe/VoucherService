@@ -13,7 +13,7 @@ namespace VoucherServiceBL.Service
         private IDiscountVoucher discountVoucherService;
         private BaseRepository baseRepository;
 
-        public BaseService(IGiftVoucher giftService, IDiscountVoucher discountService)
+        public BaseService(IGiftVoucher giftService, IDiscountVoucher discountService, BaseRepository baseRepository)
         {
             this.giftVoucherService = giftService;
             this.discountVoucherService = discountService;
@@ -40,36 +40,34 @@ namespace VoucherServiceBL.Service
             return baseRepository.GetVoucherByCode(code);
         }
 
-        // public Voucher GetVoucherByExpiryDate(Voucher voucher)
-        // {
-            
-        // }
+        /// <summary>
+        /// Returns all vouchers created by a merchant regardless of the their type
+        /// </summary>
+        /// <param name="merchantId">the id of the merchant that created the vouchers</param>
+        /// <returns>a list of vouchers</returns>
         public IEnumerable<Voucher> GetAllVouchers(string merchantId) 
         {
             return baseRepository.GetAllVouchersFilterByMerchantId(merchantId);
         }
 
-        public Voucher UpdateVoucherExpiryDate(Voucher voucher)
-        {
-            return baseRepository.UpdateVoucherExpiryDateByCode(voucher);
-        }
-
-        public IDiscountVoucher  GetDiscountVoucher()
-        {
-            return this.discountVoucherService;
-        }
+        /// <summary>
+        /// Update the expiry date, status of a voucher or deactivate the voucher
+        /// If the voucher is a gift voucher optionally update the gift amount
+        /// </summary>
+        /// <param name="voucherUpdateReq">object containing the voucher properties to change</param>
+        /// <returns>Updated voucher</returns>
         public Voucher UpdateVoucher(VoucherUpdateReq voucherUpdateReq)
         {
-            //I need a logic to combine repo.UpdateStatus and repo.UpdateExpiryDate
             //get the voucher that is to be updated
             var voucher = GetVoucherByCode(voucherUpdateReq.Code);
+            
             //update the fields that needs to be updated
-            if(voucherUpdateReq.ExpiryDate != null) 
+            if(voucherUpdateReq.ExpiryDate != null) //should update expiry date of voucher
             {    
                 voucher.ExpiryDate = voucherUpdateReq.ExpiryDate;
                 baseRepository.UpdateVoucherExpiryDateByCode(voucher);
             }
-            if(!string.IsNullOrEmpty(voucherUpdateReq.Status)) 
+            if(!string.IsNullOrEmpty(voucherUpdateReq.Status)) //should update status of voucher
             {    
                 voucher.VoucherStatus = voucherUpdateReq.Status;
                 baseRepository.UpdateVoucherStatusByCode(voucher);
@@ -80,7 +78,7 @@ namespace VoucherServiceBL.Service
                 //get the full gift voucher:TODO, I really wish we could avoid this
                 Gift giftVoucher = giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
                 giftVoucher.GiftAmount = voucherUpdateReq.GiftAmount; // do the update
-                giftVoucherService.UpdateGiftVoucher(giftVoucher);
+                giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change
             }
             return voucher;
         }
@@ -89,15 +87,6 @@ namespace VoucherServiceBL.Service
         {
             baseRepository.DeleteVoucherByCode(code);
         }
-
-
-        //TODO: implement this method
-        public Voucher UpdateVoucher(string voucher)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        // public Voucher UpdateVoucherStatusByCode, Expry(Voucher voucher)
 
     }
 }
