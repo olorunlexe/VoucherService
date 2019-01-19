@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.DiscountVoucher
 {
@@ -64,7 +65,7 @@ namespace VoucherServiceBL.DiscountVoucher
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public List<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount)
+        public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount)
         {
             using (var conn = Connection)
             {

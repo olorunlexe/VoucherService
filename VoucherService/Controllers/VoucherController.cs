@@ -5,64 +5,59 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VoucherServiceBL.DiscountVoucher;
+using VoucherServiceBL.Domain;
 
 namespace VoucherService.Controllers
 {
     [Produces("application/json")]
     [Authorize]
-    [Route("api/[controller]/[action]")]
-    //[Route("api/[controller]")]
+    //[Route("api/[controller]/[action]")]
+    [Route("api/v1")]
     [ApiController]
     public class VoucherController : ControllerBase
     {
 
-            [HttpGet]
-            public async Task<ActionResult> CreateVoucher(string code)
-            {
-                return await Task.Run(() => new JsonResult("Welcome to CreateVoucher Endpoint"));
-            }
-
-            [HttpDelete("{code}")]
-            public async Task<ActionResult> DeleteVoucher(string code)
-            {
-                return new JsonResult(Response);
-            }
-
-            [HttpGet]
-            public async Task<ActionResult> GetVoucherList()
-            {
-                return new JsonResult(Response);
-            }
-
-            [HttpPost("{code}")]
-            public async Task<ActionResult> EnableVoucher(string code)
-            {
-                return new JsonResult(Response);
-            }
-
-            [HttpPost("{code}")]
-            public async Task<ActionResult> DisableVoucher(string code)
-            {
-                return new JsonResult(Response);
-            }
-
-            [HttpPost("{code}")]
-            public async Task<ActionResult> AddGiftVoucherBalance(string code)
-            {
-                return new JsonResult(Response);
-            }
-
-            [HttpPost]
-            public async Task<ActionResult> UpdateVouchers()
-            {
-                return new JsonResult(Response);
-            }
-
-            [HttpPost]
-            public async Task<ActionResult> ImportVouchersByCSV()
-            {
-                return new JsonResult(Response);
-            }
-
+        [HttpPost]
+        public async Task<VoucherRequest> CreateVoucher([FromBody] VoucherRequest voucher)
+        { 
+            return null;
         }
+
+        [HttpPost("{code}")]
+        public async Task<VoucherRequest> GetVoucher([FromRoute] string code)
+        {
+            return null;
+        }
+
+
+        [HttpPost]
+        [Route("all")]
+        public async Task<VoucherRequest> GetAllVouchers([FromQuery] string merchantId)
+        {
+            return null;
+        }
+
+        [HttpPut("{code}")]
+        public async Task<VoucherRequest> UpdateVoucher([FromRoute] string code, [FromBody] VoucherRequest voucher)
+        {
+            return null;
+        }
+
+        [HttpPatch("{code}")]
+        public async Task<VoucherRequest> ChangeVoucherStatus([FromRoute] string code, [FromBody] VoucherRequest voucher)
+        {
+            return null;
+        }
+
+
+        [HttpDelete("{code}")]
+        public async Task<VoucherRequest> DeleteVoucher([FromRoute] string code)
+        {
+            return null;
+        }
+
+
+
+    }
 }
