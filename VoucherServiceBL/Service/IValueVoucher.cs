@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Model;
 using VoucherServiceBL.ValueVoucher.Repository;
 
-namespace VoucherServiceBL.ValueVoucher
+namespace VoucherServiceBL.Service
 {
     /// <summary>
     /// A interface that handles the management of a value voucher
@@ -15,7 +16,7 @@ namespace VoucherServiceBL.ValueVoucher
     {
         Value CreateValueVoucher(VoucherRequest value);
 
-        IEnumerable<Value> GetAllValueVouchers();
+        List<Value> GetAllValueVouchers();
 
     }
 }

@@ -33,7 +33,7 @@ namespace VoucherService
         {
             services.AddMvc();
 
-            services.AddTransient<IGiftVoucher,GiftVoucher>();
+            services.AddTransient<IGiftVoucherService,GiftVoucher>();
             services.AddTransient<IDiscountVoucher,DiscountVoucher>();
             services.AddTransient<IVoucherService, BaseService>();
             services.AddTransient<IGiftRepository, GiftRepository>();

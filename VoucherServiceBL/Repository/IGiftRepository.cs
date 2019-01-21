@@ -23,5 +23,6 @@ namespace VoucherServiceBL.Repository
         /// <param name="amountToAdd">Amount to add to the current balance on the gift voucher</param>
         /// <returns>The gift voucher</returns>
         Voucher UpdateGiftVoucherAmount(string code, Gift voucher); //TODO: decide to either return the modified voucher or void
+        Gift GetGiftVoucher(Voucher voucher);
     }
 }

@@ -9,17 +9,25 @@ namespace VoucherServiceBL.Service
     public class BaseService:IVoucherService
     {
 
-        private IGiftVoucher giftVoucherService;
+        private IGiftVoucherService giftVoucherService;
         private IDiscountVoucher discountVoucherService;
+        private IValueVoucher valueVoucherService;
         private BaseRepository baseRepository;
 
-        public BaseService(IGiftVoucher giftService, IDiscountVoucher discountService)
+        //inject the services
+        public BaseService(IGiftVoucherService giftService, IDiscountVoucher discountService,
+                           IValueVoucher valueService)
         {
             this.giftVoucherService = giftService;
             this.discountVoucherService = discountService;
-            var repository = (giftService as GiftVoucher).Repository;
-            var giftRepository =  repository as GiftRepository;
-            this.baseRepository = giftRepository as BaseRepository;
+            this.valueVoucherService = valueService;
+            this.baseRepository = GetBaseRepository();
+        }
+
+        private BaseRepository GetBaseRepository()
+        {
+            IGiftRepository giftRepository =  giftVoucherService.GiftRepository as GiftRepository;
+            return giftRepository as BaseRepository;
         }
 
         public Voucher CreateVoucher(VoucherRequest voucherRequest)
@@ -28,13 +36,12 @@ namespace VoucherServiceBL.Service
 
             if (voucherRequest.VoucherType.ToUpper() == "GIFT" ) 
                 return giftVoucherService.CreateGiftVoucher(voucherRequest);
-            if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT") 
+            else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT") 
                 return discountVoucherService.CreateDiscountVoucher(voucherRequest);
-
-            return null; //TODO: remove this
+            else 
+                return valueVoucherService.CreateValueVoucher(voucherRequest);
         }
 
-        
         public Voucher GetVoucherByCode(string code)
         {
             return baseRepository.GetVoucherByCode(code);
@@ -73,7 +80,7 @@ namespace VoucherServiceBL.Service
                 baseRepository.UpdateVoucherStatusByCode(voucher);
             }
 
-            if(voucherUpdateReq.GiftAmount != null) 
+            if(voucherUpdateReq.GiftAmount > 0) 
             {
                 //get the full gift voucher:TODO, I really wish we could avoid this
                 Gift giftVoucher = giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
