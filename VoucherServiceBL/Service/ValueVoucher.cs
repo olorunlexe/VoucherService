@@ -21,10 +21,9 @@ namespace VoucherServiceBL.Service
         public Value CreateValueVoucher(VoucherRequest valueRequest)
         {
             //create the gift object from the Vouher
-            Value giftVoucher;
-            giftVoucher = new Value()
+            Value valueVoucher = new Value()
             {
-                Code = HashedCode(valueRequest),
+                Code = CodeGenerator.HashedCode(valueRequest),
                 CreationDate = valueRequest.CreationDate,
                 ExpiryDate = valueRequest.ExpiryDate,
                 VoucherStatus = "Active",
@@ -36,7 +35,7 @@ namespace VoucherServiceBL.Service
             };
 
             //persist the object to the db    
-            return Repository.CreateValueVoucher(giftVoucher);
+            return Repository.CreateValueVoucher(valueVoucher);
         }
 
         public List<Value> GetAllValueVouchers()

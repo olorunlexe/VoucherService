@@ -9,7 +9,6 @@ namespace VoucherServiceBL.Service
     public class GiftVoucher : IGiftVoucher
     {
         public IGiftRepository Repository ;
-        public CodeGenerator CodeGenerator;
 
         public GiftVoucher(IGiftRepository repository)
         {

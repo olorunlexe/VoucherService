@@ -17,13 +17,6 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// <returns>a single voucher</returns>   
         Value CreateValueVoucher(Value value);
 
-        // /// <summary>
-        // /// Create multiple vouchers at once given a list of codes
-        // /// </summary>
-        // /// <param name="codes">a list of codes</param>
-        // /// <returns>an immutable list of vouchers</returns>
-        // IEnumerable<Value> CreateValueVoucher(IEnumerable<string> codes);
-
         #endregion
 
         #region Read Method 
