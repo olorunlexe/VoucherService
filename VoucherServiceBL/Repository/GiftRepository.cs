@@ -46,7 +46,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public Gift GetGiftVoucherByCode(Voucher voucher)
+        public Gift GetGiftVoucher(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -58,9 +58,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return conn.QuerySingle<Gift>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
+
+
         public Voucher UpdateGiftVoucherAmount(string code, Gift voucher)
         {
             using (var connection = Connection)

@@ -6,20 +6,22 @@ using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.Service
 {
-    public class GiftVoucher : IGiftVoucher
+    public class GiftVoucherService : IGiftVoucherService
     {
-        public IGiftRepository Repository ;
+        private IGiftRepository repository ;
 
-        public GiftVoucher(IGiftRepository repository)
+        public IGiftRepository GiftRepository => this.repository;
+
+        public GiftVoucherService(IGiftRepository repository)
         {
-            this.Repository = repository;
+            this.repository = repository;
         }
-        
+
+
         public Gift CreateGiftVoucher(VoucherRequest giftRequest)
         {
             //create the gift object from the Vouher
-            Gift giftVoucher;
-            giftVoucher = new Gift() 
+            Gift giftVoucher = new Gift() 
                 {Code = CodeGenerator.HashedCode(giftRequest),
                  CreationDate = giftRequest.CreationDate,
                  ExpiryDate = giftRequest.ExpiryDate,
@@ -33,12 +35,17 @@ namespace VoucherServiceBL.Service
                 };
 
             //persist the object to the db    
-            return Repository.CreateGiftVoucher(giftVoucher);
+            return GiftRepository.CreateGiftVoucher(giftVoucher);
         }
 
         public Gift GetGiftVoucher(Voucher voucher)
         {
-            throw new System.NotImplementedException();
+            return GiftRepository.GetGiftVoucher(voucher);
+        }
+
+        public IEnumerable<Gift> GetAllGiftVouchers(string merchantId)
+        {
+            return GiftRepository.GetAllGiftVouchers(merchantId);
         }
 
         public Voucher UpdateGiftVoucher(Gift giftVoucher)
@@ -47,6 +54,4 @@ namespace VoucherServiceBL.Service
         }
 
     }
-
-
 }
