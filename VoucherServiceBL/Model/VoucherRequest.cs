@@ -6,7 +6,7 @@ namespace VoucherServiceBL.Model
     public class VoucherRequest
     {
         public string VoucherType { get; set; }
-        public long VoucherAmount { get; set; }
+        public long ValueAmount { get; set; }
         public long DiscountAmount { get; set; }
         public int DiscountUnit { get; set; }
         public int DiscountPercent { get; set; }
