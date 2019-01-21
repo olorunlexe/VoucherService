@@ -10,6 +10,5 @@ namespace VoucherServiceBL.Domain
     public class Value:Voucher
     {
         public long ValueAmount { get; set; }
-        public string status { get; set; }
     }
 }

@@ -27,11 +27,16 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="merchantId">id of the merchant that created the voucher</param>
         /// <returns>a list of value vouchers</returns>
-        List<Value> GetAllValueVouchers(Value value);
+        List<Value> GetAllValueVouchers(string merchantId);
+
+        /// <summary>
+        /// Returns all details of a value voucher
+        /// </summary>
+        /// <param name="vouchertype">id of the merchant that created the voucher</param>
+        /// <returns>a list of value vouchers</returns>
+        Value GetValueVoucher(Voucher voucher);
 
         #endregion
-
-
     }
 
 }

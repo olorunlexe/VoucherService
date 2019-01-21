@@ -16,7 +16,8 @@ namespace VoucherServiceBL.Service
     {
         Value CreateValueVoucher(VoucherRequest value);
 
-        List<Value> GetAllValueVouchers();
+        List<Value> GetAllValueVouchers(string merchantId);
 
+        Value GetValueVoucher(Voucher voucher);
     }
 }

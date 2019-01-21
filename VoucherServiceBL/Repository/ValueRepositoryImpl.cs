@@ -29,7 +29,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
                     if (conn.State == ConnectionState.Closed)
                         conn.Open();
 
-                    //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
+                    //Parameters Declaration to be passed into Stored procdure "usp_CreateVoucher"..
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("@HashedCode", value.Code);
                     parameters.Add("@MerchantId", value.MerchantId);
@@ -54,10 +54,31 @@ namespace VoucherServiceBL.ValueVoucher.Repository
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
 
-                //Parameters Declaration to be passed into Stored procdure "usp_GetAllValueVouchers"..
+                //Parameters Declaration to be passed into Stored procdure "usp_GetAllValueVouchersFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@MerchanttId", value.MerchantId);
                 return conn.Query<Value>("usp_GetAllValueVouchersFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Read All details of a Value Voucher filtered by a MerchantId From Table handler
+        /// </summary>
+        /// <param name="voucher"></param>
+        /// <returns></returns>
+        public Value GetValueVoucher(Voucher voucher)
+        {
+            using (var conn = Connection)
+            {
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+
+                //Parameters Declaration to be passed into Stored procdure "usp_GetVoucherByCodeFilterByMerchantId"..
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Code", voucher.Code);
+                parameters.Add("@VoucherType", voucher.VoucherType);
+                parameters.Add("@MerchantId", voucher.MerchantId);
+                return conn.QuerySingle<Value>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }
