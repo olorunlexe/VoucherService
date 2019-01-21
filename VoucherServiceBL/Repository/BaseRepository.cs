@@ -230,7 +230,7 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_UpdateVoucherExpiryDateByCode"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", voucher.Code);
-                parameters.Add(" @ExpiryDate", voucher.ExpiryDate);
+                parameters.Add("@ExpiryDate", voucher.ExpiryDate);
 
                 rowAffected = conn.Execute("usp_UpdateVoucherExpiryDateByCode", parameters, commandType: CommandType.StoredProcedure);
             }
@@ -248,7 +248,7 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_UpdateVoucherStatusByCode"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", voucher.Code);
-                parameters.Add(" @VoucherStatus", voucher.VoucherStatus);
+                parameters.Add("@VoucherStatus", voucher.VoucherStatus);
 
                 rowAffected = conn.Execute("usp_UpdateVoucherStatusByCode", parameters, commandType: CommandType.StoredProcedure);
             }

@@ -38,7 +38,7 @@ namespace VoucherServiceBL.Repository
                     parameters.Add("@DiscountAmount", discount.DiscountAmount);
                     parameters.Add("@DiscountPercent", discount.DiscountPercent);
                     parameters.Add("@DiscountUnit", discount.DiscountUnit);
-                    parameters.Add(" @ExpiryDate", discount.ExpiryDate);
+                    parameters.Add("@ExpiryDate", discount.ExpiryDate);
 
                     rowAffected = conn.Execute("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }

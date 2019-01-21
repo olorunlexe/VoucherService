@@ -47,7 +47,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public List<Value> GetAllValueVouchers(Value value)
+        public List<Value> GetAllValueVouchers(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -56,7 +56,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_GetAllValueVouchersFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@MerchanttId", value.MerchantId);
+                parameters.Add("@MerchanttId", merchantId);
                 return conn.Query<Value>("usp_GetAllValueVouchersFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
