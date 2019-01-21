@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\VoucherServiceBL",
-    "\\VoucherServiceBL\\ValueVoucher\\Repository"
+    "\\VoucherzDb"
   ],
-  "SelectedNode": "\\VoucherServiceBL\\DiscountVoucher",
+  "SelectedNode": "\\VoucherzDb\\StoredProcedures.sql",
   "PreviewInSolutionExplorer": false
 }

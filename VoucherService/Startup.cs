@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using VoucherServiceBL.Repository;
+using VoucherServiceBL.Service;
 
 namespace VoucherService
 {
@@ -30,6 +32,12 @@ namespace VoucherService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddTransient<IGiftVoucher,GiftVoucher>();
+            services.AddTransient<IDiscountVoucher,DiscountVoucher>();
+            services.AddTransient<IVoucherService, BaseService>();
+            services.AddTransient<IGiftRepository, GiftRepository>();
+            services.AddTransient<IDiscountRepository, DiscountRepository>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
