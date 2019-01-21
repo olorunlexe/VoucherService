@@ -9,7 +9,6 @@ namespace VoucherServiceBL.Service
         Voucher CreateVoucher(VoucherRequest voucherRequest);
         Voucher GetVoucherByCode(string code);
         IEnumerable<Voucher> GetAllVouchers(string merchantId); 
-        Voucher UpdateVoucherExpiryDate(Voucher voucher);
         Voucher UpdateVoucher(VoucherUpdateReq voucher);
         void DeleteVoucher(string code);
 
