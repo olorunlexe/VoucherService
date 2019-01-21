@@ -9,11 +9,9 @@ namespace VoucherServiceBL.Domain
     [Table("DiscountVoucher")]
     public class Discount:Voucher,ISingleVoucher
     {
-        public DiscountType discountType;
-        public long Amount { get; set; }
-        public long Unit { get; set; }
-        public float Percent { get; set; }
-        public long VoucherId { get; set; }
-        public long redemptionCount { get; set; }
+        public long DiscountAmount { get; set; }
+        public long DiscountUnit { get; set; }
+        public float DiscountPercent { get; set; }
+        public long RedemptionCount { get; set; }
     }
 }
