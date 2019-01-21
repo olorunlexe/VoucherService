@@ -24,16 +24,16 @@ namespace VoucherServiceBL.Repository
 
 
        
-        public IEnumerable<Voucher> GetAllVouchers()
-        {
-            using (var conn = Connection)
-            {
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
+        // public IEnumerable<Voucher> GetAllVouchers()
+        // {
+        //     using (var conn = Connection)
+        //     {
+        //         if (conn.State == ConnectionState.Closed)
+        //             conn.Open();
 
-                return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
-            }
-        }
+        //         return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
+        //     }
+        // }
 
         public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(string merchantId)
         {
