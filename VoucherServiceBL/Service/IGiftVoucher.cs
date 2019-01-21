@@ -12,10 +12,9 @@ namespace VoucherServiceBL.Service
     /// </summary>
     public interface IGiftVoucher
     {
-        Gift CreateGiftVoucher(VoucherRequest giftRequest);
-
-        Gift GetGiftVoucher(Voucher voucher);
-
-        Voucher UpdateGiftVoucher(Gift giftVoucher);
+        Gift CreateGiftVoucher(VoucherRequest gift);
+        void UpdateGiftVoucherAmount();
+        IEnumerable<Gift> GetAllGiftVouchers();
     }
+
 }

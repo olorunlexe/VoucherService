@@ -45,36 +45,19 @@ namespace VoucherServiceBL.Repository
                 return res.Read<Gift>().AsList();
             }
         }
-
-        public Gift GetGiftVoucherByCode(Voucher voucher)
-        {
-            using (var conn = Connection)
-            {
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-
-                //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
-                DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@Code", voucher.Code);
-                parameters.Add("@VoucherType", voucher.VoucherType);
-                parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
-            }
-        }
-        public Voucher UpdateGiftVoucherAmount(string code, Gift voucher)
+        public void UpdateGiftVoucherAmount(BigInteger id, Gift voucher)
         {
             using (var connection = Connection)
             {
                 if (connection.State == ConnectionState.Closed) connection.Open();
 
-                var storedProcedure = "usp_UpdateGiftAmountByCode";
+                var storedProcedure = "usp_UpdateGiftAmountById";
                 var parameters = new DynamicParameters();
-                parameters.Add("@Code", code);
+                parameters.Add("@VoucherId", id);
                 parameters.Add("@GiftAmount", voucher.GiftAmount);
+
                 connection.Execute(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
             }
-            return voucher;
         }
-        
     }
 }

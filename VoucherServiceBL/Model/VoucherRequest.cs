@@ -16,7 +16,6 @@ namespace VoucherServiceBL.Model
         public string CodePattern { get; set; }
         public int CodeLength { get; set; }
         public string CharacterSet { get; set; }
-        public string Separator { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ExpiryDate { get; set; }
         public string Description { get; set; }
