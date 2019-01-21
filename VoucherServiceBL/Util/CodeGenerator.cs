@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VoucherServiceBL.Model;
 
 namespace VoucherService.Util
 {
@@ -74,6 +75,40 @@ namespace VoucherService.Util
         {
             //apply hashing algorithm to the code
             return code;
+        }
+
+        public string HashedCode(VoucherRequest voucherRequest)  //TODO: move to a util class so it can be shared by all services
+        {
+            string hashedCode; //pattern or length; prefix; suffix
+            string characterSet;
+            string code;
+
+            if (voucherRequest.CharacterSet.ToLower() == "alphabet")
+                characterSet = Constants.ALPHABET_CHARACTERS;
+
+            else if (voucherRequest.CharacterSet.ToLower() == "number")
+                characterSet = Constants.NUMBER_CHARACTERS;
+            else
+                characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS;
+
+            if (!string.IsNullOrEmpty(voucherRequest.CodePattern))
+            {
+                code = CodeGenerator.GenerateCodeWithPattern(
+                    voucherRequest.CodePattern, characterSet, voucherRequest.Separator);
+            }
+
+            else //length is specified 
+                code = CodeGenerator.GenerateCode(voucherRequest.CodeLength, characterSet);
+
+            if (!string.IsNullOrEmpty(voucherRequest.Prefix))
+                code = CodeGenerator.GetCodeWithPrefix(voucherRequest.Prefix, code);
+
+            if (!string.IsNullOrEmpty(voucherRequest.Prefix))
+                code = CodeGenerator.GetCodeWithSuffix(code, voucherRequest.Suffix);
+
+            hashedCode = CodeGenerator.Encrypt(code);
+
+            return hashedCode;
         }
     }
 }

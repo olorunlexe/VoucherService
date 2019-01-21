@@ -9,6 +9,7 @@ namespace VoucherServiceBL.Service
     public class GiftVoucher : IGiftVoucher
     {
         public IGiftRepository Repository ;
+        public CodeGenerator CodeGenerator;
 
         public GiftVoucher(IGiftRepository repository)
         {
@@ -20,7 +21,7 @@ namespace VoucherServiceBL.Service
             //create the gift object from the Vouher
             Gift giftVoucher;
             giftVoucher = new Gift() 
-                {Code = HashedCode(giftRequest),
+                {Code = CodeGenerator.HashedCode(giftRequest),
                  CreationDate = giftRequest.CreationDate,
                  ExpiryDate = giftRequest.ExpiryDate,
                  VoucherStatus = "Active",
@@ -46,39 +47,6 @@ namespace VoucherServiceBL.Service
             throw new System.NotImplementedException();
         }
 
-        private string HashedCode(VoucherRequest voucherRequest)  //TODO: move to a util class so it can be shared by all services
-        {
-            string hashedCode; //pattern or length; prefix; suffix
-            string characterSet ;
-            string code;
-            
-            if(voucherRequest.CharacterSet.ToLower() == "alphabet")
-                characterSet = Constants.ALPHABET_CHARACTERS;
-            
-            else if(voucherRequest.CharacterSet.ToLower() == "number")
-                characterSet = Constants.NUMBER_CHARACTERS;
-            else
-                characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS;
-            
-            if (!string.IsNullOrEmpty(voucherRequest.CodePattern))
-            {
-                code = CodeGenerator.GenerateCodeWithPattern(
-                    voucherRequest.CodePattern, characterSet, voucherRequest.Separator);
-            }
-
-            else //length is specified 
-                code = CodeGenerator.GenerateCode(voucherRequest.CodeLength, characterSet);
-
-            if (!string.IsNullOrEmpty(voucherRequest.Prefix))
-                code = CodeGenerator.GetCodeWithPrefix(voucherRequest.Prefix, code);
-
-            if (!string.IsNullOrEmpty(voucherRequest.Prefix))
-                code = CodeGenerator.GetCodeWithSuffix(code, voucherRequest.Suffix);
-
-            hashedCode = CodeGenerator.Encrypt(code);
-            
-            return hashedCode;
-        }
     }
 
 
