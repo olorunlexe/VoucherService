@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Model;
 using VoucherServiceBL.ValueVoucher.Repository;
 
 namespace VoucherServiceBL.ValueVoucher
