@@ -8,13 +8,13 @@ using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.Service
 {
-    public class DiscountVoucher : IDiscountVoucher
+    public class DiscountVoucherService : IDiscountVoucherService
     {
         public IDiscountRepository discountRepository;
         public CodeGenerator CodeGenerator;
 
 
-        public DiscountVoucher(IDiscountRepository discountRepository)
+        public DiscountVoucherService(IDiscountRepository discountRepository)
         {
             this.discountRepository = discountRepository;
         }
@@ -43,9 +43,9 @@ namespace VoucherServiceBL.Service
             return discountRepository.CreateDiscountVoucher(discountVoucher);
         }
 
-        public Discount GetDiscountVoucher(VoucherRequest voucherRequest)
+        public Discount GetDiscountVoucher(Voucher voucher)
         {
-            throw new NotImplementedException();
+            return discountRepository.GetDiscountVoucher(voucher);
         }
 
         public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId)

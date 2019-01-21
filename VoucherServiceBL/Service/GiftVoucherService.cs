@@ -51,7 +51,7 @@ namespace VoucherServiceBL.Service
         public Voucher UpdateGiftVoucher(Gift giftVoucher)
         {
             throw new System.NotImplementedException();
-        }
+        }   
 
     }
 }
