@@ -1,18 +1,6 @@
 {
-<<<<<<< HEAD
   "ProjectFilePath": "/home/dunamis/DotNetApps/VoucherService/VoucherService/VoucherService.csproj",
-=======
-  "ProjectFilePath": "c:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
->>>>>>> 606e1c23069d1503dc87fe64c2128e6c47751c43
   "TargetFramework": "netcoreapp2.1",
   "TagHelpers": [],
-  "Configuration": {
-    "ConfigurationName": "MVC-2.1",
-    "LanguageVersion": "2.1",
-    "Extensions": [
-      {
-        "ExtensionName": "MVC-2.1"
-      }
-    ]
-  }
+  "Configuration": null
 }

@@ -35,29 +35,15 @@ namespace VoucherServiceBL.Repository
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("@HashedCode", discount.Code);
                     parameters.Add("@MerchantId", discount.MerchantId);
-                    parameters.Add("@DiscountAmount", discount.Amount);
-                    parameters.Add("@DiscountPercent", discount.Percent);
-                    parameters.Add("@DiscountUnit", discount.Unit);
-                    parameters.Add(" @ExpiryDate", discount.ExpiryDate);
+                    parameters.Add("@DiscountAmount", discount.DiscountAmount);
+                    parameters.Add("@DiscountPercent", discount.DiscountPercent);
+                    parameters.Add("@DiscountUnit", discount.DiscountUnit);
+                    parameters.Add("@ExpiryDate", discount.ExpiryDate);
 
                     rowAffected = conn.Execute("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
                 return discount;
         }
-
-        //public List<Discount> GetAllDiscountVouchers()
-        //{
-
-        //    using (var conn = Connection)
-        //    {
-        //        if (conn.State == ConnectionState.Closed)
-        //            conn.Open();
-
-        //            return conn.Query<Discount>("usp_GetAllDiscountVouchers",commandType: CommandType.StoredProcedure).ToList();
-        //    }
-
-        //}
-
 
 
         /// <summary>
@@ -65,7 +51,7 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(Discount discount)
+        public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -74,8 +60,22 @@ namespace VoucherServiceBL.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@MerchanttId", discount.MerchantId);
-                return conn.Query<Discount>("usp_GetAllDiscountVouchers",parameters, commandType: CommandType.StoredProcedure).ToList();
+                parameters.Add("@MerchanttId", merchantId);
+                return conn.Query<Discount>("usp_usp_GetAllDiscountVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public Discount GetDiscountVoucher(Voucher voucher)
+        {
+            using (var conn = Connection)
+            {
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Code", voucher.Code);
+                parameters.Add("@VoucherType", voucher.VoucherType);
+                parameters.Add("@MerchantId", voucher.MerchantId);
+                return conn.QuerySingle<Discount>("usp_GetVoucherByCodeFilterByMerchantId", commandType: CommandType.StoredProcedure);
             }
         }
     }

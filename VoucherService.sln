@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoucherService", "VoucherService\VoucherService.csproj", "{7D83455D-A66E-4F5A-AB4B-CC43142692DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoucherServiceBL", "VoucherServiceBL\VoucherServiceBL.csproj", "{62E0BEF2-8222-486B-8D27-D8C5643E934B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoucherServiceBL", "VoucherServiceBL\VoucherServiceBL.csproj", "{62E0BEF2-8222-486B-8D27-D8C5643E934B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{40AC2FAA-CA0C-4466-8346-D5EC73440C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

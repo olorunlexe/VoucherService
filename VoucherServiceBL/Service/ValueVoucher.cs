@@ -11,20 +11,21 @@ namespace VoucherServiceBL.Service
 {
     public class ValueVoucher : IValueVoucher
     {
-        public IValueRepository Repository;
+        private IValueRepository repository;
+
+        public IValueRepository ValueRepository => this.repository;
 
         public ValueVoucher(IValueRepository repository)
         {
-            this.Repository = repository;
+            this.repository = repository;
         }
 
         public Value CreateValueVoucher(VoucherRequest valueRequest)
         {
             //create the gift object from the Vouher
-            Value giftVoucher;
-            giftVoucher = new Value()
+            Value valueVoucher = new Value()
             {
-                Code = HashedCode(valueRequest),
+                Code = CodeGenerator.HashedCode(valueRequest),
                 CreationDate = valueRequest.CreationDate,
                 ExpiryDate = valueRequest.ExpiryDate,
                 VoucherStatus = "Active",
@@ -36,13 +37,18 @@ namespace VoucherServiceBL.Service
             };
 
             //persist the object to the db    
-            return Repository.CreateValueVoucher(giftVoucher);
+            return ValueRepository.CreateValueVoucher(valueVoucher);
         }
 
-        public List<Value> GetAllValueVouchers()
+        public List<Value> GetAllValueVouchers(string merchantId)
         {
-            throw new NotImplementedException();
+            return ValueRepository.GetAllValueVouchers(merchantId);
         }
-        
+
+        public Value GetValueVoucher(Voucher voucher)
+        {
+            return ValueRepository.GetValueVoucher(voucher);
+        }
+
     }
 }

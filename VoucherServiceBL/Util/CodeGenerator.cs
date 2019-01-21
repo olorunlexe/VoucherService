@@ -77,7 +77,7 @@ namespace VoucherService.Util
             return code;
         }
 
-        public string HashedCode(VoucherRequest voucherRequest)  //TODO: move to a util class so it can be shared by all services
+        public static string HashedCode(VoucherRequest voucherRequest)  //TODO: move to a util class so it can be shared by all services
         {
             string hashedCode; //pattern or length; prefix; suffix
             string characterSet;

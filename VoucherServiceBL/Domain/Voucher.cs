@@ -18,6 +18,7 @@ namespace VoucherServiceBL.Domain
         public string VoucherStatus { get; set; }
         public string Metadata { get; set; }
         public string Description { get; set; }
+        public string status { get; set; }
 
     }
 }

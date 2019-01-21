@@ -11,7 +11,9 @@ namespace VoucherServiceBL.Service
     public interface IDiscountVoucher
     {
         Discount CreateDiscountVoucher( VoucherRequest voucherRequest);
+
+        Discount GetDiscountVoucher(VoucherRequest voucherRequest);
         //Discount GetAllDiscountVouchers();
-        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(VoucherRequest voucherRequest);
+        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId);
     }
 }

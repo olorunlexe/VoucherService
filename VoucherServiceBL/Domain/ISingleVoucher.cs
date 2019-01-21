@@ -7,6 +7,6 @@ namespace VoucherServiceBL.Domain
 {
     public interface ISingleVoucher
     {
-        long redemptionCount { get; set; }
+        long RedemptionCount { get; set; }
     }
 }
