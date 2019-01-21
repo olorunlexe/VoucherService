@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VoucherServiceBL.DiscountVoucher;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.Repository;
@@ -15,7 +16,7 @@ using VoucherServiceBL.Model;
 namespace VoucherService.Controllers
 {
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     //[Route("api/[controller]/[action]")]
     [Route("api/v1")]
     [ApiController]
@@ -25,7 +26,8 @@ namespace VoucherService.Controllers
         // private IGiftVoucher giftVoucher; //TODO: remove
         // private IDiscountVoucher discountVoucher; //TODO: remove
         private IVoucherService baseVoucherService;
-        public VoucherController(
+        public VoucherController(IGiftVoucher giftService, 
+                IDiscountVoucher discountService, 
                 IVoucherService baseService)
         {
             // this.giftVoucher = giftService;
@@ -52,7 +54,7 @@ namespace VoucherService.Controllers
         /// </summary>
         /// <param name="code">code of the voucher to retrieve</param>
         /// <returns>voucher with a matching code</returns>
-        [HttpGet("{code}")]
+        [HttpPost("{code}")]
         public async Task<Voucher> GetVoucher([FromRoute] string code)
         {
             return baseVoucherService.GetVoucherByCode(code);
@@ -64,7 +66,7 @@ namespace VoucherService.Controllers
         /// <param name="merchantId">the id of the merchant whose vouchers are to be retrieved</param>
         /// <returns></returns>
 
-        [HttpGet]
+        [HttpPost]
         [Route("all")]
         public async Task<IEnumerable<Voucher>> GetAllVouchers([FromQuery] string merchantId)
         {
@@ -78,8 +80,8 @@ namespace VoucherService.Controllers
         /// <param name="voucherUpdateReq">the object carrying the update</param>
         /// <returns></returns>
 
-        [HttpPut]
-        public async Task<Voucher> UpdateVoucher([FromBody] VoucherUpdateReq voucher)
+        [HttpPut("{code}")]
+        public async Task<Voucher> UpdateVoucher([FromRoute] string code, [FromBody] VoucherUpdateReq voucher)
         {
             return baseVoucherService.UpdateVoucher(voucher);
         }

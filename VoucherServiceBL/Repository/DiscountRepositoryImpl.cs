@@ -10,11 +10,11 @@ using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Repository;
 
-namespace VoucherServiceBL.Repository
+namespace VoucherServiceBL.DiscountVoucher
 {
-    public class DiscountRepository : BaseRepository,IDiscountRepository
+    class DiscountRepositoryImpl : BaseRepository,IDiscountRepository
     {
-        public DiscountRepository(IConfiguration config) : base(config)
+        public DiscountRepositoryImpl(IConfiguration config) : base(config)
         {
         }
 
@@ -40,7 +40,7 @@ namespace VoucherServiceBL.Repository
                     parameters.Add("@DiscountUnit", discount.Unit);
                     parameters.Add(" @ExpiryDate", discount.ExpiryDate);
 
-                    rowAffected = conn.Execute("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = conn.Execute("usp_CreateVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
                 return discount;
         }
@@ -75,7 +75,7 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@MerchanttId", discount.MerchantId);
-                return conn.Query<Discount>("usp_GetAllDiscountVouchers",parameters, commandType: CommandType.StoredProcedure).ToList();
+                return conn.Query<Discount>("usp_GetAllDiscountVouchersFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
     }

@@ -73,7 +73,7 @@ namespace VoucherService.Util
         public static string Encrypt(string code)
         {
             //apply hashing algorithm to the code
-            return code;
+            return null;
         }
     }
 }

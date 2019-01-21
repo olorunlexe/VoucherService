@@ -10,6 +10,8 @@ namespace VoucherServiceBL.Service
 {
     public interface IDiscountVoucher
     {
+        IDiscountRepository repository { get; set; }
+
         Discount CreateDiscountVoucher( VoucherRequest voucherRequest);
         //Discount GetAllDiscountVouchers();
         IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(VoucherRequest voucherRequest);
