@@ -9,7 +9,7 @@ using VoucherServiceBL.ValueVoucher.Repository;
 
 namespace VoucherServiceBL.Service
 {
-    class ValueVoucher : IValueVoucher
+    public class ValueVoucher : IValueVoucher
     {
         public IValueRepository Repository;
 
