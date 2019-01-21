@@ -9,7 +9,6 @@ using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Service;
-using VoucherServiceBL.Model;
 
 
 namespace VoucherService.Controllers
