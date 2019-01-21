@@ -9,7 +9,7 @@ namespace VoucherServiceBL.Domain
     [Table("ValueVoucher")]
     public class Value:Voucher
     {
-        public long valueAmount { get; set; }
+        public long ValueAmount { get; set; }
         public string status { get; set; }
     }
 }
