@@ -17,3 +17,10 @@ C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp
 C:\Users\therapy\source\repos\VoucherService\VoucherService\bin\Debug\netcoreapp2.1\VoucherServiceBL.pdb
 C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 C:\Users\therapy\source\repos\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.csproj.CopyComplete
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.csprojAssemblyReference.cache
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.csproj.CoreCompileInputs.cache
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.RazorAssemblyInfo.cache
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.RazorAssemblyInfo.cs
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.AssemblyInfoInputs.cache
+C:\Users\hp\Documents\GitHub\VoucherService\VoucherService\obj\Debug\netcoreapp2.1\VoucherService.AssemblyInfo.cs
