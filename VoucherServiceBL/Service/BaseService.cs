@@ -67,7 +67,7 @@ namespace VoucherServiceBL.Service
         {
             //get the voucher that is to be updated
             var voucher = GetVoucherByCode(code);
-            voucher.VoucherStatus = voucher.status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
+            voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
             return  baseRepository.UpdateVoucherStatusByCode(voucher);
             
         }

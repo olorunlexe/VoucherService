@@ -60,8 +60,8 @@ namespace VoucherServiceBL.Repository
 
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@MerchanttId", merchantId);
-                return conn.Query<Discount>("usp_usp_GetAllDiscountVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
+                parameters.Add("@MerchantId", merchantId);
+                return conn.Query<Discount>("usp_GetAllDiscountVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
 
@@ -75,7 +75,7 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle<Discount>("usp_GetVoucherByCodeFilterByMerchantId", commandType: CommandType.StoredProcedure);
+                return conn.QuerySingle<Discount>("usp_GetVoucherByCodeFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }
