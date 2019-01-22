@@ -50,8 +50,7 @@ namespace VoucherService.Controllers
             return baseVoucherService.GetAllVouchers(merchantId);
         }
 
-        [HttpGet("{code}")]
-        [Route("discount")]
+        [HttpGet("discount/{code}")]
         public async Task<Discount> GetDiscountVoucher([FromRoute] string code)
         {
             return baseVoucherService.GetDiscountVoucher(code);
@@ -64,8 +63,7 @@ namespace VoucherService.Controllers
             return baseVoucherService.GetAllDiscountVouchers(merchantId);
         }
 
-        [HttpGet("{code}")]
-        [Route("gift")]
+        [HttpGet("gift/{code}")]
         public async Task<Gift> GetGiftVoucher([FromRoute] string code)
         {
             return baseVoucherService.GetGiftVoucher(code);
@@ -80,8 +78,7 @@ namespace VoucherService.Controllers
         }
 
 
-        [HttpGet("{code}")]
-        [Route("value")]
+        [HttpGet("value/{code}")]
         public async Task<Value> GetValueVoucher([FromRoute] string code)
         {
             return baseVoucherService.GetValueVoucher(code);
@@ -95,8 +92,7 @@ namespace VoucherService.Controllers
             return baseVoucherService.GetAllValueVouchers(merchantId);
         }
 
-        [HttpPatch("{code}")]
-        [Route("update")]
+        [HttpPatch("update/{code}")]
         public async Task UpdateVoucherStatus([FromRoute] string code)
         {
                 baseVoucherService.ActivateOrDeactivateVoucher(code);
