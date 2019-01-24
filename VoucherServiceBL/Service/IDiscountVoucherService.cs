@@ -8,11 +8,11 @@ using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.Service
 {
-    public interface IDiscountVoucher
+    public interface IDiscountVoucherService
     {
         Discount CreateDiscountVoucher( VoucherRequest voucherRequest);
 
-        Discount GetDiscountVoucher(VoucherRequest voucherRequest);
+        Discount GetDiscountVoucher(Voucher voucher);
         //Discount GetAllDiscountVouchers();
         IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId);
     }

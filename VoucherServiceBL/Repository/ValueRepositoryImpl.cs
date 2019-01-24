@@ -34,9 +34,9 @@ namespace VoucherServiceBL.ValueVoucher.Repository
                     parameters.Add("@HashedCode", value.Code);
                     parameters.Add("@MerchantId", value.MerchantId);
                     parameters.Add("@ValueAmount", value.ValueAmount);
-                    parameters.Add(" @ExpiryDate", value.ExpiryDate);
+                    parameters.Add("@ExpiryDate", value.ExpiryDate);
 
-                    rowAffected = conn.Execute("usp_CreateVoucher", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = conn.Execute("usp_CreateValueVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
                 return value;
         }

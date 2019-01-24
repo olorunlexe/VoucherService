@@ -50,8 +50,8 @@ namespace VoucherServiceBL.Service
 
         public Voucher UpdateGiftVoucher(Gift giftVoucher)
         {
-            throw new System.NotImplementedException();
-        }
+            return GiftRepository.UpdateGiftVoucherAmount(giftVoucher);
+        }   
 
     }
 }

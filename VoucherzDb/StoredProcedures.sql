@@ -315,7 +315,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[usp_GetAllGiftVouchersFilterByMerchantId]
-@MerchantId BIGINT
+@MerchantId nvarchar(100)
 
 AS
 SELECT VoucherId, MerchantId, Code, VoucherType, CreationDate, ExpiryDate, VoucherStatus, GiftAmount, GiftBalance

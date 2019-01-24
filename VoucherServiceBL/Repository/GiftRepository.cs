@@ -63,7 +63,7 @@ namespace VoucherServiceBL.Repository
         }
 
 
-        public Voucher UpdateGiftVoucherAmount(string code, Gift voucher)
+        public Voucher UpdateGiftVoucherAmount(Gift voucher)
         {
             using (var connection = Connection)
             {
@@ -71,7 +71,7 @@ namespace VoucherServiceBL.Repository
 
                 var storedProcedure = "usp_UpdateGiftAmountByCode";
                 var parameters = new DynamicParameters();
-                parameters.Add("@Code", code);
+                parameters.Add("@Code", voucher.Code);
                 parameters.Add("@GiftAmount", voucher.GiftAmount);
                 connection.Execute(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
             }

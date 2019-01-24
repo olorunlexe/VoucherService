@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VoucherService.Util;
 using VoucherServiceBL.Domain;
@@ -10,13 +11,13 @@ namespace VoucherServiceBL.Service
     {
 
         private IGiftVoucherService giftVoucherService;
-        private IDiscountVoucher discountVoucherService;
-        private IValueVoucher valueVoucherService;
+        private IDiscountVoucherService discountVoucherService;
+        private IValueVoucherService valueVoucherService;
         private BaseRepository baseRepository;
 
         //inject the services
-        public BaseService(IGiftVoucherService giftService, IDiscountVoucher discountService,
-                           IValueVoucher valueService)
+        public BaseService(IGiftVoucherService giftService, IDiscountVoucherService discountService,
+                           IValueVoucherService valueService)
         {
             this.giftVoucherService = giftService;
             this.discountVoucherService = discountService;
@@ -57,43 +58,69 @@ namespace VoucherServiceBL.Service
             return baseRepository.GetAllVouchersFilterByMerchantId(merchantId);
         }
 
-        /// <summary>
-        /// Update the expiry date, status of a voucher or deactivate the voucher
-        /// If the voucher is a gift voucher optionally update the gift amount
-        /// </summary>
-        /// <param name="voucherUpdateReq">object containing the voucher properties to change</param>
-        /// <returns>Updated voucher</returns>
-        public Voucher UpdateVoucher(VoucherUpdateReq voucherUpdateReq)
-        {
-            //get the voucher that is to be updated
-            var voucher = GetVoucherByCode(voucherUpdateReq.Code);
-            
-            //update the fields that needs to be updated
-            if(voucherUpdateReq.ExpiryDate != null) //should update expiry date of voucher
-            {    
-                voucher.ExpiryDate = voucherUpdateReq.ExpiryDate;
-                baseRepository.UpdateVoucherExpiryDateByCode(voucher);
-            }
-            if(!string.IsNullOrEmpty(voucherUpdateReq.Status)) //should update status of voucher
-            {    
-                voucher.VoucherStatus = voucherUpdateReq.Status;
-                baseRepository.UpdateVoucherStatusByCode(voucher);
-            }
-
-            if(voucherUpdateReq.GiftAmount > 0) 
-            {
-                //get the full gift voucher:TODO, I really wish we could avoid this
-                Gift giftVoucher = giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
-                giftVoucher.GiftAmount = voucherUpdateReq.GiftAmount; // do the update
-                giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change
-            }
-            return voucher;
-        }
-
         public void DeleteVoucher(string code)
         {
             baseRepository.DeleteVoucherByCode(code);
         }
 
+        public Voucher ActivateOrDeactivateVoucher(string code)
+        {
+            //get the voucher that is to be updated
+            var voucher = GetVoucherByCode(code);
+            voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
+            return  baseRepository.UpdateVoucherStatusByCode(voucher);
+            
+        }
+
+        public Voucher UpdateGiftVoucherAmount(string code, long amount)
+        {
+            var voucher = GetVoucherByCode(code);
+
+            //get the full gift voucher:TODO, I really wish we could avoid this
+            Gift giftVoucher = giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
+            giftVoucher.GiftAmount = amount; // do the update
+            return giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change
+        }
+
+        public Voucher UpdateVoucherExpiryDate(string code, DateTime newDate)
+        {
+            //get the voucher that is to be updated
+            var voucher = GetVoucherByCode(code);
+            voucher.ExpiryDate = newDate;
+            return baseRepository.UpdateVoucherExpiryDateByCode(voucher);
+        }
+
+        public IEnumerable<Gift> GetAllGiftVouchers(string merchantId)
+        {
+           return giftVoucherService.GetAllGiftVouchers(merchantId);
+        }
+
+        public Gift GetGiftVoucher(string code)
+        {
+            var voucher = GetVoucherByCode(code);
+            return giftVoucherService.GetGiftVoucher(voucher);
+        }
+
+        public Value GetValueVoucher(string code)
+        {
+            var voucher = GetVoucherByCode(code);
+            return valueVoucherService.GetValueVoucher(voucher);
+        }
+
+        public IEnumerable<Value> GetAllValueVouchers(string merchantId)
+        {
+            return valueVoucherService.GetAllValueVouchers(merchantId);
+        }
+
+        public IEnumerable<Discount> GetAllDiscountVouchers(string merchantId)
+        {
+            return discountVoucherService.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+        }
+
+        public Discount GetDiscountVoucher(string code)
+        {
+            var voucher = GetVoucherByCode(code);
+            return discountVoucherService.GetDiscountVoucher(voucher);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace VoucherServiceBL.Service
     /// </summary>
     
 
-    public interface IValueVoucher
+    public interface IValueVoucherService
     {
         Value CreateValueVoucher(VoucherRequest value);
 
