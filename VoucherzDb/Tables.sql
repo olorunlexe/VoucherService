@@ -1,5 +1,54 @@
-USE [Voucherz]
+-- Create a new database called 'VoucherDemo'
+-- Connect to the 'master' database to run this snippet
+USE master
 GO
+-- Create the new database if it does not exist already
+IF NOT EXISTS (
+	SELECT name
+		FROM sys.databases
+		WHERE name = N'VoucherDemo'
+)
+CREATE DATABASE VoucherDemo
+GO
+
+USE [VoucherDemo]
+GO
+
+
+USE [VoucherDemo]
+GO
+
+/****** Object:  Table [dbo].[Voucher]    Script Date: 1/16/2019 2:54:36 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Voucher](
+	[VoucherId] [bigint] IDENTITY(1,1) NOT NULL,
+	[Code] [nvarchar](100) NOT NULL,
+	[VoucherType] [nvarchar](50) NOT NULL,
+	[CreationDate] [datetime] NOT NULL,
+	[ExpiryDate] [datetime] NOT NULL,
+	[VoucherStatus] [nvarchar](10) NOT NULL,
+	[MerchantId] [nvarchar](100) NOT NULL,
+	[Metadata] [nvarchar](100),
+	[Description] [nvarchar](100)
+ CONSTRAINT [PK__Voucher__3AEE7921E146F7BD] PRIMARY KEY CLUSTERED 
+(
+	[VoucherId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Voucher] ADD  CONSTRAINT [DF__Voucher__Creatio__4BAC3F29]  DEFAULT (getutcdate()) FOR [CreationDate]
+GO
+
+ALTER TABLE [dbo].[Voucher] ADD CONSTRAINT [DF__Voucher__Voucher__4CA06362]  DEFAULT ('ACTIVE') FOR [VoucherStatus]
+GO
+
+
 
 /****** Object:  Table [dbo].[DiscountVoucher]    Script Date: 1/16/2019 2:46:43 PM ******/
 SET ANSI_NULLS ON
@@ -30,12 +79,6 @@ REFERENCES [dbo].[Voucher] ([VoucherId])
 GO
 
 ALTER TABLE [dbo].[DiscountVoucher] CHECK CONSTRAINT [FK_DiscontVoucher_Voucher]
-GO
-
------------------------------------------------------------------------------------------------------------------------------
-
-USE [Voucherz]
-GO
 
 /****** Object:  Table [dbo].[GiftVoucher]    Script Date: 1/16/2019 2:52:22 PM ******/
 SET ANSI_NULLS ON
@@ -65,7 +108,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  Table [dbo].[ValueVoucher]    Script Date: 1/16/2019 2:53:20 PM ******/
@@ -95,38 +138,3 @@ GO
 
 
 -----------------------------------------------------------------------------------------------------------------------------
-
-USE [Voucherz]
-GO
-
-/****** Object:  Table [dbo].[Voucher]    Script Date: 1/16/2019 2:54:36 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[Voucher](
-	[VoucherId] [bigint] IDENTITY(1,1) NOT NULL,
-	[Code] [nvarchar](100) NOT NULL,
-	[VoucherType] [nvarchar](50) NOT NULL,
-	[CreationDate] [datetime] NOT NULL,
-	[ExpiryDate] [datetime] NOT NULL,
-	[VoucherStatus] [nvarchar](10) NOT NULL,
-	[MerchantId] [nvarchar](100) NOT NULL,
- CONSTRAINT [PK__Voucher__3AEE7921E146F7BD] PRIMARY KEY CLUSTERED 
-(
-	[VoucherId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[Voucher] ADD  CONSTRAINT [DF__Voucher__Creatio__4BAC3F29]  DEFAULT (getutcdate()) FOR [CreationDate]
-GO
-
-ALTER TABLE [dbo].[Voucher] ADD  CONSTRAINT [DF__Voucher__Voucher__4CA06362]  DEFAULT ('ACTIVE') FOR [VoucherStatus]
-GO
-
-
-
-

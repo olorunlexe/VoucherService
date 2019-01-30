@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "$/home/dunamis/VoucherService/VoucherService/bin/Debug/netcoreapp2.1/VoucherService.dll",
+            "program": "${workspaceFolder}/VoucherService/bin/Debug/netcoreapp2.1/VoucherService.dll",
             "args": [],
-            "cwd": "${/home/dunamis/VoucherService}/VoucherService",
+            "cwd": "${workspaceFolder}/VoucherService",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -33,7 +33,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "$/home/dunamis/VoucherService/Views"
+                "/Views": "${workspaceFolder}/Views"
             }
         },
         {

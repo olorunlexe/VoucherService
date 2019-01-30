@@ -12685,11 +12685,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dunamis/DotNetApps/VoucherService/VoucherService/VoucherService.csproj",
+      "projectUniqueName": "/home/dunamis/VoucherService/VoucherService/VoucherService.csproj",
       "projectName": "VoucherService",
-      "projectPath": "/home/dunamis/DotNetApps/VoucherService/VoucherService/VoucherService.csproj",
+      "projectPath": "/home/dunamis/VoucherService/VoucherService/VoucherService.csproj",
       "packagesPath": "/home/dunamis/.nuget/packages/",
-      "outputPath": "/home/dunamis/DotNetApps/VoucherService/VoucherService/obj/",
+      "outputPath": "/home/dunamis/VoucherService/VoucherService/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -12706,8 +12706,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "/home/dunamis/DotNetApps/VoucherService/VoucherServiceBL/VoucherServiceBL.csproj": {
-              "projectPath": "/home/dunamis/DotNetApps/VoucherService/VoucherServiceBL/VoucherServiceBL.csproj"
+            "/home/dunamis/VoucherService/VoucherServiceBL/VoucherServiceBL.csproj": {
+              "projectPath": "/home/dunamis/VoucherService/VoucherServiceBL/VoucherServiceBL.csproj"
             }
           }
         }

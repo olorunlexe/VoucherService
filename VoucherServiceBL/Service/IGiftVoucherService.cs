@@ -4,6 +4,7 @@ using VoucherServiceBL.Repository;
 using VoucherServiceBL.Domain;
 using System.Numerics;
 using VoucherServiceBL.Model;
+using System.Threading.Tasks;
 
 namespace VoucherServiceBL.Service
 {
@@ -13,12 +14,12 @@ namespace VoucherServiceBL.Service
     public interface IGiftVoucherService
     {
         IGiftRepository GiftRepository {get;}
-        Gift CreateGiftVoucher(VoucherRequest giftRequest);
+        Task<int> CreateGiftVoucher(VoucherRequest giftRequest);
 
-        Gift GetGiftVoucher(Voucher voucher);
+        Task<Gift> GetGiftVoucher(Voucher voucher);
 
-        IEnumerable<Gift> GetAllGiftVouchers(string merchantId);
+        Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId);
 
-        Voucher UpdateGiftVoucher(Gift giftVoucher);
+        Task<int> UpdateGiftVoucher(Gift giftVoucher);
     }
 }

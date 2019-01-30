@@ -6,13 +6,15 @@ using Dapper;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Threading.Tasks;
+using Microsoft.SqlServer.Server;
 
 namespace VoucherServiceBL.Repository
 {
     public class GiftRepository :BaseRepository, IGiftRepository
     {
         public GiftRepository(IConfiguration configuration):base(configuration) {}
-        public Gift CreateGiftVoucher(Gift voucher)
+        public async Task<int> CreateGiftVoucher(Gift voucher)
         {
             using (var connection = Connection)
             {
@@ -25,13 +27,55 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@MerchantId", voucher.MerchantId);
                 parameters.Add("@GiftAmount", voucher.GiftAmount);
 
-                var result=connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-                voucher.Id = result;
-                return voucher;
+                return await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+                
             }
         }
 
-        public IEnumerable<Gift> GetAllGiftVouchers(string merchantId)
+        public Task<int> CreateGiftVoucher(IEnumerable<Gift> vouchersList)
+        {
+
+            GiftStreamingSqlRecord record = new GiftStreamingSqlRecord(vouchersList);
+
+            foreach (var t in vouchersList)
+            {
+                Console.WriteLine($"<<<<<gfts>>> {t}");
+            }
+
+            try
+            {
+                var connection = Connection;
+                
+                if (connection.State == ConnectionState.Closed) connection.Open();
+
+                string storedProcedure = "dbo.usp_CreateGiftVoucher";
+
+                var command = new SqlCommand(storedProcedure, connection as SqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                var param = new SqlParameter();
+                param.ParameterName = "@tblGift";
+                param.TypeName = "dbo.GiftVoucherType";   
+                param.SqlDbType = SqlDbType.Structured;             
+                param.Value = record;
+
+                command.Parameters.Add(param);
+                command.CommandTimeout = 60;
+                return command.ExecuteNonQueryAsync();                 
+                
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
+        }
+
+        public async Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
         {
             using (var connection = Connection)
             {
@@ -41,12 +85,11 @@ namespace VoucherServiceBL.Repository
                 var parameters = new DynamicParameters();
                 parameters.Add("@MerchantId", merchantId);
 
-                var res = connection.QueryMultiple(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
-                return res.Read<Gift>().AsList();
+                return await connection.QueryAsync<Gift>(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
             }
         }
 
-        public Gift GetGiftVoucher(Voucher voucher)
+        public async Task<Gift> GetGiftVoucher(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -58,12 +101,12 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle<Gift>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Gift>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
 
-        public Voucher UpdateGiftVoucherAmount(Gift voucher)
+        public async Task<int> UpdateGiftVoucherAmount(Gift voucher)
         {
             using (var connection = Connection)
             {
@@ -73,9 +116,8 @@ namespace VoucherServiceBL.Repository
                 var parameters = new DynamicParameters();
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@GiftAmount", voucher.GiftAmount);
-                connection.Execute(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
+                return await connection.ExecuteAsync(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
             }
-            return voucher;
         }
         
     }

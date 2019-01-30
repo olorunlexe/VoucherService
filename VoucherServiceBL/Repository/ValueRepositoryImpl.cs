@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
@@ -21,9 +22,8 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public Value CreateValueVoucher(Value value)
+        public async Task<int> CreateValueVoucher(Value value)
         {        
-                var rowAffected = 0;
                 using (var conn = Connection)
                 {
                     if (conn.State == ConnectionState.Closed)
@@ -36,9 +36,8 @@ namespace VoucherServiceBL.ValueVoucher.Repository
                     parameters.Add("@ValueAmount", value.ValueAmount);
                     parameters.Add("@ExpiryDate", value.ExpiryDate);
 
-                    rowAffected = conn.Execute("usp_CreateValueVoucher", parameters, commandType: CommandType.StoredProcedure);
+                    return await conn.ExecuteAsync("usp_CreateValueVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
-                return value;
         }
 
 
@@ -47,7 +46,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public List<Value> GetAllValueVouchers(string merchantId)
+        public async Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -57,7 +56,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_GetAllValueVouchersFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@MerchantId", merchantId);
-                return conn.Query<Value>("usp_GetAllValueVouchersFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure).ToList();
+                return await conn.QueryAsync<Value>("usp_GetAllValueVouchersFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -66,7 +65,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="voucher"></param>
         /// <returns></returns>
-        public Value GetValueVoucher(Voucher voucher)
+        public async Task<Value> GetValueVoucher(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -78,7 +77,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle<Value>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Value>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }

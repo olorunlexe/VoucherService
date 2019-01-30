@@ -1,4 +1,4 @@
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_CreateDiscountVoucher]    Script Date: 1/16/2019 3:01:29 PM ******/
@@ -7,19 +7,71 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+ --##--------------User Defined Table Type-------------------------------------------------
+ ----------------------Gift ------------------------
+CREATE SEQUENCE Id_Sequence
+AS BIGINT START WITH 1
+INCREMENT BY 1
+NO MAXVALUE
+NO CACHE
+GO
+DROP TYPE [dbo].GiftVoucherType
+GO
 
+CREATE TYPE [dbo].GiftVoucherType AS TABLE (
+	[VoucherId] [bigint] PRIMARY KEY,
+	[Code] [nvarchar](100) NOT NULL,
+	[VoucherType] [nvarchar](50) NOT NULL,
+	[CreationDate] [datetime] NOT NULL,
+	[ExpiryDate] [datetime] NOT NULL,
+	[VoucherStatus] [nvarchar](10) NOT NULL,
+	[MerchantId] [nvarchar](100) NOT NULL,
+	[Metadata] [nvarchar](100) NULL,
+	[Description] [nvarchar](100) NULL,
+	[GiftAmount] [bigint] NOT NULL,
+	[GiftBalance] [bigint] NOT NULL
+)
+GO
 
+ ----------------------Value ------------------------
+CREATE TYPE [dbo].ValueVoucherType AS TABLE (
+	[VoucherId] [bigint] PRIMARY KEY NOT NULL,
+	[Code] [nvarchar](100) NOT NULL,
+	[VoucherType] [nvarchar](50) NOT NULL,
+	[CreationDate] [datetime] NOT NULL,
+	[ExpiryDate] [datetime] NOT NULL,
+	[VoucherStatus] [nvarchar](10) NOT NULL,
+	[MerchantId] [nvarchar](100) NOT NULL,
+	[Metadata] [nvarchar](100) NULL,
+	[Description] [nvarchar](100) NULL,
+	[ValueAmount] [bigint] NOT NULL
+)
+GO
+
+ ----------------------Discount ------------------------
+CREATE TYPE [dbo].DiscountVoucherType AS TABLE (	
+	[VoucherId] [bigint] PRIMARY KEY NOT NULL,
+	[Code] [nvarchar](100) NOT NULL,
+	[VoucherType] [nvarchar](50) NOT NULL,
+	[CreationDate] [datetime] NOT NULL,
+	[ExpiryDate] [datetime] NOT NULL,
+	[VoucherStatus] [nvarchar](10) NOT NULL,
+	[MerchantId] [nvarchar](100) NOT NULL,
+	[Metadata] [nvarchar](100) NULL,
+	[Description] [nvarchar](100) NULL,
+	[DiscountAmount] [nvarchar](50) NULL,
+	[DiscountUnit] [nvarchar](50) NULL,
+	[DiscountPercentage] [float] NULL
+)
+GO
+--------------------------------------------------------------------
+SELECT * FROM Voucher  
+SELECT COUNT(*) FROM GiftVoucher
+GO
+--------------------------------------------------------------------
 CREATE PROCEDURE [dbo].[usp_CreateDiscountVoucher]
 
-   @HashedCode nvarchar(100),
-   @voucherType nvarchar(50)= 'Discount',
-   @MerchantId nvarchar(100),
-   @DiscountAmount bigint = NULL,
-   @DiscountPercent float = NULL,
-   @DiscountUnit bigint = NULL,
-   @ExpiryDate datetime
-
-
+   @tblDiscount DiscountVoucherType READONLY
 AS
 
 Declare @voucherId bigint
@@ -28,24 +80,18 @@ Declare @voucherId bigint
     BEGIN TRANSACTION CreateDiscountVoucher
 
             
-           INSERT INTO Voucher
-               (
-               [Code],[VoucherType],
-               [MerchantId],
-               [ExpiryDate]
-               )
-           VALUES(@HashedCode, @voucherType, @MerchantId, @ExpiryDate)
+           INSERT INTO Voucher (VoucherId, [Code], [VoucherType], [MerchantId], [ExpiryDate])
+           SELECT [Code], [VoucherType], [MerchantId], [ExpiryDate] 
+		   FROM @tblDiscount t
 
            SET @voucherId = SCOPE_IDENTITY()
-
            INSERT INTO DiscountVoucher
                ( -- columns to insert data into
-               [DiscountAmount], [DiscountPercentage], [DiscountUnit],[VoucherId]
+               [DiscountAmount], [DiscountPercentage], [DiscountUnit], [VoucherId]
                )
-           VALUES
-               ( -- values for the columns in the list above
-                   @DiscountAmount, @DiscountPercent, @DiscountUnit, @voucherId
-               )
+           SELECT [DiscountAmount], [DiscountPercentage], [DiscountUnit], [VoucherId]
+		   FROM t
+
         COMMIT TRANSACTION CreateDiscountVoucher
 
     END TRY
@@ -56,10 +102,30 @@ Declare @voucherId bigint
 
 
 GO
+---------------------------------------------------------------------------------------------------------
+	-- [VoucherId] [bigint],
+	-- [Code] [nvarchar](100) NOT NULL,
+	-- [VoucherType] [nvarchar](50) NOT NULL,
+	-- [CreationDate] [datetime] NOT NULL,
+	-- [ExpiryDate] [datetime] NOT NULL,
+	-- [VoucherStatus] [nvarchar](10) NOT NULL,
+	-- [MerchantId] [nvarchar](100) NOT NULL,
+	-- [Metadata] [nvarchar](100) NULL,
+	-- [Description] [nvarchar](100) NULL,
+	-- [GiftAmount] [bigint] NOT NULL,
+	-- [GiftBalance] [bigint] NOT NULL
+
+-- DECLARE @tbl [dbo].GiftVoucherType
+-- INSERT @tbl VALUES (1, N'rrgf4t', N'Gift',GETDATE(), GETDATE(), N'ACTIVE', N'LKdfefh', N'dfdf', N'Dtg df', 2350, 100)
+-- INSERT @tbl VALUES (2, N'klfrgf4', N'Gift',GETDATE(), GETDATE(), N'ACTIVE', N'dgryfefh', N'dfdf', N'Dtg df', 2350, 100)
+-- INSERT @tbl VALUES (3, N'rgf4', N'Gift',GETDATE(), GETDATE(), N'ACTIVE', N'frdfefh', N'dfdf', N'Dtg df', 2350, 100)
+
+-- EXEC [dbo].[usp_CreateGiftVoucher] @tbl
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+SELECT * FROM Voucher
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_CreateGiftVoucher]    Script Date: 1/16/2019 3:02:11 PM ******/
@@ -69,52 +135,56 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_SCHEMA = N'dbo'
+    AND SPECIFIC_NAME = N'usp_CreateGiftVoucher')
+DROP PROCEDURE dbo.usp_CreateGiftVoucher
+GO
+
 CREATE PROCEDURE [dbo].[usp_CreateGiftVoucher]
-   @HashedCode NVARCHAR(100),
-   @VoucherType NVARCHAR(50) = 'Gift',
-   @ExpiryDate DATETIME,
-   @MerchantId NVARCHAR(100),
-   @GiftAmount BIGINT
+
+   @tblGift [dbo].GiftVoucherType READONLY
 AS
-   -- body of the stored procedure
-   DECLARE @VoucherId BIGINT
+
+	DECLARE @idmap TABLE (TempId BIGINT NOT NULL PRIMARY KEY, 
+							VId BIGINT UNIQUE NOT NULL)
 
    BEGIN TRY
-       BEGIN TRANSACTION
-           -- Insert rows into table 'Voucherr'
-           INSERT INTO Voucher
-           ( -- columns to insert data into
-           Code, VoucherType, ExpiryDate, MerchantId
-           )
-           VALUES
-           ( -- first row: values for the columns in the list above
-           @HashedCode, @VoucherType, @ExpiryDate, @MerchantId
-           )
+    BEGIN TRANSACTION CreateGiftVoucher
 
-           --capture the current voucher id-------
-           SET @VoucherId = SCOPE_IDENTITY()
+           MERGE Voucher V 
+		   USING (SELECT [VoucherId], [Code], [VoucherType], [MerchantId], [ExpiryDate],
+		    [Metadata], [Description] FROM @tblGift) TB ON 1 = 0
+		   WHEN NOT MATCHED BY TARGET THEN
+		   INSERT ([Code], [VoucherType], [MerchantId], [ExpiryDate], [Metadata], [Description])
+		   VALUES(TB.Code, TB.VoucherType, TB.MerchantId, TB.ExpiryDate, TB.Metadata, TB.[Description])
+		   OUTPUT TB.VoucherId, inserted.VoucherId INTO @idmap(TempId, VId);
 
            -- Insert rows into table 'GiftVoucher'
-           INSERT INTO GiftVoucher
+           INSERT GiftVoucher
            (
            GiftAmount, GiftBalance, VoucherId
            )
-           VALUES
-           (
-           @GiftAmount, @GiftAmount, @VoucherId
-           )
-       COMMIT TRANSACTION
+           SELECT TB.GiftAmount, TB.GiftBalance, i.VId
+		   FROM @tblGift TB
+		   JOIN @idmap i ON i.TempId = TB.VoucherId
+-- 1, 3
+       COMMIT TRANSACTION CreateGiftVoucher
    END TRY
    BEGIN CATCH
        ROLLBACK
    END CATCH
 
-
 GO
+SELECT TOP(20) * FROM Voucher 
+-- WHERE VoucherId > 2000
 
+SELECT TOP(20) * FROM GiftVoucher 
+-- WHERE GiftVoucherId > 1100
+
+SELECT COUNT(*) FROM  Voucher
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_CreateValueVoucher]    Script Date: 1/16/2019 3:02:37 PM ******/
@@ -125,40 +195,30 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[usp_CreateValueVoucher]
-	@HashedCode NVARCHAR(100),
-	@VoucherType NVARCHAR(50) = 'Value',
-	@ExpiryDate DATETIME,
-	@MerchantId NVARCHAR(100),
-	@ValueAmount BIGINT
+
+   @tblDiscount ValueVoucherType READONLY
 AS
 
-	DECLARE
-	@VId BIGINT
-	BEGIN TRY
-		BEGIN TRANSACTION 
+Declare @voucherId bigint
 
-		-- body of the stored procedure
-		-- Insert rows into table 'Voucher'
-		INSERT INTO Voucher
-		( -- columns to insert data into
-	 	 Code, VoucherType, ExpiryDate, MerchantId
-		)
-		VALUES
-		( -- first row: values for the columns in the list above
-	 	 @HashedCode, @VoucherType, @ExpiryDate, @MerchantId
-		)
+   BEGIN TRY
 
-		SET @VId = SCOPE_IDENTITY()
+    BEGIN TRANSACTION CreateValueVoucher
+
+		INSERT INTO Voucher ([Code], [VoucherType], [MerchantId], [ExpiryDate])
+		SELECT [Code], [VoucherType], [MerchantId], [ExpiryDate] 
+		FROM @tblDiscount t
+
+		SET @voucherId = SCOPE_IDENTITY()
 
 		-- Insert rows into table 'ValueVoucher'
 		INSERT INTO ValueVoucher
 		( -- columns to insert data into
 	 	 ValueAmount, VoucherId
 		)
-		VALUES
-		( -- first row: values for the columns in the list above
-	 	 @ValueAmount, @VId
-		)
+		SELECT ValueAmount, VoucherId
+		FROM t
+
 	COMMIT TRANSACTION
 END TRY
 BEGIN CATCH	
@@ -168,7 +228,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_DeleteVoucherByCode]    Script Date: 1/16/2019 3:03:09 PM ******/
@@ -206,7 +266,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_DeleteVoucherById]    Script Date: 1/16/2019 3:04:04 PM ******/
@@ -244,7 +304,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllDiscountVouchers]    Script Date: 1/16/2019 3:04:42 PM ******/
@@ -263,7 +323,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllDiscountVouchersFilterByMerchantId]    Script Date: 1/16/2019 3:52:42 PM ******/
@@ -285,7 +345,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllGiftVouchers]    Script Date: 1/16/2019 3:05:15 PM ******/
@@ -304,7 +364,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllGiftVouchersFilterByMerchantId]    Script Date: 1/16/2019 3:54:03 PM ******/
@@ -326,7 +386,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllValueVouchers]    Script Date: 1/16/2019 3:05:45 PM ******/
@@ -348,7 +408,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllValueVouchersFilterByMerchantId]    Script Date: 1/16/2019 3:55:02 PM ******/
@@ -372,7 +432,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllVouchers]    Script Date: 1/16/2019 3:06:18 PM ******/
@@ -391,7 +451,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetAllVouchersFilterByMerchantId]    Script Date: 1/16/2019 3:55:51 PM ******/
@@ -413,7 +473,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByCode]    Script Date: 1/16/2019 3:07:06 PM ******/
@@ -474,7 +534,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByCodeFilterByMerchantId]    Script Date: 1/16/2019 3:07:41 PM ******/
@@ -539,7 +599,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByCreationDate]    Script Date: 1/16/2019 3:08:07 PM ******/
@@ -600,7 +660,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByCreationDateFilterByMerchantId]    Script Date: 1/16/2019 3:08:39 PM ******/
@@ -664,7 +724,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByExpiryDate]    Script Date: 1/16/2019 3:09:07 PM ******/
@@ -725,7 +785,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByExpiryDateFilterByMerchantId]    Script Date: 1/16/2019 3:09:30 PM ******/
@@ -789,7 +849,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherById]    Script Date: 1/16/2019 3:09:56 PM ******/
@@ -851,7 +911,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByIdFilterByMerchantId]    Script Date: 1/16/2019 3:10:24 PM ******/
@@ -916,7 +976,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByMerchantId]    Script Date: 1/16/2019 3:10:58 PM ******/
@@ -977,7 +1037,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByStatus]    Script Date: 1/16/2019 3:11:27 PM ******/
@@ -1038,7 +1098,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_GetVoucherByStatusFilterByMerchantId]    Script Date: 1/16/2019 3:12:59 PM ******/
@@ -1101,7 +1161,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_UpdateGiftAmountByCode]    Script Date: 1/16/2019 3:13:23 PM ******/
@@ -1141,7 +1201,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_UpdateGiftAmountById]    Script Date: 1/16/2019 3:13:46 PM ******/
@@ -1181,7 +1241,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_UpdateVoucherExpiryDateByCode]    Script Date: 1/16/2019 3:14:09 PM ******/
@@ -1220,7 +1280,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_UpdateVoucherExpiryDateById]    Script Date: 1/16/2019 3:14:35 PM ******/
@@ -1259,7 +1319,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_UpdateVoucherStatusByCode]    Script Date: 1/16/2019 3:15:03 PM ******/
@@ -1308,7 +1368,7 @@ GO
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-USE [Voucherz]
+USE [VoucherDemo]
 GO
 
 /****** Object:  StoredProcedure [dbo].[usp_UpdateVoucherStatusById]    Script Date: 1/16/2019 3:15:29 PM ******/
@@ -1358,22 +1418,4 @@ AS
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
