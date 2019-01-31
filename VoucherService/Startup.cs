@@ -16,7 +16,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Service;
-using VoucherServiceBL.ValueVoucher.Repository;
 
 namespace VoucherService
 {
@@ -45,7 +44,7 @@ namespace VoucherService
             services.AddTransient<IGiftRepository, GiftRepository>();
             services.AddTransient<IDiscountRepository, DiscountRepository>();
 
-            services.AddTransient<IValueRepository, ValueRepositoryImpl>();
+            services.AddTransient<IValueRepository, ValueRepository>();
             services.AddTransient<IValueVoucherService, ValueVoucherService>();
 
 

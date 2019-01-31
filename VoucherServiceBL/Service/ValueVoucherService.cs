@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoucherService.Util;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
-using VoucherServiceBL.ValueVoucher;
-using VoucherServiceBL.ValueVoucher.Repository;
+using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.Service
 {
@@ -23,22 +23,31 @@ namespace VoucherServiceBL.Service
 
         public Task<int> CreateValueVoucher(VoucherRequest valueRequest)
         {
-            //create the gift object from the Vouher
-            Value valueVoucher = new Value()
-            {
-                Code = CodeGenerator.HashedCode(valueRequest),
-                CreationDate = valueRequest.CreationDate,
-                ExpiryDate = valueRequest.ExpiryDate,
-                VoucherStatus = "Active",
-                VoucherType = valueRequest.VoucherType,
-                Description = valueRequest.Description,
-                ValueAmount = valueRequest.ValueAmount,
-                MerchantId = valueRequest.MerchantId,
-                Metadata = valueRequest.Metadata,
-            };
+            // var numOfVouchersCreated = 0;
 
-            //persist the object to the db    
-            return ValueRepository.CreateValueVoucher(valueVoucher);
+            var vouchersList = new List<Value>(valueRequest.NumbersOfVoucherToCreate);
+
+            //create the gift object from the Vouher
+            foreach (var num in Enumerable.Range(1, valueRequest.NumbersOfVoucherToCreate))
+
+            {
+                Value valueVoucher = new Value()
+                {
+                    Code = CodeGenerator.HashedCode(valueRequest),
+                    CreationDate = valueRequest.CreationDate,
+                    ExpiryDate = valueRequest.ExpiryDate,
+                    VoucherStatus = "Active",
+                    VoucherType = valueRequest.VoucherType,
+                    Description = valueRequest.Description,
+                    ValueAmount = valueRequest.ValueAmount,
+                    MerchantId = valueRequest.MerchantId,
+                    Metadata = valueRequest.Metadata,
+                };
+                vouchersList.Add(valueVoucher);
+            }
+
+                //persist the object to the db    
+                return ValueRepository.CreateValueVoucher(vouchersList);
         }
 
         public Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)

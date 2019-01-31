@@ -59,8 +59,8 @@ CREATE TYPE [dbo].DiscountVoucherType AS TABLE (
 	[MerchantId] [nvarchar](100) NOT NULL,
 	[Metadata] [nvarchar](100) NULL,
 	[Description] [nvarchar](100) NULL,
-	[DiscountAmount] [nvarchar](50) NULL,
-	[DiscountUnit] [nvarchar](50) NULL,
+	[DiscountAmount] [bigint] NULL,
+	[DiscountUnit] [bigint] NULL,
 	[DiscountPercentage] [float] NULL
 )
 GO

@@ -38,12 +38,12 @@ namespace VoucherService.Util
         public static string GenerateCodeWithPattern(string pattern, string characters, string separator)
         {
             // int separatorPosition = pattern.IndexOf(separator);
-            var charsBeforeAfterSeparator = pattern.Split(separator, 2); //[##, ##] 
-            var charsBeforeLength = charsBeforeAfterSeparator[0].Length;
-            var charsAfterLength = charsBeforeAfterSeparator[1].Length;
+            var charsBeforeAndAfterSeparator = pattern.Split(separator, 2); //[##, ##] 
+            var charsBeforeLength = charsBeforeAndAfterSeparator[0].Length;
+            var charsAfterLength = charsBeforeAndAfterSeparator[1].Length;
 
             var beforeCode = GenerateCode(charsBeforeLength, characters);
-            var afterCode = GenerateCode(charsBeforeLength, characters);
+            var afterCode = GenerateCode(charsAfterLength, characters);
 
             return $"{beforeCode}{separator}{afterCode}";
             

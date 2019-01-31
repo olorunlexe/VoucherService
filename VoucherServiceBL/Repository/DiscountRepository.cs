@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -8,7 +9,6 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
-using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.Repository
 {
@@ -35,12 +35,55 @@ namespace VoucherServiceBL.Repository
                     parameters.Add("@HashedCode", discount.Code);
                     parameters.Add("@MerchantId", discount.MerchantId);
                     parameters.Add("@DiscountAmount", discount.DiscountAmount);
-                    parameters.Add("@DiscountPercent", discount.DiscountPercent);
+                    parameters.Add("@DiscountPercentage", discount.DiscountPercentage);
                     parameters.Add("@DiscountUnit", discount.DiscountUnit);
                     parameters.Add("@ExpiryDate", discount.ExpiryDate);
 
                     return await conn.ExecuteAsync("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
+        }
+
+        public Task<int> CreateDiscountVoucher(IEnumerable<Discount> vouchersList)
+        {
+
+            DiscountStreamingSqlRecord record = new DiscountStreamingSqlRecord(vouchersList);
+
+            //foreach (var t in vouchersList)
+            //{
+            //    Console.WriteLine($"<<<<<discount>>> {t}");
+            //}
+
+            try
+            {
+                var connection = Connection;
+
+                if (connection.State == ConnectionState.Closed) connection.Open();
+
+                string storedProcedure = "dbo.usp_CreateDiscountVoucher";
+
+                var command = new SqlCommand(storedProcedure, connection as SqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                var param = new SqlParameter();
+                param.ParameterName = "@tblDiscount";
+                param.TypeName = "dbo.DiscountVoucherType";
+                param.SqlDbType = SqlDbType.Structured;
+                param.Value = record;
+
+                command.Parameters.Add(param);
+                command.CommandTimeout = 120;
+                return command.ExecuteNonQueryAsync();
+
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
         }
 
 

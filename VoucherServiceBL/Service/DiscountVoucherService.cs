@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoucherService.Util;
@@ -11,47 +12,56 @@ namespace VoucherServiceBL.Service
 {
     public class DiscountVoucherService : IDiscountVoucherService
     {
-        public IDiscountRepository discountRepository;
-        public CodeGenerator CodeGenerator;
+        private IDiscountRepository repository;
 
+        public IDiscountRepository DiscountRepository => this.repository;
 
-        public DiscountVoucherService(IDiscountRepository discountRepository)
+        public DiscountVoucherService(IDiscountRepository repository)
         {
-            this.discountRepository = discountRepository;
+            this.repository = repository;
         }
 
 
         public Task<int> CreateDiscountVoucher(VoucherRequest discountRequest)
         {
+            // var numOfVouchersCreated = 0;
+
+            var vouchersList = new List<Discount>(discountRequest.NumbersOfVoucherToCreate);
+
             //create the gift object from the Vouher
-            Discount discountVoucher;
-            discountVoucher = new Discount()
+            foreach (var num in Enumerable.Range(1, discountRequest.NumbersOfVoucherToCreate))
+
+
             {
-                Code = CodeGenerator.HashedCode(discountRequest),
-                CreationDate = discountRequest.CreationDate,
-                ExpiryDate = discountRequest.ExpiryDate,
-                VoucherStatus = "Active",
-                VoucherType = discountRequest.VoucherType,
-                Description = discountRequest.Description,
-                DiscountAmount = discountRequest.DiscountAmount,
-                DiscountUnit = discountRequest.DiscountUnit,
-                DiscountPercent = discountRequest.DiscountPercent,
-                RedemptionCount = 0L,
-                MerchantId = discountRequest.MerchantId,
-                Metadata = discountRequest.Metadata
-            };
-            //persist the object to the db    
-            return discountRepository.CreateDiscountVoucher(discountVoucher);
+                Discount discountVoucher = new Discount()
+                {
+                    Code = CodeGenerator.HashedCode(discountRequest),
+                    CreationDate = discountRequest.CreationDate,
+                    ExpiryDate = discountRequest.ExpiryDate,
+                    VoucherStatus = "Active",
+                    VoucherType = discountRequest.VoucherType,
+                    Description = discountRequest.Description,
+                    DiscountAmount = discountRequest.DiscountAmount,
+                    DiscountUnit = discountRequest.DiscountUnit,
+                    DiscountPercentage = discountRequest.DiscountPercentage,
+                    RedemptionCount = 0L,
+                    MerchantId = discountRequest.MerchantId,
+                    Metadata = discountRequest.Metadata
+                };
+                vouchersList.Add(discountVoucher);
+            }
+                //persist the object to the db    
+                return DiscountRepository.CreateDiscountVoucher(vouchersList);
         }
 
         public Task<Discount> GetDiscountVoucher(Voucher voucher)
         {
-            return discountRepository.GetDiscountVoucher(voucher);
+            return DiscountRepository.GetDiscountVoucher(voucher);
         }
 
         public Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
         {
-            return discountRepository.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+            return DiscountRepository.GetAllDiscountVouchersFilterByMerchantId(merchantId);
         }
     }
 }

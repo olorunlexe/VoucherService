@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 
-namespace VoucherServiceBL.ValueVoucher.Repository
+namespace VoucherServiceBL.Repository
 {
     public interface IValueRepository
     {
@@ -17,6 +17,8 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// <param name="code">the code to create a voucher from</param>
         /// <returns>a single voucher</returns>   
         Task<int> CreateValueVoucher(Value value);
+
+        Task<int> CreateValueVoucher(IEnumerable<Value> vouchersList);
 
         #endregion
 

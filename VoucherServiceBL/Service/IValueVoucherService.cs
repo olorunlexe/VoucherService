@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
-using VoucherServiceBL.ValueVoucher.Repository;
+using VoucherServiceBL.Repository;
 
 namespace VoucherServiceBL.Service
 {
@@ -15,6 +15,7 @@ namespace VoucherServiceBL.Service
 
     public interface IValueVoucherService
     {
+        IValueRepository ValueRepository { get; }
         Task<int> CreateValueVoucher(VoucherRequest value);
 
         Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId);

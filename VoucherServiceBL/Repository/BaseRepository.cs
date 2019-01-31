@@ -239,7 +239,7 @@ namespace VoucherServiceBL.Repository
 
         public async Task<int> UpdateVoucherStatusByCode(Voucher voucher)
         {
-            var rowAffected = 0;
+            //var rowAffected = 0;
             using (var conn = Connection)
             {
                 if (conn.State == ConnectionState.Closed)

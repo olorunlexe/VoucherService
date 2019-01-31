@@ -12,6 +12,7 @@ namespace VoucherServiceBL.Repository
         Task<int> CreateDiscountVoucher(Discount discount);
         Task<Discount> GetDiscountVoucher(Voucher voucher);
         Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId);
+        Task<int> CreateDiscountVoucher(IEnumerable<Discount> vouchersList);
 
     }
 

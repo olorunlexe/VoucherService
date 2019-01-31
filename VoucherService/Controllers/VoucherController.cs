@@ -22,7 +22,7 @@ namespace VoucherService.Controllers
 
         private IVoucherService baseVoucherService;
 
-        private IValueVoucherService valueVoucherService;
+        //private IValueVoucherService valueVoucherService;
         public VoucherController(
                 IVoucherService baseService)
         {

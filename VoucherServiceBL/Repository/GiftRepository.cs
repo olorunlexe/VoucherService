@@ -37,11 +37,11 @@ namespace VoucherServiceBL.Repository
 
             GiftStreamingSqlRecord record = new GiftStreamingSqlRecord(vouchersList);
 
-            foreach (var t in vouchersList)
-            {
-                Console.WriteLine($"<<<<<gfts>>> {t}");
-            }
-
+            //foreach (var t in vouchersList)
+            //{
+            //    Console.WriteLine($"<<<<<gfts>>> {t}");
+            //}
+            
             try
             {
                 var connection = Connection;
@@ -60,7 +60,7 @@ namespace VoucherServiceBL.Repository
                 param.Value = record;
 
                 command.Parameters.Add(param);
-                command.CommandTimeout = 60;
+                command.CommandTimeout = 120;
                 return command.ExecuteNonQueryAsync();                 
                 
             }
