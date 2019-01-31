@@ -32,90 +32,119 @@ namespace VoucherService.Controllers
         }
 
         [HttpPost]
-        public async Task<Voucher> CreateVoucher([FromBody] VoucherRequest voucherReq)
+        public async Task<ActionResult<object>> CreateVoucher([FromBody] VoucherRequest voucherReq)
         {
-            return baseVoucherService.CreateVoucher(voucherReq);
+            var vCreated =  await baseVoucherService.CreateVoucher(voucherReq) / 2;
+            var voucherType = voucherReq.VoucherType;
+            
+            switch (voucherType.ToUpper())
+            {
+                case "GIFT": return CreatedAtAction(nameof(GetAllGiftVouchers), 
+                new {VoucherCreated = vCreated, Message= $"Created {vCreated} Vouchers"});
+
+                case "DISCOUNT": return CreatedAtAction(nameof(GetAllDiscountVouchers), 
+                new {VoucherCreated = vCreated, Message= $"Created {vCreated} Vouchers"});
+
+                case "VALUE": return CreatedAtAction(nameof(GetAllValueVouchers), new {value="value/all"},
+                new {VoucherCreated = vCreated, Message= $"Created {vCreated} Vouchers"});
+
+                default: return BadRequest(new {Message = "Invalid Voucher type"});
+            }
+            
         }
 
         [HttpGet("{code}")]
-        public async Task<Voucher> GetVoucher([FromRoute] string code)
+        public async Task<ActionResult<Voucher>> GetVoucher([FromRoute] string code)
         {
-            return baseVoucherService.GetVoucherByCode(code);
+            var voucher = await baseVoucherService.GetVoucherByCode(code);
+            if (voucher == null) return NotFound();
+            return  voucher;
         }
 
-        [HttpGet]
-        [Route("all")]
-        public async Task<IEnumerable<Voucher>> GetAllVouchers([FromQuery] string merchantId)
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Voucher>>> GetAllVouchers([FromQuery] string merchantId)
         {
-            return baseVoucherService.GetAllVouchers(merchantId);
+             var vouchers = await baseVoucherService.GetAllVouchers(merchantId);
+            if (vouchers.Count() == 0) return NotFound(new {message = $"no voucher found for merchantId: {merchantId}"});
+
+            return new OkObjectResult(vouchers);
         }
 
         [HttpGet("discount/{code}")]
-        public async Task<Discount> GetDiscountVoucher([FromRoute] string code)
+        public async Task<ActionResult<Discount>> GetDiscountVoucher([FromRoute] string code)
         {
-            return baseVoucherService.GetDiscountVoucher(code);
+            var discount = await baseVoucherService.GetDiscountVoucher(code);
+            if (discount == null) return NotFound();
+            return discount;
         }
 
-        [HttpGet]
-        [Route("discount/all")]
-        public async Task<IEnumerable<Discount>> GetAllDiscountVouchers([FromQuery] string merchantId)
+        [HttpGet("discount/all")]
+        public async Task<ActionResult<IEnumerable<Discount>>> GetAllDiscountVouchers([FromQuery] string merchantId)
         {
-            return baseVoucherService.GetAllDiscountVouchers(merchantId);
+            var discounts = await baseVoucherService.GetAllDiscountVouchers(merchantId);
+            return new OkObjectResult(discounts) ;
         }
 
         [HttpGet("gift/{code}")]
-        public async Task<Gift> GetGiftVoucher([FromRoute] string code)
+        public async Task<ActionResult<Gift>> GetGiftVoucher([FromRoute] string code)
         {
-            return baseVoucherService.GetGiftVoucher(code);
+            var gift = await baseVoucherService.GetGiftVoucher(code);
+            if (gift == null) return  NotFound();
+            return gift;
         }
 
-
-        [HttpGet]
-        [Route("gift/all")]
-        public async Task<IEnumerable<Gift>> GetAllGiftVouchers([FromQuery] string merchantId)
+        [HttpGet("gift/all")]
+        public async Task<ActionResult<IEnumerable<Gift>>> GetAllGiftVouchers([FromQuery] string merchantId)
         {
-            return baseVoucherService.GetAllGiftVouchers(merchantId);
+            var gifts = await baseVoucherService.GetAllGiftVouchers(merchantId);
+            return new OkObjectResult(gifts);
         }
 
 
         [HttpGet("value/{code}")]
-        public async Task<Value> GetValueVoucher([FromRoute] string code)
+        public async Task<ActionResult<Value>> GetValueVoucher([FromRoute] string code)
         {
-            return baseVoucherService.GetValueVoucher(code);
+            var value = await baseVoucherService.GetValueVoucher(code);
+            if (value == null) return NotFound();
+            return value;
         }
 
 
-        [HttpGet]
-        [Route("value/all")]
-        public async Task<IEnumerable<Value>> GetAllValueVouchers([FromQuery] string merchantId)
+        [HttpGet("value/all")]
+        public async Task<ActionResult<IEnumerable<Value>>> GetAllValueVouchers([FromQuery] string merchantId)
         {
-            return baseVoucherService.GetAllValueVouchers(merchantId);
+            var value = await baseVoucherService.GetAllValueVouchers(merchantId);
+            return new OkObjectResult(value);
         }
 
         [HttpPatch("update/{code}")]
-        public async Task UpdateVoucherStatus([FromRoute] string code)
+        public async Task<ActionResult> UpdateVoucherStatus([FromRoute] string code)
         {
-                baseVoucherService.ActivateOrDeactivateVoucher(code);
+            await baseVoucherService.ActivateOrDeactivateVoucher(code);
+            return  Ok("updated");
         }
 
         [HttpPatch("expiry/{code}")]
-        public async Task UpdateVoucherExpiryDate([FromRoute] string code, [FromQuery] DateTime newDate)
+        public async Task<ActionResult> UpdateVoucherExpiryDate([FromRoute] string code, [FromQuery] DateTime newDate)
         {
-            baseVoucherService.UpdateVoucherExpiryDate(code,newDate);
+             var pathedVouched = await baseVoucherService.UpdateVoucherExpiryDate(code, newDate);
+             return new OkObjectResult(pathedVouched);
         }
 
 
         [HttpPatch("amount/{code}")]
-        public async Task UpdateGiftVoucherAmount([FromRoute] string code, [FromQuery] long amount)
+        public async Task<ActionResult> UpdateGiftVoucherAmount([FromRoute] string code, [FromQuery] long amount)
         {
-            baseVoucherService.UpdateGiftVoucherAmount(code,amount);
+
+            var patchedGift = await baseVoucherService.UpdateGiftVoucherAmount(code,amount);
+            return new OkObjectResult(patchedGift);
         }
 
         [HttpDelete("{code}")]
-        public async Task DeleteVoucher([FromRoute] string code)
+        public async Task<ActionResult> DeleteVoucher([FromRoute] string code)
         {
-            baseVoucherService.DeleteVoucher(code);
+            await baseVoucherService.DeleteVoucher(code);
+            return Ok();
         }
-
     }
-}
+}        

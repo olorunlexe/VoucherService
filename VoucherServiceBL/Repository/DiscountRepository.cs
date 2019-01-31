@@ -23,9 +23,8 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public Discount CreateDiscountVoucher(Discount discount)
+        public async Task<int> CreateDiscountVoucher(Discount discount)
         {        
-                var rowAffected = 0;
                 using (var conn = Connection)
                 {
                     if (conn.State == ConnectionState.Closed)
@@ -40,9 +39,8 @@ namespace VoucherServiceBL.Repository
                     parameters.Add("@DiscountUnit", discount.DiscountUnit);
                     parameters.Add("@ExpiryDate", discount.ExpiryDate);
 
-                    rowAffected = conn.Execute("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
+                    return await conn.ExecuteAsync("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
-                return discount;
         }
 
 
@@ -51,7 +49,7 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
+        public async Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -61,11 +59,11 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_CreateDiscountVoucher"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@MerchantId", merchantId);
-                return conn.Query<Discount>("usp_GetAllDiscountVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
+                return await conn.QueryAsync<Discount>("usp_GetAllDiscountVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
-
-        public Discount GetDiscountVoucher(Voucher voucher)
+ 
+        public async Task<Discount> GetDiscountVoucher(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -75,7 +73,7 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle<Discount>("usp_GetVoucherByCodeFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Discount>("usp_GetVoucherByCodeFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }

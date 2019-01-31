@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.ValueVoucher.Repository;
@@ -14,10 +15,10 @@ namespace VoucherServiceBL.Service
 
     public interface IValueVoucherService
     {
-        Value CreateValueVoucher(VoucherRequest value);
+        Task<int> CreateValueVoucher(VoucherRequest value);
 
-        List<Value> GetAllValueVouchers(string merchantId);
+        Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId);
 
-        Value GetValueVoucher(Voucher voucher);
+        Task<Value> GetValueVoucher(Voucher voucher);
     }
 }

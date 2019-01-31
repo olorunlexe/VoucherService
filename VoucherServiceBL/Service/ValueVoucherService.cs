@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using VoucherService.Util;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
@@ -20,7 +21,7 @@ namespace VoucherServiceBL.Service
             this.repository = repository;
         }
 
-        public Value CreateValueVoucher(VoucherRequest valueRequest)
+        public Task<int> CreateValueVoucher(VoucherRequest valueRequest)
         {
             //create the gift object from the Vouher
             Value valueVoucher = new Value()
@@ -40,12 +41,12 @@ namespace VoucherServiceBL.Service
             return ValueRepository.CreateValueVoucher(valueVoucher);
         }
 
-        public List<Value> GetAllValueVouchers(string merchantId)
+        public Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
         {
             return ValueRepository.GetAllValueVouchers(merchantId);
         }
 
-        public Value GetValueVoucher(Voucher voucher)
+        public Task<Value> GetValueVoucher(Voucher voucher)
         {
             return ValueRepository.GetValueVoucher(voucher);
         }

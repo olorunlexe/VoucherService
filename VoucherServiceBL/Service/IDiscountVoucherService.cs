@@ -10,10 +10,10 @@ namespace VoucherServiceBL.Service
 {
     public interface IDiscountVoucherService
     {
-        Discount CreateDiscountVoucher( VoucherRequest voucherRequest);
+        Task<int> CreateDiscountVoucher( VoucherRequest voucherRequest);
 
-        Discount GetDiscountVoucher(Voucher voucher);
+        Task<Discount> GetDiscountVoucher(Voucher voucher);
         //Discount GetAllDiscountVouchers();
-        IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId);
+        Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId);
     }
 }

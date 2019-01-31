@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 
 namespace VoucherServiceBL.ValueVoucher.Repository
@@ -15,7 +16,7 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="code">the code to create a voucher from</param>
         /// <returns>a single voucher</returns>   
-        Value CreateValueVoucher(Value value);
+        Task<int> CreateValueVoucher(Value value);
 
         #endregion
 
@@ -27,14 +28,14 @@ namespace VoucherServiceBL.ValueVoucher.Repository
         /// </summary>
         /// <param name="merchantId">id of the merchant that created the voucher</param>
         /// <returns>a list of value vouchers</returns>
-        List<Value> GetAllValueVouchers(string merchantId);
+        Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId);
 
         /// <summary>
         /// Returns all details of a value voucher
         /// </summary>
         /// <param name="vouchertype">id of the merchant that created the voucher</param>
         /// <returns>a list of value vouchers</returns>
-        Value GetValueVoucher(Voucher voucher);
+        Task<Value> GetValueVoucher(Voucher voucher);
 
         #endregion
     }

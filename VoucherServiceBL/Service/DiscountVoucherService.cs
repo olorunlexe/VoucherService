@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using VoucherService.Util;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
@@ -20,7 +21,7 @@ namespace VoucherServiceBL.Service
         }
 
 
-        public Discount CreateDiscountVoucher(VoucherRequest discountRequest)
+        public Task<int> CreateDiscountVoucher(VoucherRequest discountRequest)
         {
             //create the gift object from the Vouher
             Discount discountVoucher;
@@ -43,12 +44,12 @@ namespace VoucherServiceBL.Service
             return discountRepository.CreateDiscountVoucher(discountVoucher);
         }
 
-        public Discount GetDiscountVoucher(Voucher voucher)
+        public Task<Discount> GetDiscountVoucher(Voucher voucher)
         {
             return discountRepository.GetDiscountVoucher(voucher);
         }
 
-        public IEnumerable<Discount> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
+        public Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
         {
             return discountRepository.GetAllDiscountVouchersFilterByMerchantId(merchantId);
         }

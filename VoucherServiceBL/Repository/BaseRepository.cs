@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Service;
 
@@ -35,7 +36,7 @@ namespace VoucherServiceBL.Repository
         //     }
         // }
 
-        public IEnumerable<Voucher> GetAllVouchersFilterByMerchantId(string merchantId)
+        public async Task<IEnumerable<Voucher>> GetAllVouchersFilterByMerchantId(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -45,11 +46,11 @@ namespace VoucherServiceBL.Repository
                 //Parameters Declaration to be passed into Stored procdure "usp_GetAllVouchersFilterByMerchantId"..
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@MerchantId", merchantId);
-                return conn.Query<Voucher>("usp_GetAllVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure).ToList();
+                return await conn.QueryAsync<Voucher>("usp_GetAllVouchersFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByCode(string code)
+        public async Task<Voucher> GetVoucherByCode(string code)
         {
             using (var conn = Connection)
             {
@@ -60,11 +61,11 @@ namespace VoucherServiceBL.Repository
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", code);
 
-                return conn.QuerySingle<Voucher>("usp_GetVoucherByCode",parameters,commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByCode",parameters,commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByCodeFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByCodeFilterByMerchantId(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -76,27 +77,27 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 // parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
-                return conn.QuerySingle("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByCodeFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
         
 
-        public Voucher GetVoucherByCreationDate(Voucher voucher)
+        public async Task<Voucher> GetVoucherByCreationDate(Voucher voucher)
         {
             using (var conn = Connection)
             {
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
         //Parameters Declaration to be passed into Stored procdure "usp_GetVoucherByCreationDate"..
-        DynamicParameters parameters = new DynamicParameters();
+                DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@CreationDate", voucher.CreationDate);
                 parameters.Add("@VoucherType", voucher.VoucherType);
-                return conn.QuerySingle("usp_GetVoucherByCreationDate",parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByCreationDate",parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByCreationDateFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByCreationDateFilterByMerchantId(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -109,11 +110,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@CreationDate", voucher.CreationDate);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
-                return conn.QuerySingle("usp_GetVoucherByCreationDateFilterByMerchantId",parameters,commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByCreationDateFilterByMerchantId",parameters,commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByExpiryDate(Voucher voucher)
+        public async Task<Voucher> GetVoucherByExpiryDate(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -126,11 +127,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@ExpiryDate", voucher.CreationDate);
                 parameters.Add("@VoucherType", voucher.VoucherType);
 
-                return conn.QuerySingle("usp_GetVoucherByExpiryDate", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByExpiryDate", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByExpiryDateFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByExpiryDateFilterByMerchantId(Voucher voucher)
         {
 
             using (var conn = Connection)
@@ -144,11 +145,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@ExpiryDate", voucher.ExpiryDate);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
-                return conn.QuerySingle("usp_GetVoucherByExpiryDateFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByExpiryDateFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherById(Voucher voucher)
+        public async Task<Voucher> GetVoucherById(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -161,11 +162,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@VoucherId", voucher.Id);
                 parameters.Add("@VoucherType", voucher.VoucherType);
 
-                return conn.QuerySingle("usp_GetVoucherById", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherById", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByIdFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByIdFilterByMerchantId(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -179,12 +180,12 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
-                return conn.QuerySingle("usp_GetVoucherByIdFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByIdFilterByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
 
         }
 
-        public Voucher GetVoucherByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByMerchantId(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -197,11 +198,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@MerchantId", voucher.MerchantId);
 
-                return conn.QuerySingle("usp_GetVoucherByMerchantId", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByMerchantId", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher GetVoucherByStatus(Voucher voucher)
+        public async Task<Voucher> GetVoucherByStatus(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -214,14 +215,14 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@VoucherType", voucher.VoucherType);
                 parameters.Add("@VoucherStatus", voucher.VoucherStatus);
 
-                return conn.QuerySingle("usp_GetVoucherByStatus", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.QuerySingleAsync<Voucher>("usp_GetVoucherByStatus", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
 
-        public Voucher UpdateVoucherExpiryDateByCode(Voucher voucher)
+        public async Task<int> UpdateVoucherExpiryDateByCode(Voucher voucher)
         {
-            var rowAffected = 0;
+            
             using (var conn = Connection)
             {
                 if (conn.State == ConnectionState.Closed)
@@ -232,12 +233,11 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@ExpiryDate", voucher.ExpiryDate);
 
-                rowAffected = conn.Execute("usp_UpdateVoucherExpiryDateByCode", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.ExecuteAsync("usp_UpdateVoucherExpiryDateByCode", parameters, commandType: CommandType.StoredProcedure);
             }
-            return voucher;
         }
 
-        public Voucher UpdateVoucherStatusByCode(Voucher voucher)
+        public async Task<int> UpdateVoucherStatusByCode(Voucher voucher)
         {
             var rowAffected = 0;
             using (var conn = Connection)
@@ -250,14 +250,12 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherStatus", voucher.VoucherStatus);
 
-                rowAffected = conn.Execute("usp_UpdateVoucherStatusByCode", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.ExecuteAsync("usp_UpdateVoucherStatusByCode", parameters, commandType: CommandType.StoredProcedure);
             }
-            return voucher;
         }
 
-        public void DeleteVoucherByCode(string code)
+        public async Task<int> DeleteVoucherByCode(string code)
         {
-            var rowAffected = 0;
             using (var conn = Connection)
             {
                 if (conn.State == ConnectionState.Closed)
@@ -267,13 +265,12 @@ namespace VoucherServiceBL.Repository
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", code);
 
-                rowAffected = conn.Execute("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.ExecuteAsync("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public Voucher DeleteVoucherById(Voucher voucher)
+        public async Task<int> DeleteVoucherById(Voucher voucher)
         {
-            var rowAffected = 0;
             using (var conn = Connection)
             {
                 if (conn.State == ConnectionState.Closed)
@@ -284,9 +281,8 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@Code", voucher.Code);
                 parameters.Add("@VoucherId", voucher.Id);
 
-                rowAffected = conn.Execute("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
+                return await conn.ExecuteAsync("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
             }
-            return voucher;
         }
 
         // public static implicit operator BaseRepository(GiftVoucher v)

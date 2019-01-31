@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 
 namespace VoucherServiceBL.Repository
@@ -11,9 +12,9 @@ namespace VoucherServiceBL.Repository
     /// </summary>
     public interface IGiftRepository
     {
-        IEnumerable<Gift> GetAllGiftVouchers(string merchantId);
+        Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId);
 
-        Gift CreateGiftVoucher(Gift voucher);
+        Task<int> CreateGiftVoucher(Gift voucher);
 
         /// <summary>
         /// Upward review of the amount on a gift voucher
@@ -22,7 +23,8 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="amountToAdd">Amount to add to the current balance on the gift voucher</param>
         /// <returns>The gift voucher</returns>
-        Voucher UpdateGiftVoucherAmount(Gift voucher); //TODO: decide to either return the modified voucher or void
-        Gift GetGiftVoucher(Voucher voucher);
+        Task<int> UpdateGiftVoucherAmount(Gift voucher); //TODO: decide to either return the modified voucher or void
+        Task<Gift> GetGiftVoucher(Voucher voucher);
+        Task<int> CreateGiftVoucher(IEnumerable<Gift> vouchersList);
     }
 }

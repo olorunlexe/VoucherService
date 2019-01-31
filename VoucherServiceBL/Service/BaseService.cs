@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 using VoucherService.Util;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Exceptions;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.Repository;
 
@@ -31,19 +35,50 @@ namespace VoucherServiceBL.Service
             return giftRepository as BaseRepository;
         }
 
-        public Voucher CreateVoucher(VoucherRequest voucherRequest)
+        public async Task<int> CreateVoucher(VoucherRequest voucherRequest)
         {
-            //let each voucher service handle its own creation
+            var numOfVouchersCreated = 0;
 
-            if (voucherRequest.VoucherType.ToUpper() == "GIFT" ) 
-                return giftVoucherService.CreateGiftVoucher(voucherRequest);
-            else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT") 
-                return discountVoucherService.CreateDiscountVoucher(voucherRequest);
-            else 
-                return valueVoucherService.CreateValueVoucher(voucherRequest);
+            //let each voucher service handle its own creation
+            // foreach (var num in Enumerable.Range(1, voucherRequest.NumbersOfVoucherToCreate))
+            // {
+                try
+                {
+                    if (voucherRequest.VoucherType.ToUpper() == "GIFT" )
+                    {
+                        numOfVouchersCreated += await giftVoucherService.CreateGiftVoucher(voucherRequest);
+                    } 
+                        
+                    else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT") 
+                    {
+                        numOfVouchersCreated += await discountVoucherService.CreateDiscountVoucher(voucherRequest);
+                    }
+                        
+                    else 
+                    {
+                        numOfVouchersCreated += await valueVoucherService.CreateValueVoucher(voucherRequest);    
+                        
+                    }
+
+                    //TODO: Log the event (Voucher Created) 
+                        
+                }
+                catch (VoucherCreateException  ex) //TODO: something happened handle it                //persist the object to the db    
+                //if some error occurred and not all voucher could be created log the error
+                {
+                    //TODO: Log the error
+                    //handle the error here; what should happen, try again or what
+                    throw new VoucherCreateException
+                            ($"An error occurred. {numOfVouchersCreated} Vouchers already created. Voucher number could be created.");
+                }
+            // }
+
+            return numOfVouchersCreated;
+            
         }
 
-        public Voucher GetVoucherByCode(string code)
+        
+        public Task<Voucher> GetVoucherByCode(string code)
         {
             return baseRepository.GetVoucherByCode(code);
         }
@@ -53,74 +88,140 @@ namespace VoucherServiceBL.Service
         /// </summary>
         /// <param name="merchantId">the id of the merchant that created the vouchers</param>
         /// <returns>a list of vouchers</returns>
-        public IEnumerable<Voucher> GetAllVouchers(string merchantId) 
+        public Task<IEnumerable<Voucher>> GetAllVouchers(string merchantId) 
         {
             return baseRepository.GetAllVouchersFilterByMerchantId(merchantId);
         }
 
-        public void DeleteVoucher(string code)
+        public Task DeleteVoucher(string code)
         {
-            baseRepository.DeleteVoucherByCode(code);
+            try
+            {
+                return baseRepository.DeleteVoucherByCode(code);                
+            }
+            catch (SqlException)
+            {
+                
+                throw;
+            }
         }
 
-        public Voucher ActivateOrDeactivateVoucher(string code)
+        public async Task<int> ActivateOrDeactivateVoucher(string code)
         {
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
+                return await baseRepository.UpdateVoucherStatusByCode(voucher);                
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
             //get the voucher that is to be updated
-            var voucher = GetVoucherByCode(code);
-            voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
-            return  baseRepository.UpdateVoucherStatusByCode(voucher);
+        }
+
+        public async Task<Voucher> UpdateGiftVoucherAmount(string code, long amount)
+        {
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                Gift giftVoucher = await giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
+                giftVoucher.GiftAmount = amount; // do the update
+                await giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change   
+                //get the full gift voucher:TODO, I really wish we could avoid this
+    
+                return voucher;
+            }              
             
+            catch (VoucherUpdateException ex)
+            {
+                
+                throw;
+            }
+
         }
 
-        public Voucher UpdateGiftVoucherAmount(string code, long amount)
+        public async Task<int> UpdateVoucherExpiryDate(string code, DateTime newDate)
         {
-            var voucher = GetVoucherByCode(code);
+            try
+            {
+                //get the voucher that is to be updated
+                var voucher = await GetVoucherByCode(code);
+                voucher.ExpiryDate = newDate;
+                return await baseRepository.UpdateVoucherExpiryDateByCode(voucher); //TODO: look into this:::await this                
+            }
+            catch (VoucherUpdateException ex)
+            {
+                throw;
+            }
 
-            //get the full gift voucher:TODO, I really wish we could avoid this
-            Gift giftVoucher = giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
-            giftVoucher.GiftAmount = amount; // do the update
-            return giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change
         }
 
-        public Voucher UpdateVoucherExpiryDate(string code, DateTime newDate)
+        public Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
         {
-            //get the voucher that is to be updated
-            var voucher = GetVoucherByCode(code);
-            voucher.ExpiryDate = newDate;
-            return baseRepository.UpdateVoucherExpiryDateByCode(voucher);
+            try
+            {
+               return  giftVoucherService.GetAllGiftVouchers(merchantId);            
+            }
+            catch (System.Exception ex)
+            {
+                
+                throw;
+            }
         }
 
-        public IEnumerable<Gift> GetAllGiftVouchers(string merchantId)
+        public async Task<Gift> GetGiftVoucher(string code)
         {
-           return giftVoucherService.GetAllGiftVouchers(merchantId);
+            var voucher = await GetVoucherByCode(code);
+            return await giftVoucherService.GetGiftVoucher(voucher);
         }
 
-        public Gift GetGiftVoucher(string code)
+        public async Task<Value> GetValueVoucher(string code)
         {
-            var voucher = GetVoucherByCode(code);
-            return giftVoucherService.GetGiftVoucher(voucher);
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                return await valueVoucherService.GetValueVoucher(voucher);                
+            }
+            catch (SqlException ex)
+            {                
+                throw;
+            }
+
         }
 
-        public Value GetValueVoucher(string code)
-        {
-            var voucher = GetVoucherByCode(code);
-            return valueVoucherService.GetValueVoucher(voucher);
-        }
-
-        public IEnumerable<Value> GetAllValueVouchers(string merchantId)
+        public Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
         {
             return valueVoucherService.GetAllValueVouchers(merchantId);
         }
 
-        public IEnumerable<Discount> GetAllDiscountVouchers(string merchantId)
+        public Task<IEnumerable<Discount>> GetAllDiscountVouchers(string merchantId)
         {
-            return discountVoucherService.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+            try 
+            {
+                return discountVoucherService.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+            } 
+            catch (SqlException ex) 
+            {
+                //TODO: log the error
+                throw; //FIXME: handle this better
+            }
         }
 
-        public Discount GetDiscountVoucher(string code)
+        public async Task<Discount> GetDiscountVoucher(string code)
         {
-            var voucher = GetVoucherByCode(code);
-            return discountVoucherService.GetDiscountVoucher(voucher);
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                return await discountVoucherService.GetDiscountVoucher(voucher);                
+            }
+            catch (SqlException ex)
+            {
+                //TODO: log the error
+                throw;
+            }
+
         }
     }
 }
