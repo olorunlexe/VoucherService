@@ -196,7 +196,7 @@ GO
 
 CREATE PROCEDURE [dbo].[usp_CreateValueVoucher]
 
-   @tblDiscount ValueVoucherType READONLY
+   @tblValue ValueVoucherType READONLY
 AS
 
 Declare @voucherId bigint
