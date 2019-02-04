@@ -11,7 +11,7 @@ namespace VoucherServiceBL.Domain
     {
         public long DiscountAmount { get; set; }
         public long DiscountUnit { get; set; }
-        public float DiscountPercent { get; set; }
+        public float DiscountPercentage { get; set; }
         public long RedemptionCount { get; set; }
     }
 }

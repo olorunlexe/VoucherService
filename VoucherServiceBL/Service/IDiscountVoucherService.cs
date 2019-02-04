@@ -10,6 +10,7 @@ namespace VoucherServiceBL.Service
 {
     public interface IDiscountVoucherService
     {
+        IDiscountRepository DiscountRepository { get; }
         Task<int> CreateDiscountVoucher( VoucherRequest voucherRequest);
 
         Task<Discount> GetDiscountVoucher(Voucher voucher);

@@ -22,11 +22,11 @@ namespace VoucherServiceBL.Repository
         {
             get { return new SqlConnection(_config.GetConnectionString("MainConnString")); }
         }
-
-
+         
+         
        
         // public IEnumerable<Voucher> GetAllVouchers()
-        // {
+        /// {
         //     using (var conn = Connection)
         //     {
         //         if (conn.State == ConnectionState.Closed)
@@ -239,7 +239,7 @@ namespace VoucherServiceBL.Repository
 
         public async Task<int> UpdateVoucherStatusByCode(Voucher voucher)
         {
-            var rowAffected = 0;
+            //var rowAffected = 0;
             using (var conn = Connection)
             {
                 if (conn.State == ConnectionState.Closed)

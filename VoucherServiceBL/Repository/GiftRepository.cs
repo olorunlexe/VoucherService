@@ -37,6 +37,7 @@ namespace VoucherServiceBL.Repository
 
         GiftStreamingSqlRecord record = new GiftStreamingSqlRecord(vouchersList);
 
+<<<<<<< HEAD
         foreach (var t in vouchersList)
         {
             Console.WriteLine($"<<<<<gfts>>> {t}");
@@ -47,17 +48,51 @@ namespace VoucherServiceBL.Repository
             var connection = Connection;
             
             if (connection.State == ConnectionState.Closed) connection.Open();
+=======
+            //foreach (var t in vouchersList)
+            //{
+            //    Console.WriteLine($"<<<<<gfts>>> {t}");
+            //}
+            
+            try
+            {
+                var connection = Connection;
+                
+                if (connection.State == ConnectionState.Closed) connection.Open();
+>>>>>>> fffde7f6d0345f24db18956dbce53ca56b9651d6
 
             string storedProcedure = "dbo.usp_CreateGiftVoucher";
 
             var command = new SqlCommand(storedProcedure, connection as SqlConnection);
             command.CommandType = CommandType.StoredProcedure;
 
+<<<<<<< HEAD
             var param = new SqlParameter();
             param.ParameterName = "@tblGift";
             param.TypeName = "dbo.GiftVoucherType";   
             param.SqlDbType = SqlDbType.Structured;             
             param.Value = record;
+=======
+                var param = new SqlParameter();
+                param.ParameterName = "@tblGift";
+                param.TypeName = "dbo.GiftVoucherType";   
+                param.SqlDbType = SqlDbType.Structured;             
+                param.Value = record;
+
+                command.Parameters.Add(param);
+                command.CommandTimeout = 120;
+                return command.ExecuteNonQueryAsync();                 
+                
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+>>>>>>> fffde7f6d0345f24db18956dbce53ca56b9651d6
 
             command.Parameters.Add(param);
             command.CommandTimeout = 60;
