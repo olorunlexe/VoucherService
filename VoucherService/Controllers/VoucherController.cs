@@ -18,8 +18,6 @@ namespace VoucherService.Controllers
     [ApiController]
     public class VoucherController : ControllerBase
     {
-
-
         private IVoucherService baseVoucherService;
 
         private IValueVoucherService valueVoucherService;

@@ -11,5 +11,6 @@ namespace VoucherServiceBL.Domain
     {
         public long GiftAmount { get; set; }
         public long GiftBalance { get; set; }
+        public long VoucherId { get; set; }
     }
 }

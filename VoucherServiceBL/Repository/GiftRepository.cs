@@ -32,48 +32,48 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public Task<int> CreateGiftVoucher(IEnumerable<Gift> vouchersList)
+    public Task<int> CreateGiftVoucher(IEnumerable<Gift> vouchersList)
+    {
+
+        GiftStreamingSqlRecord record = new GiftStreamingSqlRecord(vouchersList);
+
+        foreach (var t in vouchersList)
         {
-
-            GiftStreamingSqlRecord record = new GiftStreamingSqlRecord(vouchersList);
-
-            foreach (var t in vouchersList)
-            {
-                Console.WriteLine($"<<<<<gfts>>> {t}");
-            }
-
-            try
-            {
-                var connection = Connection;
-                
-                if (connection.State == ConnectionState.Closed) connection.Open();
-
-                string storedProcedure = "dbo.usp_CreateGiftVoucher";
-
-                var command = new SqlCommand(storedProcedure, connection as SqlConnection);
-                command.CommandType = CommandType.StoredProcedure;
-
-                var param = new SqlParameter();
-                param.ParameterName = "@tblGift";
-                param.TypeName = "dbo.GiftVoucherType";   
-                param.SqlDbType = SqlDbType.Structured;             
-                param.Value = record;
-
-                command.Parameters.Add(param);
-                command.CommandTimeout = 60;
-                return command.ExecuteNonQueryAsync();                 
-                
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
-
+            Console.WriteLine($"<<<<<gfts>>> {t}");
         }
+
+        try
+        {
+            var connection = Connection;
+            
+            if (connection.State == ConnectionState.Closed) connection.Open();
+
+            string storedProcedure = "dbo.usp_CreateGiftVoucher";
+
+            var command = new SqlCommand(storedProcedure, connection as SqlConnection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            var param = new SqlParameter();
+            param.ParameterName = "@tblGift";
+            param.TypeName = "dbo.GiftVoucherType";   
+            param.SqlDbType = SqlDbType.Structured;             
+            param.Value = record;
+
+            command.Parameters.Add(param);
+            command.CommandTimeout = 60;
+            return command.ExecuteNonQueryAsync();                 
+            
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            Connection.Close();
+        }
+
+    }
 
         public async Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
         {
