@@ -9,12 +9,6 @@ SET QUOTED_IDENTIFIER ON
 GO
  --##--------------User Defined Table Type-------------------------------------------------
  ----------------------Gift ------------------------
-CREATE SEQUENCE Id_Sequence
-AS BIGINT START WITH 1
-INCREMENT BY 1
-NO MAXVALUE
-NO CACHE
-GO
 DROP TYPE [dbo].GiftVoucherType
 GO
 
@@ -65,32 +59,36 @@ CREATE TYPE [dbo].DiscountVoucherType AS TABLE (
 )
 GO
 --------------------------------------------------------------------
-SELECT * FROM Voucher  
-SELECT COUNT(*) FROM GiftVoucher
+IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_SCHEMA = N'dbo'
+    AND SPECIFIC_NAME = N'usp_CreateDiscountVoucher')
+DROP PROCEDURE dbo.usp_CreateGiftVoucher
 GO
---------------------------------------------------------------------
 CREATE PROCEDURE [dbo].[usp_CreateDiscountVoucher]
 
    @tblDiscount DiscountVoucherType READONLY
 AS
 
-Declare @voucherId bigint
+		DECLARE @idmap TABLE (TempId BIGINT NOT NULL PRIMARY KEY, 
+							VId BIGINT UNIQUE NOT NULL)
 
    BEGIN TRY
     BEGIN TRANSACTION CreateDiscountVoucher
 
-            
-           INSERT INTO Voucher (VoucherId, [Code], [VoucherType], [MerchantId], [ExpiryDate])
-           SELECT [Code], [VoucherType], [MerchantId], [ExpiryDate] 
-		   FROM @tblDiscount t
+           MERGE Voucher V 
+		   USING (SELECT [VoucherId], [Code], [VoucherType], [MerchantId], [ExpiryDate],
+		    [Metadata], [Description] FROM @tblDiscount) TB ON 1 = 0
+		   WHEN NOT MATCHED BY TARGET THEN
+		   INSERT ([Code], [VoucherType], [MerchantId], [ExpiryDate], [Metadata], [Description])
+		   VALUES(TB.Code, TB.VoucherType, TB.MerchantId, TB.ExpiryDate, TB.Metadata, TB.[Description])
+		   OUTPUT TB.VoucherId, inserted.VoucherId INTO @idmap(TempId, VId);
 
-           SET @voucherId = SCOPE_IDENTITY()
-           INSERT INTO DiscountVoucher
+           INSERT DiscountVoucher
                ( -- columns to insert data into
-               [DiscountAmount], [DiscountPercentage], [DiscountUnit], [VoucherId]
+               DiscountAmount, DiscountPercentage, DiscountUnit, VoucherId
                )
-           SELECT [DiscountAmount], [DiscountPercentage], [DiscountUnit], [VoucherId]
-		   FROM t
+           SELECT TB.DiscountAmount, TB.DiscountPercentage, TB.DiscountUnit, i.VId
+		   FROM @tblDiscount TB
+		   JOIN @idmap i ON i.TempId = TB.VoucherId
 
         COMMIT TRANSACTION CreateDiscountVoucher
 
@@ -102,26 +100,6 @@ Declare @voucherId bigint
 
 
 GO
----------------------------------------------------------------------------------------------------------
-	-- [VoucherId] [bigint],
-	-- [Code] [nvarchar](100) NOT NULL,
-	-- [VoucherType] [nvarchar](50) NOT NULL,
-	-- [CreationDate] [datetime] NOT NULL,
-	-- [ExpiryDate] [datetime] NOT NULL,
-	-- [VoucherStatus] [nvarchar](10) NOT NULL,
-	-- [MerchantId] [nvarchar](100) NOT NULL,
-	-- [Metadata] [nvarchar](100) NULL,
-	-- [Description] [nvarchar](100) NULL,
-	-- [GiftAmount] [bigint] NOT NULL,
-	-- [GiftBalance] [bigint] NOT NULL
-
--- DECLARE @tbl [dbo].GiftVoucherType
--- INSERT @tbl VALUES (1, N'rrgf4t', N'Gift',GETDATE(), GETDATE(), N'ACTIVE', N'LKdfefh', N'dfdf', N'Dtg df', 2350, 100)
--- INSERT @tbl VALUES (2, N'klfrgf4', N'Gift',GETDATE(), GETDATE(), N'ACTIVE', N'dgryfefh', N'dfdf', N'Dtg df', 2350, 100)
--- INSERT @tbl VALUES (3, N'rgf4', N'Gift',GETDATE(), GETDATE(), N'ACTIVE', N'frdfefh', N'dfdf', N'Dtg df', 2350, 100)
-
--- EXEC [dbo].[usp_CreateGiftVoucher] @tbl
-
 -----------------------------------------------------------------------------------------------------------------------------
 
 SELECT * FROM Voucher
@@ -167,7 +145,7 @@ AS
            SELECT TB.GiftAmount, TB.GiftBalance, i.VId
 		   FROM @tblGift TB
 		   JOIN @idmap i ON i.TempId = TB.VoucherId
--- 1, 3
+
        COMMIT TRANSACTION CreateGiftVoucher
    END TRY
    BEGIN CATCH
@@ -175,13 +153,6 @@ AS
    END CATCH
 
 GO
-SELECT TOP(20) * FROM Voucher 
--- WHERE VoucherId > 2000
-
-SELECT TOP(20) * FROM GiftVoucher 
--- WHERE GiftVoucherId > 1100
-
-SELECT COUNT(*) FROM  Voucher
 -----------------------------------------------------------------------------------------------------------------------------
 
 USE [VoucherDemo]
@@ -193,31 +164,39 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE SPECIFIC_SCHEMA = N'dbo'
+    AND SPECIFIC_NAME = N'usp_CreateValueVoucher')
+DROP PROCEDURE dbo.usp_CreateGiftVoucher
+GO
 
 CREATE PROCEDURE [dbo].[usp_CreateValueVoucher]
 
-   @tblDiscount ValueVoucherType READONLY
+   @tblValue ValueVoucherType READONLY
 AS
 
-Declare @voucherId bigint
+		DECLARE @idmap TABLE (TempId BIGINT NOT NULL PRIMARY KEY, 
+							VId BIGINT UNIQUE NOT NULL)
 
    BEGIN TRY
 
     BEGIN TRANSACTION CreateValueVoucher
 
-		INSERT INTO Voucher ([Code], [VoucherType], [MerchantId], [ExpiryDate])
-		SELECT [Code], [VoucherType], [MerchantId], [ExpiryDate] 
-		FROM @tblDiscount t
-
-		SET @voucherId = SCOPE_IDENTITY()
+		MERGE Voucher V 
+		   USING (SELECT [VoucherId], [Code], [VoucherType], [MerchantId], [ExpiryDate],
+		    [Metadata], [Description] FROM @tblValue) TB ON 1 = 0
+		   WHEN NOT MATCHED BY TARGET THEN
+		   INSERT ([Code], [VoucherType], [MerchantId], [ExpiryDate], [Metadata], [Description])
+		   VALUES(TB.Code, TB.VoucherType, TB.MerchantId, TB.ExpiryDate, TB.Metadata, TB.[Description])
+		   OUTPUT TB.VoucherId, inserted.VoucherId INTO @idmap(TempId, VId);
 
 		-- Insert rows into table 'ValueVoucher'
 		INSERT INTO ValueVoucher
 		( -- columns to insert data into
 	 	 ValueAmount, VoucherId
 		)
-		SELECT ValueAmount, VoucherId
-		FROM t
+		SELECT TB.ValueAmount, i.VId
+		FROM @tblValue TB
+		JOIN @idmap i ON i.TempId = TB.VoucherId
 
 	COMMIT TRANSACTION
 END TRY
@@ -225,6 +204,7 @@ BEGIN CATCH
 	ROLLBACK
 END CATCH
 GO
+
 
 -----------------------------------------------------------------------------------------------------------------------------
 

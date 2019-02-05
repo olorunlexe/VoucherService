@@ -83,13 +83,12 @@ namespace VoucherService.Util
             string characterSet;
             string code;
 
-            if (voucherRequest.CharacterSet.ToLower() == "alphabet")
-                characterSet = Constants.ALPHABET_CHARACTERS;
-
-            else if (voucherRequest.CharacterSet.ToLower() == "number")
-                characterSet = Constants.NUMBER_CHARACTERS;
-            else
-                characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS;
+            switch (voucherRequest.CharacterSet.ToLower() )
+            {
+                case "alphabet": characterSet = Constants.ALPHABET_CHARACTERS; break;
+                case "numeric": characterSet = Constants.NUMBER_CHARACTERS; break;
+                default : characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS; break;
+            }
 
             if (!string.IsNullOrEmpty(voucherRequest.CodePattern))
             {
@@ -103,7 +102,7 @@ namespace VoucherService.Util
             if (!string.IsNullOrEmpty(voucherRequest.Prefix))
                 code = CodeGenerator.GetCodeWithPrefix(voucherRequest.Prefix, code);
 
-            if (!string.IsNullOrEmpty(voucherRequest.Prefix))
+            if (!string.IsNullOrEmpty(voucherRequest.Suffix))
                 code = CodeGenerator.GetCodeWithSuffix(code, voucherRequest.Suffix);
 
             hashedCode = CodeGenerator.Encrypt(code);
