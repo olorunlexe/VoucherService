@@ -120,12 +120,39 @@ GO
 
 CREATE PROCEDURE [dbo].[usp_CreateGiftVoucher]
 
-   @tblGift [dbo].GiftVoucherType READONLY
+@tblGift [dbo].GiftVoucherType READONLY
 AS
 
 	DECLARE @idmap TABLE (TempId BIGINT NOT NULL PRIMARY KEY, 
 							VId BIGINT UNIQUE NOT NULL)
 
+<<<<<<< HEAD
+BEGIN TRY
+	BEGIN TRANSACTION CreateGiftVoucher
+
+		MERGE Voucher V 
+		USING (SELECT [VoucherId], [Code], [VoucherType], [MerchantId], [ExpiryDate],
+			[Metadata], [Description] FROM @tblGift) TB ON 1 = 0
+		WHEN NOT MATCHED BY TARGET THEN
+		INSERT ([Code], [VoucherType], [MerchantId], [ExpiryDate], [Metadata], [Description])
+		VALUES(TB.Code, TB.VoucherType, TB.MerchantId, TB.ExpiryDate, TB.Metadata, TB.[Description])
+		OUTPUT TB.VoucherId, inserted.VoucherId INTO @idmap(TempId, VId);
+
+		-- Insert rows into table 'GiftVoucher'
+		INSERT GiftVoucher
+		(
+		GiftAmount, GiftBalance, VoucherId
+		)
+		SELECT TB.GiftAmount, TB.GiftBalance, i.VId
+		FROM @tblGift TB
+		JOIN @idmap i ON i.TempId = TB.VoucherId
+-- 1, 3
+	COMMIT TRANSACTION CreateGiftVoucher
+END TRY
+BEGIN CATCH
+	ROLLBACK
+END CATCH
+=======
    BEGIN TRY
     BEGIN TRANSACTION CreateGiftVoucher
 
@@ -151,6 +178,7 @@ AS
    BEGIN CATCH
        ROLLBACK
    END CATCH
+>>>>>>> fffde7f6d0345f24db18956dbce53ca56b9651d6
 
 GO
 -----------------------------------------------------------------------------------------------------------------------------

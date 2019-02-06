@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using VoucherService.Util;
+using VoucherServiceBL.Util;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.Repository;
+using MongoDB.Driver;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace VoucherServiceBL.Service
 {
@@ -15,10 +16,12 @@ namespace VoucherServiceBL.Service
         private IValueRepository repository;
 
         public IValueRepository ValueRepository => this.repository;
+        public ILogger<ValueVoucherService> _logger;
 
-        public ValueVoucherService(IValueRepository repository)
+        public ValueVoucherService(IValueRepository repository, ILogger<ValueVoucherService> logger)
         {
             this.repository = repository;
+            this._logger = logger;
         }
 
         public Task<int> CreateValueVoucher(VoucherRequest valueRequest)
@@ -45,19 +48,18 @@ namespace VoucherServiceBL.Service
                 };
                 vouchersList.Add(valueVoucher);
             }
-
-                //persist the object to the db    
-                return ValueRepository.CreateValueVoucher(vouchersList);
+            
+            return ValueRepository.CreateValueVoucherAsync(vouchersList);
         }
 
         public Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
         {
-            return ValueRepository.GetAllValueVouchers(merchantId);
+            return ValueRepository.GetAllValueVouchersAsync(merchantId);
         }
 
         public Task<Value> GetValueVoucher(Voucher voucher)
         {
-            return ValueRepository.GetValueVoucher(voucher);
+            return ValueRepository.GetValueVoucherAsync(voucher);
         }
 
     }

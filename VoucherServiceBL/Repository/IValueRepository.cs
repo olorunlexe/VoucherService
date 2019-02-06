@@ -16,9 +16,8 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="code">the code to create a voucher from</param>
         /// <returns>a single voucher</returns>   
-        Task<int> CreateValueVoucher(Value value);
-
-        Task<int> CreateValueVoucher(IEnumerable<Value> vouchersList);
+        Task<int> CreateValueVoucherAsync(Value value);
+        Task<int> CreateValueVoucherAsync(IList<Value> vouchersList);
 
         #endregion
 
@@ -30,14 +29,14 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="merchantId">id of the merchant that created the voucher</param>
         /// <returns>a list of value vouchers</returns>
-        Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId);
+        Task<IEnumerable<Value>> GetAllValueVouchersAsync(string merchantId);
 
         /// <summary>
         /// Returns all details of a value voucher
         /// </summary>
         /// <param name="vouchertype">id of the merchant that created the voucher</param>
-        /// <returns>a list of value vouchers</returns>
-        Task<Value> GetValueVoucher(Voucher voucher);
+        /// <returns>a  value voucher</returns>
+        Task<Value> GetValueVoucherAsync(Voucher voucher);
 
         #endregion
     }

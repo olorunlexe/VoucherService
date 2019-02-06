@@ -18,8 +18,6 @@ namespace VoucherService.Controllers
     [ApiController]
     public class VoucherController : ControllerBase
     {
-
-
         private IVoucherService baseVoucherService;
 
         //private IValueVoucherService valueVoucherService;
@@ -31,40 +29,42 @@ namespace VoucherService.Controllers
             this.baseVoucherService = baseService;
         }
 
+
         [HttpPost]
         public async Task<ActionResult<object>> CreateVoucher([FromBody] VoucherRequest voucherReq)
         {
-            var vCreated =  await baseVoucherService.CreateVoucher(voucherReq) / 2;
+            var createdVoucher =  await baseVoucherService.CreateVoucher(voucherReq);
             var voucherType = voucherReq.VoucherType;
-            
+
+            //TODO:provide better status code to client on internal error
+            if (createdVoucher == null)  return new StatusCodeResult(500);//(new {Message = "Could not create the vouchers"});
             switch (voucherType.ToUpper())
             {
                 case "GIFT": return CreatedAtAction(nameof(GetAllGiftVouchers), 
-                new {VoucherCreated = vCreated, Message= $"Created {vCreated} Vouchers"});
+                new {VoucherCreated = createdVoucher, Message= $"Created {createdVoucher} Vouchers"});
 
                 case "DISCOUNT": return CreatedAtAction(nameof(GetAllDiscountVouchers), 
-                new {VoucherCreated = vCreated, Message= $"Created {vCreated} Vouchers"});
+                new {VoucherCreated = createdVoucher, Message= $"Created {createdVoucher} Vouchers"});
 
                 case "VALUE": return CreatedAtAction(nameof(GetAllValueVouchers), new {value="value/all"},
-                new {VoucherCreated = vCreated, Message= $"Created {vCreated} Vouchers"});
+                new {VoucherCreated = createdVoucher, Message= $"Created {createdVoucher} Vouchers"});
 
                 default: return BadRequest(new {Message = "Invalid Voucher type"});
             }
-            
         }
 
         [HttpGet("{code}")]
         public async Task<ActionResult<Voucher>> GetVoucher([FromRoute] string code)
         {
             var voucher = await baseVoucherService.GetVoucherByCode(code);
-            if (voucher == null) return NotFound();
+            if (voucher == null) return NotFound(new {Message = "voucher not found"});
             return  voucher;
         }
 
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Voucher>>> GetAllVouchers([FromQuery] string merchantId)
         {
-             var vouchers = await baseVoucherService.GetAllVouchers(merchantId);
+            var vouchers = await baseVoucherService.GetAllVouchers(merchantId);
             if (vouchers.Count() == 0) return NotFound(new {message = $"no voucher found for merchantId: {merchantId}"});
 
             return new OkObjectResult(vouchers);
@@ -82,7 +82,7 @@ namespace VoucherService.Controllers
         public async Task<ActionResult<IEnumerable<Discount>>> GetAllDiscountVouchers([FromQuery] string merchantId)
         {
             var discounts = await baseVoucherService.GetAllDiscountVouchers(merchantId);
-            return new OkObjectResult(discounts) ;
+            return new OkObjectResult(discounts);
         }
 
         [HttpGet("gift/{code}")]
@@ -109,7 +109,6 @@ namespace VoucherService.Controllers
             return value;
         }
 
-
         [HttpGet("value/all")]
         public async Task<ActionResult<IEnumerable<Value>>> GetAllValueVouchers([FromQuery] string merchantId)
         {
@@ -121,14 +120,16 @@ namespace VoucherService.Controllers
         public async Task<ActionResult> UpdateVoucherStatus([FromRoute] string code)
         {
             await baseVoucherService.ActivateOrDeactivateVoucher(code);
-            return  Ok("updated");
+            return Ok("updated");
         }
 
         [HttpPatch("expiry/{code}")]
         public async Task<ActionResult> UpdateVoucherExpiryDate([FromRoute] string code, [FromQuery] DateTime newDate)
         {
-             var pathedVouched = await baseVoucherService.UpdateVoucherExpiryDate(code, newDate);
-             return new OkObjectResult(pathedVouched);
+             var pathedVoucher = await baseVoucherService.UpdateVoucherExpiryDate(code, newDate);
+             if (pathedVoucher == null) return new StatusCodeResult(500);
+
+             return new OkObjectResult(pathedVoucher);
         }
 
 
