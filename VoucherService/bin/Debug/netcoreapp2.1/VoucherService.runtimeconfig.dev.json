@@ -1,9 +1,15 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
+<<<<<<< HEAD
       "/home/dunamis/.dotnet/store/|arch|/|tfm|",
       "/home/dunamis/.nuget/packages",
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+=======
+      "C:\\Users\\therapy\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\therapy\\.nuget\\packages",
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
     ]
   }
 }

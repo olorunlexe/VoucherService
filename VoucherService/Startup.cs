@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+//using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using VoucherService.MQ;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.Mongo;
 using VoucherServiceBL.Repository.SqlServer;
@@ -35,6 +37,8 @@ namespace VoucherService
         {
             services.AddMvc();
 
+            services.AddSingleton<IHostedService, GiftRedemption>();
+            //services.AddSingleton<IHostedService, GiftRedemptionUpdate>();
 
             services.AddTransient<IGiftVoucherService,GiftVoucherService>();
 
@@ -87,7 +91,7 @@ namespace VoucherService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+            app.UseCors("MyPolicy");
             // Add this line to ensure authentication is enabled
             app.UseAuthentication();
 

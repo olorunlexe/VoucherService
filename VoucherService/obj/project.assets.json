@@ -2782,7 +2782,11 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
+<<<<<<< HEAD
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
+=======
+          "ref/netstandard1.3/_._": {}
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         }
       },
       "Microsoft.Win32.Registry/4.5.0": {
@@ -2909,6 +2913,35 @@
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
         }
       },
+      "RabbitMQ.Client/5.1.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "System.Collections.Concurrent": "4.3.0",
+          "System.Console": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Net.NameResolution": "4.3.0",
+          "System.Net.Security": "4.3.0",
+          "System.Net.Sockets": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Thread": "4.3.0",
+          "System.Threading.Timer": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.5/RabbitMQ.Client.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/RabbitMQ.Client.dll": {}
+        }
+      },
       "Remotion.Linq/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -3005,6 +3038,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+<<<<<<< HEAD
       "runtime.native.System.Net.Security/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -3023,6 +3057,13 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1"
+=======
+      "runtime.native.System.Net.Security/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         },
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -4137,6 +4178,38 @@
           }
         }
       },
+      "System.Net.NameResolution/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Security.Principal.Windows": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "runtime.native.System": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Net.NameResolution.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.NameResolution.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard1.3/System.Net.NameResolution.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "System.Net.Primitives/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -4149,6 +4222,7 @@
           "ref/netstandard1.3/System.Net.Primitives.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Net.Security/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -4180,6 +4254,39 @@
           "runtime.native.System": "4.0.0",
           "runtime.native.System.Net.Security": "4.0.1",
           "runtime.native.System.Security.Cryptography": "4.0.0"
+=======
+      "System.Net.Security/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.Win32.Primitives": "4.3.0",
+          "System.Collections": "4.3.0",
+          "System.Collections.Concurrent": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.Globalization.Extensions": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Security.Claims": "4.3.0",
+          "System.Security.Cryptography.Algorithms": "4.3.0",
+          "System.Security.Cryptography.Encoding": "4.3.0",
+          "System.Security.Cryptography.OpenSsl": "4.3.0",
+          "System.Security.Cryptography.Primitives": "4.3.0",
+          "System.Security.Cryptography.X509Certificates": "4.3.0",
+          "System.Security.Principal": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "System.Threading.ThreadPool": "4.3.0",
+          "runtime.native.System": "4.3.0",
+          "runtime.native.System.Net.Security": "4.3.0",
+          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Security.dll": {}
@@ -5014,7 +5121,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Threading.Thread.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Threading.Thread.dll": {}
@@ -5033,12 +5140,21 @@
           "lib/netstandard1.3/System.Threading.ThreadPool.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Threading.Timer/4.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Runtime": "4.1.0"
+=======
+      "System.Threading.Timer/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         },
         "compile": {
           "ref/netstandard1.2/System.Threading.Timer.dll": {}
@@ -6293,7 +6409,11 @@
       ]
     },
     "Microsoft.AspNetCore.Routing.Abstractions/2.1.1": {
+<<<<<<< HEAD
       "sha512": "cEtcs4wODDSiMnwKCZG0wmrAtfanQ1AZcv2EFLEk0+slrN0eeXjFcUezWKNamkhZusauPBxQGXj5DBmk7khrLQ==",
+=======
+      "sha512": "9saJjHhST3JmFKuZ1mPU9FJcpgUyPNoJxRMSV2nkSjiEekQN4jxswtBBeIRVDonjq50KKqSWbcyyQtvV4tgKzw==",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "type": "package",
       "path": "microsoft.aspnetcore.routing.abstractions/2.1.1",
       "files": [
@@ -6496,7 +6616,11 @@
       ]
     },
     "Microsoft.AspNetCore.StaticFiles/2.1.1": {
+<<<<<<< HEAD
       "sha512": "KcUEkvDussKUGTvPChW4MVBX3oewUY4uTIdCEkX0g5VuYhcJUrEKoHR168z78i/1IvoJJxc141OgL/hxdq0atQ==",
+=======
+      "sha512": "Jb4YKaDpPqrcSBxGChOCUmgkuqRKkwe3t5o6GWeoNUENf4hQDuobUvouXKHVw3KuEFIBVArZB984fuVGQW0eAw==",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "type": "package",
       "path": "microsoft.aspnetcore.staticfiles/2.1.1",
       "files": [
@@ -7015,7 +7139,11 @@
       ]
     },
     "Microsoft.Extensions.DependencyInjection/2.1.1": {
+<<<<<<< HEAD
       "sha512": "8TjJB8wDiq2GT1DqnOLLnZr2NVX9Mk3/wOGKXV4/etCXS500SxcQnAfjbxURtpU08WDKAjsmNw2LsqhMQPK2Ng==",
+=======
+      "sha512": "ZPFcDUbSwaEVWMyef8+9GqiTAghHX+eLeIEW032i4LDFAdyM4J4brV0UzChlKtClT7cuip/Of6G+veDnO3/bCw==",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "type": "package",
       "path": "microsoft.extensions.dependencyinjection/2.1.1",
       "files": [
@@ -8483,6 +8611,21 @@
         "nuget.frameworks.nuspec"
       ]
     },
+    "RabbitMQ.Client/5.1.0": {
+      "sha512": "6TzFS2nlpiqKX7joVM+ViYY+rtHdYLnXkv2aNsXXJXlEbDhgf1iNBUgelPlgQUpKWoL9yUfMpTroNgEljB2HuA==",
+      "type": "package",
+      "path": "rabbitmq.client/5.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net451/RabbitMQ.Client.dll",
+        "lib/net451/RabbitMQ.Client.xml",
+        "lib/netstandard1.5/RabbitMQ.Client.dll",
+        "lib/netstandard1.5/RabbitMQ.Client.xml",
+        "rabbitmq.client.5.1.0.nupkg.sha512",
+        "rabbitmq.client.nuspec"
+      ]
+    },
     "Remotion.Linq/2.2.0": {
       "sha512": "twDAH8dAXXCAf3sRv1Tf94u66eEHvgU75hfn1nn2v4fSWXD50XoDOAk8WpSrbViNuMkB4kN1ElnOGm1c519IHg==",
       "type": "package",
@@ -8597,6 +8740,7 @@
         "runtime.native.system.net.http.nuspec"
       ]
     },
+<<<<<<< HEAD
     "runtime.native.System.Net.Security/4.0.1": {
       "sha512": "pnBEZovOBrJJFp+2ORAs+bYuEQFcO2iYBNbNwRCqzZ9U7Vu66qoTJaekvOGgCyKmslvcevAVLxn7/K9Xc6lwlw==",
       "type": "package",
@@ -8624,6 +8768,21 @@
         "runtime.native.system.security.cryptography.nuspec"
       ]
     },
+=======
+    "runtime.native.System.Net.Security/4.3.0": {
+      "sha512": "M2nN92ePS8BgQ2oi6Jj3PlTUzadYSIWLdZrHY1n1ZcW9o4wAQQ6W+aQ2lfq1ysZQfVCgDwY58alUdowrzezztg==",
+      "type": "package",
+      "path": "runtime.native.system.net.security/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/netstandard1.0/_._",
+        "runtime.native.system.net.security.4.3.0.nupkg.sha512",
+        "runtime.native.system.net.security.nuspec"
+      ]
+    },
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
     "runtime.native.System.Security.Cryptography.Apple/4.3.0": {
       "sha512": "jwjwlEL0Elv6gwoyaokRn12nv/JE+UW/DXJEbzhjCPvGbef36StnHKc9XaZD/rGWqYicrphZ7eumR/jdmNcjRg==",
       "type": "package",
@@ -9442,12 +9601,11 @@
       ]
     },
     "System.Composition/1.0.31": {
-      "sha512": "CbzwbjxT04VU+JzQuPOYfUCybzBtbGZdqGJS9482dDBoBHbt3Zz0QAJ/Cjzpmq5xdL+hhW4FYWf/3wq2OCVXgg==",
+      "sha512": "I+D26qpYdoklyAVUdqwUBrEIckMNjAYnuPJy/h9dsQItpQwVREkDFs4b4tkBza0kT2Yk48Lcfsv2QQ9hWsh9Iw==",
       "type": "package",
       "path": "system.composition/1.0.31",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "system.composition.1.0.31.nupkg.sha512",
@@ -9485,12 +9643,11 @@
       ]
     },
     "System.Composition.Hosting/1.0.31": {
-      "sha512": "KlZ4qkaa1p/U2WKr353XeQ9bjrxBwn9FcD5k9WFEuV1MloDMnTnhUwQU7h1WigvsCYykzoRdnDLq33wnUPwBeg==",
+      "sha512": "fN1bT4RX4vUqjbgoyuJFVUizAl2mYF5VAb+bVIxIYZSSc0BdnX+yGAxcavxJuDDCQ1K+/mdpgyEFc8e9ikjvrg==",
       "type": "package",
       "path": "system.composition.hosting/1.0.31",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Composition.Hosting.dll",
@@ -11068,6 +11225,7 @@
         "system.net.nameresolution.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Net.NetworkInformation/4.3.0": {
       "sha512": "MKLDZXuBZOS348egaxkMgwSUHIIhykVf0pudpfSdzjKmkRpVCzqkpysPHHp8HfckYAhuXRM+UgxWPgFTHF8Trg==",
       "type": "package",
@@ -11143,6 +11301,8 @@
         "system.net.networkinformation.nuspec"
       ]
     },
+=======
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
     "System.Net.Primitives/4.3.0": {
       "sha512": "qOu+hDwFwoZPbzPvwut2qATe3ygjeQBDQj91xlsaqGFQUI5i4ZnZb8yyQuLGpDGivEPIt8EJkd1BVzVoP31FXA==",
       "type": "package",
@@ -11221,6 +11381,7 @@
         "system.net.primitives.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Net.Security/4.0.0": {
       "sha512": "e7y/92A7436wJ33VOnUf5XbIlubGgHH7+cODaQkeYwU0xXd/fB/j6KiOdS6VvHcRfBXUYIPsvBOdz3WSNE1siQ==",
       "type": "package",
@@ -11228,6 +11389,14 @@
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+=======
+    "System.Net.Security/4.3.0": {
+      "sha512": "IgJKNfALqw7JRWp5LMQ5SWHNKvXVz094U6wNE3c1i8bOkMQvgBL+MMQuNt3xl9Qg9iWpj3lFxPZEY6XHmROjMQ==",
+      "type": "package",
+      "path": "system.net.security/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11259,7 +11428,11 @@
         "runtimes/win/lib/net46/System.Net.Security.dll",
         "runtimes/win/lib/netstandard1.3/System.Net.Security.dll",
         "runtimes/win7/lib/netcore50/_._",
+<<<<<<< HEAD
         "system.net.security.4.0.0.nupkg.sha512",
+=======
+        "system.net.security.4.3.0.nupkg.sha512",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         "system.net.security.nuspec"
       ]
     },
@@ -11999,7 +12172,7 @@
       ]
     },
     "System.Runtime.CompilerServices.Unsafe/4.5.1": {
-      "sha512": "qUJMNWhbm9oZ3XaMFiEMiYmRPszbnXIkRIi7+4b2Md2xZ6JUOepf0/kY3S85qistRohl9OdMe4PsO+RdG2kTIQ==",
+      "sha512": "x/3d5xb+mc9e4I2GOOT+HPRWMZLbYjNN/kYKsb0fyUKcWizn/t1CIrGRLIBhv7H0ptYEt+WTTztdPmwSUMyKig==",
       "type": "package",
       "path": "system.runtime.compilerservices.unsafe/4.5.1",
       "files": [
@@ -13641,7 +13814,11 @@
       ]
     },
     "System.Threading.ThreadPool/4.3.0": {
+<<<<<<< HEAD
       "sha512": "SrCOmTvvOOCmJT4BBxdZcwhz6XEMsjBGZvGSVorOxdCznaUNeVotEjDfXGIZ8gcGo00qgPbTV6puHDgcFYl6Iw==",
+=======
+      "sha512": "k/+g4b7vjdd4aix83sTgC9VG6oXYKAktSfNIJUNGxPEj7ryEOfzHHhfnmsZvjxawwcD9HyWXKCXmPjX8U4zeSw==",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "type": "package",
       "path": "system.threading.threadpool/4.3.0",
       "files": [
@@ -13679,10 +13856,17 @@
         "system.threading.threadpool.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Threading.Timer/4.0.1": {
       "sha512": "saGfUV8uqVW6LeURiqxcGhZ24PzuRNaUBtbhVeuUAvky1naH395A/1nY0P2bWvrw/BreRtIB/EzTDkGBpqCwEw==",
       "type": "package",
       "path": "system.threading.timer/4.0.1",
+=======
+    "System.Threading.Timer/4.3.0": {
+      "sha512": "Z6YfyYTCg7lOZjJzBjONJTFKGN9/NIYKSxhU5GRd+DTwHSZyvWp1xuI5aR+dLg+ayyC5Xv57KiY4oJ0tMO89fQ==",
+      "type": "package",
+      "path": "system.threading.timer/4.3.0",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "files": [
         ".nupkg.metadata",
         "ThirdPartyNotices.txt",
@@ -13729,7 +13913,11 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
+<<<<<<< HEAD
         "system.threading.timer.4.0.1.nupkg.sha512",
+=======
+        "system.threading.timer.4.3.0.nupkg.sha512",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
         "system.threading.timer.nuspec"
       ]
     },
@@ -14088,31 +14276,53 @@
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.0.2105168",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
+<<<<<<< HEAD
       "MongoDB.Driver >= 2.7.3",
       "Serilog.AspNetCore >= 2.1.1",
       "Serilog.Sinks.Console >= 3.1.1",
       "Serilog.Sinks.File >= 4.0.0",
+=======
+      "RabbitMQ.Client >= 5.1.0",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "VoucherServiceBL >= 1.0.0"
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "/home/dunamis/.nuget/packages/": {},
     "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+=======
+    "C:\\Users\\therapy\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "/home/dunamis/VoucherService/VoucherService/VoucherService.csproj",
       "projectName": "VoucherService",
       "projectPath": "/home/dunamis/VoucherService/VoucherService/VoucherService.csproj",
       "packagesPath": "/home/dunamis/.nuget/packages/",
       "outputPath": "/home/dunamis/VoucherService/VoucherService/obj/",
+=======
+      "projectUniqueName": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherService\\VoucherService.csproj",
+      "projectName": "VoucherService",
+      "projectPath": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherService\\VoucherService.csproj",
+      "packagesPath": "C:\\Users\\therapy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherService\\obj\\",
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "/home/dunamis/.nuget/NuGet/NuGet.Config"
+=======
+        "C:\\Users\\therapy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -14123,8 +14333,13 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
+<<<<<<< HEAD
             "/home/dunamis/VoucherService/VoucherServiceBL/VoucherServiceBL.csproj": {
               "projectPath": "/home/dunamis/VoucherService/VoucherServiceBL/VoucherServiceBL.csproj"
+=======
+            "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj": {
+              "projectPath": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
             }
           }
         }
@@ -14167,6 +14382,7 @@
             "target": "Package",
             "version": "[2.1.1, )"
           },
+<<<<<<< HEAD
           "MongoDB.Driver": {
             "target": "Package",
             "version": "[2.7.3, )"
@@ -14182,6 +14398,11 @@
           "Serilog.Sinks.File": {
             "target": "Package",
             "version": "[4.0.0, )"
+=======
+          "RabbitMQ.Client": {
+            "target": "Package",
+            "version": "[5.1.0, )"
+>>>>>>> af2acedf687647c6cd1015ec5193229cf05e4cf9
           }
         },
         "imports": [
