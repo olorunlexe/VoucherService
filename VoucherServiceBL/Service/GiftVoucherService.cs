@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VoucherService.Util;
+using VoucherServiceBL.Util;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Exceptions;
 using VoucherServiceBL.Model;
@@ -46,28 +46,27 @@ namespace VoucherServiceBL.Service
             
                 vouchersList.Add(giftVoucher);
             }
-            return GiftRepository.CreateGiftVoucher(vouchersList);
+            return GiftRepository.CreateGiftVoucherAsync(vouchersList);
         }
 
         public Task<Gift> GetGiftVoucher(Voucher voucher)
         {
-            return GiftRepository.GetGiftVoucher(voucher);
+            return GiftRepository.GetGiftVoucherAsync(voucher);
         }
 
         public Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
         {
-            return GiftRepository.GetAllGiftVouchers(merchantId);
+            return GiftRepository.GetAllGiftVouchersAsync(merchantId);
         }
 
-        public async Task<int> UpdateGiftVoucher(Gift giftVoucher)
+        public async Task<int?> UpdateGiftVoucher(Gift giftVoucher)
         {
-            var numOfVouchersUpdated = await GiftRepository.UpdateGiftVoucherAmount(giftVoucher);
+            var numOfVouchersUpdated = await GiftRepository.UpdateGiftVoucherAmountAsync(giftVoucher);
             if (numOfVouchersUpdated == 0)
             {
                 throw new VoucherUpdateException("Error occurred. Could not update voucher");
             }
             return numOfVouchersUpdated;
         }   
-
     }
 }

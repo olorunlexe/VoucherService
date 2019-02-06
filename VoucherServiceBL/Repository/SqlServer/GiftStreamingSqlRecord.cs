@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using Microsoft.SqlServer.Server;
 using VoucherServiceBL.Domain;
 
-namespace VoucherServiceBL.Repository
+namespace VoucherServiceBL.Repository.SqlServer
 {
     public class GiftStreamingSqlRecord : IEnumerable<SqlDataRecord>
     {

@@ -6,33 +6,33 @@ namespace VoucherServiceBL.Repository
 {
     public interface IVoucherRepository
     {
-        Task<IEnumerable<Voucher>> GetAllVouchersFilterByMerchantId(string merchantId);
+        Task<IEnumerable<Voucher>> GetAllVouchersFilterByMerchantIdAsync(string merchantId);
 
-        Task<Voucher> GetVoucherByCode(string code);
+        Task<Voucher> GetVoucherByCodeAsync(string code);
 
-         Task<Voucher> GetVoucherByCodeFilterByMerchantId(Voucher voucher);
+         Task<Voucher> GetVoucherByCodeFilterByMerchantIdAsync(Voucher voucher);
 
-        Task<Voucher> GetVoucherByCreationDate(Voucher voucher);
+        Task<Voucher> GetVoucherByCreationDateAsync(Voucher voucher);
 
-        Task<Voucher> GetVoucherByCreationDateFilterByMerchantId(Voucher voucher);
+        Task<Voucher> GetVoucherByCreationDateFilterByMerchantIdAsync(Voucher voucher);
 
-        Task<Voucher> GetVoucherByExpiryDate(Voucher voucher);
+        Task<Voucher> GetVoucherByExpiryDateAsync(Voucher voucher);
 
-        Task<Voucher> GetVoucherByExpiryDateFilterByMerchantId(Voucher voucher);
+        Task<Voucher> GetVoucherByExpiryDateFilterByMerchantIdAsync(Voucher voucher);
 
         // Task<Voucher> GetVoucherById(Voucher voucher);
 
         // Task<Voucher> GetVoucherByIdFilterByMerchantId(Voucher voucher);
 
-        Task<Voucher> GetVoucherByMerchantId(Voucher voucher);
+        Task<Voucher> GetVoucherByMerchantIdAsync(Voucher voucher);
 
-        Task<Voucher> GetVoucherByStatus(Voucher voucher);
+        Task<Voucher> GetVoucherByStatusAsync(Voucher voucher);
 
-        Task<int> UpdateVoucherExpiryDateByCode(Voucher voucher);
+        Task<long> UpdateVoucherExpiryDateByCodeAsync(Voucher voucher);
 
-        Task<int> UpdateVoucherStatusByCode(Voucher voucher);
+        Task<long> UpdateVoucherStatusByCodeAsync(Voucher voucher);
 
-        Task<int> DeleteVoucherByCode(string code);
+        Task DeleteVoucherByCodeAsync(string code);
 
         // Task<int> DeleteVoucherById(Voucher voucher);
     }

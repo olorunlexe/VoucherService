@@ -10,7 +10,7 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
 
-namespace VoucherServiceBL.Repository
+namespace VoucherServiceBL.Repository.SqlServer
 {
     public class DiscountRepository : BaseRepository,IDiscountRepository
     {
@@ -23,7 +23,7 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public async Task<int> CreateDiscountVoucher(Discount discount)
+        public async Task<int> CreateDiscountVoucherAsync(Discount discount)
         {        
                 using (var conn = Connection)
                 {
@@ -43,7 +43,7 @@ namespace VoucherServiceBL.Repository
                 }
         }
 
-        public Task<int> CreateDiscountVoucher(IEnumerable<Discount> vouchersList)
+        public Task<int> CreateDiscountVoucherAsync(IList<Discount> vouchersList)
         {
 
             DiscountStreamingSqlRecord record = new DiscountStreamingSqlRecord(vouchersList);
@@ -92,7 +92,8 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="discount"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
+        public async Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantIdAsync(
+                                                                string merchantId)
         {
             using (var conn = Connection)
             {
@@ -106,7 +107,7 @@ namespace VoucherServiceBL.Repository
             }
         }
  
-        public async Task<Discount> GetDiscountVoucher(Voucher voucher)
+        public async Task<Discount> GetDiscountVoucherAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {

@@ -1,5 +1,5 @@
 
-namespace VoucherService.Util
+namespace VoucherServiceBL.Util
 {
     public static class Constants
     {

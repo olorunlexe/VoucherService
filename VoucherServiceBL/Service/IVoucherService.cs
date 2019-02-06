@@ -8,13 +8,13 @@ namespace VoucherServiceBL.Service
 {
     public interface IVoucherService
     {
-        Task<int> CreateVoucher(VoucherRequest voucherRequest);
+        Task<int?> CreateVoucher(VoucherRequest voucherRequest);
         Task<Voucher> GetVoucherByCode(string code);
         Task<IEnumerable<Voucher>> GetAllVouchers(string merchantId); 
         Task DeleteVoucher(string code);
-        Task<int> ActivateOrDeactivateVoucher(string code);
+        Task<long?> ActivateOrDeactivateVoucher(string code);
         Task<Voucher> UpdateGiftVoucherAmount(string code, long amount);
-        Task<int> UpdateVoucherExpiryDate(string code, DateTime newDate);
+        Task<long?> UpdateVoucherExpiryDate(string code, DateTime newDate);
 
         Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId);
          Task<Gift> GetGiftVoucher(string code);

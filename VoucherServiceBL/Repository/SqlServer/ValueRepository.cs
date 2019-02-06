@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using VoucherServiceBL.Domain;
 
-namespace VoucherServiceBL.Repository
+namespace VoucherServiceBL.Repository.SqlServer
 {
     public class ValueRepository : BaseRepository, IValueRepository
     {
@@ -22,7 +19,7 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<int> CreateValueVoucher(Value value)
+        public async Task<int> CreateValueVoucherAsync(Value value)
         {        
                 using (var conn = Connection)
                 {
@@ -40,7 +37,7 @@ namespace VoucherServiceBL.Repository
                 }
         }
 
-        public Task<int> CreateValueVoucher(IEnumerable<Value> vouchersList)
+        public Task<int> CreateValueVoucherAsync(IList<Value> vouchersList)
         {
 
             ValueStreamingSqlRecord record = new ValueStreamingSqlRecord(vouchersList);
@@ -89,7 +86,7 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
+        public async Task<IEnumerable<Value>> GetAllValueVouchersAsync(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -108,7 +105,7 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="voucher"></param>
         /// <returns></returns>
-        public async Task<Value> GetValueVoucher(Voucher voucher)
+        public async Task<Value> GetValueVoucherAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {

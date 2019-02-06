@@ -9,12 +9,12 @@ using System.Data;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.Server;
 
-namespace VoucherServiceBL.Repository
+namespace VoucherServiceBL.Repository.SqlServer
 {
     public class GiftRepository :BaseRepository, IGiftRepository
     {
         public GiftRepository(IConfiguration configuration):base(configuration) {}
-        public async Task<int> CreateGiftVoucher(Gift voucher)
+        public async Task<int> CreateGiftVoucherAsync(Gift voucher)
         {
             using (var connection = Connection)
             {
@@ -27,17 +27,16 @@ namespace VoucherServiceBL.Repository
                 parameters.Add("@MerchantId", voucher.MerchantId);
                 parameters.Add("@GiftAmount", voucher.GiftAmount);
 
-                return await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-                
+                return await connection.ExecuteAsync(storedProcedure, parameters, 
+                    commandType: CommandType.StoredProcedure);
             }
         }
 
-    public Task<int> CreateGiftVoucher(IEnumerable<Gift> vouchersList)
+    public Task<int> CreateGiftVoucherAsync(IList<Gift> vouchersList)
     {
 
         GiftStreamingSqlRecord record = new GiftStreamingSqlRecord(vouchersList);
 
-<<<<<<< HEAD
         foreach (var t in vouchersList)
         {
             Console.WriteLine($"<<<<<gfts>>> {t}");
@@ -48,51 +47,17 @@ namespace VoucherServiceBL.Repository
             var connection = Connection;
             
             if (connection.State == ConnectionState.Closed) connection.Open();
-=======
-            //foreach (var t in vouchersList)
-            //{
-            //    Console.WriteLine($"<<<<<gfts>>> {t}");
-            //}
-            
-            try
-            {
-                var connection = Connection;
-                
-                if (connection.State == ConnectionState.Closed) connection.Open();
->>>>>>> fffde7f6d0345f24db18956dbce53ca56b9651d6
 
             string storedProcedure = "dbo.usp_CreateGiftVoucher";
 
             var command = new SqlCommand(storedProcedure, connection as SqlConnection);
             command.CommandType = CommandType.StoredProcedure;
 
-<<<<<<< HEAD
             var param = new SqlParameter();
             param.ParameterName = "@tblGift";
             param.TypeName = "dbo.GiftVoucherType";   
             param.SqlDbType = SqlDbType.Structured;             
             param.Value = record;
-=======
-                var param = new SqlParameter();
-                param.ParameterName = "@tblGift";
-                param.TypeName = "dbo.GiftVoucherType";   
-                param.SqlDbType = SqlDbType.Structured;             
-                param.Value = record;
-
-                command.Parameters.Add(param);
-                command.CommandTimeout = 120;
-                return command.ExecuteNonQueryAsync();                 
-                
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
->>>>>>> fffde7f6d0345f24db18956dbce53ca56b9651d6
 
             command.Parameters.Add(param);
             command.CommandTimeout = 60;
@@ -110,7 +75,7 @@ namespace VoucherServiceBL.Repository
 
     }
 
-        public async Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
+        public async Task<IEnumerable<Gift>> GetAllGiftVouchersAsync(string merchantId)
         {
             using (var connection = Connection)
             {
@@ -124,7 +89,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Gift> GetGiftVoucher(Voucher voucher)
+        public async Task<Gift> GetGiftVoucherAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -141,7 +106,7 @@ namespace VoucherServiceBL.Repository
         }
 
 
-        public async Task<int> UpdateGiftVoucherAmount(Gift voucher)
+        public async Task<int?> UpdateGiftVoucherAmountAsync(Gift voucher)
         {
             using (var connection = Connection)
             {

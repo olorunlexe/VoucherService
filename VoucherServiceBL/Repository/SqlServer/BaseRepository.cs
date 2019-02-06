@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Service;
 
-namespace VoucherServiceBL.Repository
+namespace VoucherServiceBL.Repository.SqlServer
 {
-    public class BaseRepository
+    public class BaseRepository:IVoucherRepository
     {
         private static IConfiguration _config;
 
@@ -23,20 +23,8 @@ namespace VoucherServiceBL.Repository
             get { return new SqlConnection(_config.GetConnectionString("MainConnString")); }
         }
          
-         
-       
-        // public IEnumerable<Voucher> GetAllVouchers()
-        /// {
-        //     using (var conn = Connection)
-        //     {
-        //         if (conn.State == ConnectionState.Closed)
-        //             conn.Open();
-
-        //         return conn.Query<Voucher>("usp_GetAllVouchers", commandType: CommandType.StoredProcedure).ToList();
-        //     }
-        // }
-
-        public async Task<IEnumerable<Voucher>> GetAllVouchersFilterByMerchantId(string merchantId)
+        
+        public async Task<IEnumerable<Voucher>> GetAllVouchersFilterByMerchantIdAsync(string merchantId)
         {
             using (var conn = Connection)
             {
@@ -50,7 +38,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByCode(string code)
+        public async Task<Voucher> GetVoucherByCodeAsync(string code)
         {
             using (var conn = Connection)
             {
@@ -65,7 +53,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByCodeFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByCodeFilterByMerchantIdAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -81,9 +69,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        
-
-        public async Task<Voucher> GetVoucherByCreationDate(Voucher voucher)
+        public async Task<Voucher> GetVoucherByCreationDateAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -97,7 +83,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByCreationDateFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByCreationDateFilterByMerchantIdAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -114,7 +100,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByExpiryDate(Voucher voucher)
+        public async Task<Voucher> GetVoucherByExpiryDateAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -131,7 +117,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByExpiryDateFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByExpiryDateFilterByMerchantIdAsync(Voucher voucher)
         {
 
             using (var conn = Connection)
@@ -149,7 +135,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherById(Voucher voucher)
+        public async Task<Voucher> GetVoucherByIdAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -166,7 +152,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByIdFilterByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByIdFilterByMerchantIdAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -185,7 +171,7 @@ namespace VoucherServiceBL.Repository
 
         }
 
-        public async Task<Voucher> GetVoucherByMerchantId(Voucher voucher)
+        public async Task<Voucher> GetVoucherByMerchantIdAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -202,7 +188,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<Voucher> GetVoucherByStatus(Voucher voucher)
+        public async Task<Voucher> GetVoucherByStatusAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -219,8 +205,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-
-        public async Task<int> UpdateVoucherExpiryDateByCode(Voucher voucher)
+        public async Task<long> UpdateVoucherExpiryDateByCodeAsync(Voucher voucher)
         {
             
             using (var conn = Connection)
@@ -237,7 +222,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<int> UpdateVoucherStatusByCode(Voucher voucher)
+        public async Task<long> UpdateVoucherStatusByCodeAsync(Voucher voucher)
         {
             //var rowAffected = 0;
             using (var conn = Connection)
@@ -254,7 +239,7 @@ namespace VoucherServiceBL.Repository
             }
         }
 
-        public async Task<int> DeleteVoucherByCode(string code)
+        public async Task DeleteVoucherByCodeAsync(string code)
         {
             using (var conn = Connection)
             {
@@ -265,11 +250,11 @@ namespace VoucherServiceBL.Repository
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Code", code);
 
-                return await conn.ExecuteAsync("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
+                await conn.ExecuteAsync("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public async Task<int> DeleteVoucherById(Voucher voucher)
+        public async Task<long> DeleteVoucherByIdAsync(Voucher voucher)
         {
             using (var conn = Connection)
             {
@@ -284,10 +269,5 @@ namespace VoucherServiceBL.Repository
                 return await conn.ExecuteAsync("usp_DeleteVoucherByCode", parameters, commandType: CommandType.StoredProcedure);
             }
         }
-
-        // public static implicit operator BaseRepository(GiftVoucher v)
-        // {
-        //     throw new NotImplementedException();
-        // }
     }
 }
