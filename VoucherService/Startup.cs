@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using RabbitMQ.Client;
 using VoucherService.MQ;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.Mongo;
@@ -36,12 +37,21 @@ namespace VoucherService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton<IHostedService, Subscribers>();
 
-            services.AddSingleton<IHostedService, GiftRedemption>();
-            //services.AddSingleton<IHostedService, GiftRedemptionUpdate>();
+            //services.AddSingleton<IHostedService, HostRunner>();
+            services.AddSingleton(new ConnectionFactory()
+            {
+                HostName = "192.168.99.100",
+                Port = 5672,
+                UserName = "guest",
+                RequestedHeartbeat = 120,
+                Password = "guest"
 
+            });
             services.AddTransient<IGiftVoucherService,GiftVoucherService>();
 
+            services.AddTransient<IDiscountVoucherService,DiscountVoucherService>();
 
             services.AddTransient<IDiscountVoucherService, DiscountVoucherService>();
 
@@ -104,7 +114,7 @@ namespace VoucherService
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

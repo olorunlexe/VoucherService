@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Text;
+using VoucherServiceBL.Util;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -23,9 +25,13 @@ namespace VoucherServiceBL.Domain
 
         [BsonElement("voucher_type")]
         public string VoucherType { get; set; }
+       
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
 
         [BsonElement("expiry_date")]
         public DateTime ExpiryDate { get; set; }
+        
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
 
         [BsonElement("creation_date")]
         public DateTime CreationDate { get; set; }
