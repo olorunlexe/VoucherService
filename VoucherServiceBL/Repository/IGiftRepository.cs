@@ -26,5 +26,6 @@ namespace VoucherServiceBL.Repository
         Task<int?> UpdateGiftVoucherAmountAsync(Gift voucher); //TODO: decide to either return the modified voucher or void
         Task<Gift> GetGiftVoucherAsync(Voucher voucher);
         Task<int> CreateGiftVoucherAsync(IList<Gift> vouchersList);
+        Task<int?> UpdateGiftVoucherBalanceAsync(Gift gift);
     }
 }

@@ -120,6 +120,11 @@ namespace VoucherServiceBL.Repository.SqlServer
                 return await conn.QuerySingleAsync<Discount>("usp_GetVoucherByCodeFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure);
             }
         }
+
+        public Task<int> UpdateRedemptionCount(Discount discount)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

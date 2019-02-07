@@ -14,6 +14,8 @@ namespace VoucherServiceBL.Service
         Task DeleteVoucher(string code);
         Task<long?> ActivateOrDeactivateVoucher(string code);
         Task<Voucher> UpdateGiftVoucherAmount(string code, long amount);
+        Task<Voucher> UpdateGiftVoucherBalance(string code, long amount);
+        Task UpdateRedemptionCount(string code);
         Task<long?> UpdateVoucherExpiryDate(string code, DateTime newDate);
 
         Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId);

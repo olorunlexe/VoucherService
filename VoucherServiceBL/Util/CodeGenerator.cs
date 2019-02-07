@@ -87,6 +87,7 @@ namespace VoucherServiceBL.Util
             {
                 case "alphabet": characterSet = Constants.ALPHABET_CHARACTERS; break;
                 case "numeric": characterSet = Constants.NUMBER_CHARACTERS; break;
+                case "alphanumeric": characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS; break;
                 default : characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS; break;
             }
 

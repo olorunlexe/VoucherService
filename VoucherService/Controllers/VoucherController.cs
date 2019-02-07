@@ -116,6 +116,8 @@ namespace VoucherService.Controllers
             return new OkObjectResult(value);
         }
 
+
+
         [HttpPatch("update/{code}")]
         public async Task<ActionResult> UpdateVoucherStatus([FromRoute] string code)
         {
@@ -145,7 +147,7 @@ namespace VoucherService.Controllers
         public async Task<ActionResult> DeleteVoucher([FromRoute] string code)
         {
             await baseVoucherService.DeleteVoucher(code);
-            return Ok();
+            return Ok("Voucher Deleted");
         }
     }
 }        
