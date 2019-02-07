@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VoucherService.Util;
+using VoucherServiceBL.Util;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.Repository;
@@ -51,17 +51,17 @@ namespace VoucherServiceBL.Service
                 vouchersList.Add(discountVoucher);
             }
                 //persist the object to the db    
-                return DiscountRepository.CreateDiscountVoucher(vouchersList);
+                return DiscountRepository.CreateDiscountVoucherAsync(vouchersList);
         }
 
         public Task<Discount> GetDiscountVoucher(Voucher voucher)
         {
-            return DiscountRepository.GetDiscountVoucher(voucher);
+            return DiscountRepository.GetDiscountVoucherAsync(voucher);
         }
 
         public Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantId(string merchantId)
         {
-            return DiscountRepository.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+            return DiscountRepository.GetAllDiscountVouchersFilterByMerchantIdAsync(merchantId);
         }
     }
 }

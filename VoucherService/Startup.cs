@@ -18,6 +18,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using RabbitMQ.Client;
 using VoucherService.MQ;
 using VoucherServiceBL.Repository;
+using VoucherServiceBL.Repository.Mongo;
+using VoucherServiceBL.Repository.SqlServer;
 using VoucherServiceBL.Service;
 
 namespace VoucherService
@@ -51,20 +53,19 @@ namespace VoucherService
 
             services.AddTransient<IDiscountVoucherService,DiscountVoucherService>();
 
+            services.AddTransient<IDiscountVoucherService, DiscountVoucherService>();
+
             services.AddTransient<IVoucherService, BaseService>();
-
-            services.AddTransient<IGiftRepository, GiftRepository>();
-            services.AddTransient<IDiscountRepository, DiscountRepository>();
-
-            services.AddTransient<IValueRepository, ValueRepository>();
             services.AddTransient<IValueVoucherService, ValueVoucherService>();
 
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+            services.AddTransient<IVoucherRepository, MongoVoucherRepository>();
+            services.AddTransient<IGiftRepository, MongoGiftRepository>();
+            services.AddTransient<IDiscountRepository, MongoDiscountRepository>();
+            services.AddTransient<IValueRepository, MongoValueRepository>();
+            
+
+
+            services.AddMongo(Configuration);
 
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

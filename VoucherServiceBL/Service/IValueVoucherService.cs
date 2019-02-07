@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Threading.Tasks;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
@@ -11,7 +9,7 @@ namespace VoucherServiceBL.Service
     /// <summary>
     /// A interface that handles the management of a value voucher
     /// </summary>
-    
+
 
     public interface IValueVoucherService
     {

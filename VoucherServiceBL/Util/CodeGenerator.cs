@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using VoucherServiceBL.Model;
 
-namespace VoucherService.Util
+namespace VoucherServiceBL.Util
 {
     public class CodeGenerator
     {

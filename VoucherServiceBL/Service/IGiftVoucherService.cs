@@ -20,6 +20,6 @@ namespace VoucherServiceBL.Service
 
         Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId);
 
-        Task<int> UpdateGiftVoucher(Gift giftVoucher);
+        Task<int?> UpdateGiftVoucher(Gift giftVoucher);
     }
 }

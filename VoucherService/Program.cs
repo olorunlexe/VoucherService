@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using VoucherService.MQ;
+using Serilog;
 
 namespace VoucherService
 {
     public class Program
     {
+        private static string _environmentName;
         public static void Main(string[] args)
         {
 
@@ -22,6 +24,13 @@ namespace VoucherService
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) => 
+                {
+                    logging.ClearProviders();
+                    _environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+
+                })
+                .UseSerilog()
                 .UseStartup<Startup>();
     }
 }
