@@ -4,12 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Text;
-<<<<<<< HEAD
 using VoucherServiceBL.Util;
-=======
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
->>>>>>> 66e3cfe2e85fb37589e6fc8f65d77c65c3e38eb9
 
 namespace VoucherServiceBL.Domain
 {
@@ -28,17 +25,15 @@ namespace VoucherServiceBL.Domain
 
         [BsonElement("voucher_type")]
         public string VoucherType { get; set; }
-<<<<<<< HEAD
+       
         [JsonConverter(typeof(MicrosecondEpochConverter))]
-        public DateTime ExpiryDate { get; set; }
-        [JsonConverter(typeof(MicrosecondEpochConverter))]
-=======
 
         [BsonElement("expiry_date")]
         public DateTime ExpiryDate { get; set; }
+        
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
 
         [BsonElement("creation_date")]
->>>>>>> 66e3cfe2e85fb37589e6fc8f65d77c65c3e38eb9
         public DateTime CreationDate { get; set; }
 
         [BsonElement("merchant_id")]
