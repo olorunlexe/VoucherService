@@ -63,5 +63,10 @@ namespace VoucherServiceBL.Service
         {
             return DiscountRepository.GetAllDiscountVouchersFilterByMerchantIdAsync(merchantId);
         }
+
+        public Task UpdateRedemptionCount(Discount discount)
+        {
+            return DiscountRepository.UpdateRedemptionCount(discount);
+        }
     }
 }

@@ -119,6 +119,10 @@ namespace VoucherServiceBL.Repository.SqlServer
                 return await connection.ExecuteAsync(storedProcedure, parameters, commandType:CommandType.StoredProcedure);
             }
         }
-        
+
+        public Task<int?> UpdateGiftVoucherBalanceAsync(Gift gift)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

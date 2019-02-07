@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Util;
 
 namespace VoucherServiceBL.Repository.Mongo
 {
@@ -16,7 +17,6 @@ namespace VoucherServiceBL.Repository.Mongo
         public MongoValueRepository(MongoClient client, IConfiguration config, ILogger<Value> logger):base(client, config)
             {
                 _logger = logger;
-                // BsonClassMap.RegisterClassMap<Value>();
 
             }
         public async Task<int> CreateValueVoucherAsync(Value value)
@@ -32,21 +32,21 @@ namespace VoucherServiceBL.Repository.Mongo
 
         public async Task<IEnumerable<Value>> GetAllValueVouchersAsync(string merchantId)
         {
-            var filter = Builders<Voucher>.Filter.Eq("merchant_id", merchantId);
-            var cursor = await _vouchers.FindAsync( filter);
+            var filter = Builders<Voucher>.Filter.Where(g => g.MerchantId == merchantId &&
+                                             g.VoucherType.ToUpper() == VoucherType.VALUE.ToString());
+            var cursor = await _vouchers.FindAsync<Value>(filter);
 
-            var vouchers = await cursor.ToListAsync();
-            IList<Value> valueVouchers = new List<Value>();// .FirstOrDefault() as Value};
-            vouchers.ForEach(v => valueVouchers.Add(v as Value));
-            return valueVouchers;
+            var values = await cursor.ToListAsync();
+            return values;
         }
 
         public async Task<Value> GetValueVoucherAsync(Voucher voucher)
         {
-            var voucherCursor = await _vouchers.FindAsync( v => 
-                    v.Code == voucher.Code && v.MerchantId == voucher.MerchantId &&
-                    v.VoucherType == voucher.VoucherType);
-            return await voucherCursor.FirstOrDefaultAsync() as Value ;
+            var filter = Builders<Voucher>.Filter.Where(v =>
+                                           v.Code == voucher.Code && v.MerchantId == voucher.MerchantId &&
+                                           v.VoucherType == voucher.VoucherType);
+            var voucherCursor = await _vouchers.FindAsync<Value>(filter);
+            return await voucherCursor.FirstOrDefaultAsync();
         }
     }
 }
