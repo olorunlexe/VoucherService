@@ -72,10 +72,10 @@ namespace VoucherServiceBL.Service
         public async Task<int?> UpdateGiftVoucherBalance(Gift giftVoucher)
         {
             var numOfVouchersUpdated = await GiftRepository.UpdateGiftVoucherBalanceAsync(giftVoucher);
-            //if (numOfVouchersUpdated == 0)
-            //{
-            //    throw new VoucherUpdateException("Error occurred. Could not update voucher");
-            //}
+            if (numOfVouchersUpdated == 0)
+            {
+                throw new VoucherUpdateException("Error occurred. Could not update voucher");
+            }
             return numOfVouchersUpdated;
         }
     }
