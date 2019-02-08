@@ -1,47 +1,75 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using VoucherServiceBL.Domain;
+using VoucherServiceBL.Util;
 
 namespace VoucherServiceBL.Repository.Mongo
 {
     public class MongoDiscountRepository :BaseMongoRepository, IDiscountRepository
     {
 
-        private IMongoCollection<Discount> _discountVoucher;
-        public MongoDiscountRepository(MongoClient client, IConfiguration config):base(client, config)
-            =>
-            _discountVoucher = _database.GetCollection<Discount>(nameof(_discountVoucher));
+        private ILogger<Discount> _logger;
+        public MongoDiscountRepository(MongoClient client, IConfiguration config, ILogger<Discount> logger) : base(client, config)
+        {
+            _logger = logger;
+            // BsonClassMap.RegisterClassMap<Value>();
 
-
+        }
         public async Task<int> CreateDiscountVoucherAsync(Discount discount)
         {
-            await _vouchers.InsertOneAsync(discount as Voucher);
-            await _discountVoucher.InsertOneAsync(discount);
+            BackgroundJob.Enqueue(() => MyAsyncMethod(discount));
             return 1;
+        }
+
+        public async Task MyAsyncMethod(Discount discount)
+        {
+           await _vouchers.InsertOneAsync(discount);
         }
 
         public async Task<int> CreateDiscountVoucherAsync(IList<Discount> vouchersList)
         {
-            await _vouchers.InsertManyAsync(vouchersList as IList<Voucher>);
-            await _discountVoucher.InsertManyAsync(vouchersList);
+            BackgroundJob.Enqueue(() => MyAsyncMethod(vouchersList)); 
             return vouchersList.Count;
+        }
+
+        public async Task MyAsyncMethod(IList<Discount> vouchersList)
+        {
+            await _vouchers.InsertManyAsync(vouchersList);
         }
 
         public async Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantIdAsync(string merchantId)
         {
-            var vouchers = await _discountVoucher.FindAsync(v =>  v.MerchantId == merchantId);
-            return await vouchers.ToListAsync();
+            var filter = Builders<Voucher>.Filter.Where(g => g.MerchantId == merchantId &&
+                                            g.VoucherType.ToUpper() == VoucherType.DISCOUNT.ToString());
+            var cursor = await _vouchers.FindAsync<Discount>(filter);
+
+            var discounts = await cursor.ToListAsync();
+            return discounts;
         }
 
         public async Task<Discount> GetDiscountVoucherAsync(Voucher voucher)
         {
-            var discountVoucher = await _discountVoucher.FindAsync( v => 
-                    v.Code == voucher.Code && v.MerchantId == voucher.MerchantId
-            );
+            var filter = Builders<Voucher>.Filter.Where(v =>
+                               v.Code == voucher.Code && v.MerchantId == voucher.MerchantId &&
+                               v.VoucherType == voucher.VoucherType);
 
-            return await discountVoucher.FirstAsync();
+            var voucherCursor = await _vouchers.FindAsync<Discount>(filter);
+            return await voucherCursor.FirstOrDefaultAsync();
+        }
+
+        public async Task<int> UpdateRedemptionCount(Discount discount)
+        {
+
+            var filter = Builders<Voucher>.Filter.Eq("code", discount.Code);
+            var updateDef = Builders<Voucher>.Update.Set("redemption_count", discount.RedemptionCount += 1);
+
+            var cursor = await _vouchers.UpdateOneAsync(filter, updateDef);
+
+            return (int)cursor.ModifiedCount;
         }
     }
 }

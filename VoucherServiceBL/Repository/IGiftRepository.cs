@@ -23,8 +23,9 @@ namespace VoucherServiceBL.Repository
         /// </summary>
         /// <param name="amountToAdd">Amount to add to the current balance on the gift voucher</param>
         /// <returns>The gift voucher</returns>
-        Task<int?> UpdateGiftVoucherAmountAsync(Gift voucher); //TODO: decide to either return the modified voucher or void
+        Task<int?> UpdateGiftVoucherAmountAsync(Gift voucher); 
         Task<Gift> GetGiftVoucherAsync(Voucher voucher);
         Task<int> CreateGiftVoucherAsync(IList<Gift> vouchersList);
+        Task<int?> UpdateGiftVoucherBalanceAsync(Gift gift);
     }
 }

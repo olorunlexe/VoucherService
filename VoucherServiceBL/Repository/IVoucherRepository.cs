@@ -20,10 +20,6 @@ namespace VoucherServiceBL.Repository
 
         Task<Voucher> GetVoucherByExpiryDateFilterByMerchantIdAsync(Voucher voucher);
 
-        // Task<Voucher> GetVoucherById(Voucher voucher);
-
-        // Task<Voucher> GetVoucherByIdFilterByMerchantId(Voucher voucher);
-
         Task<Voucher> GetVoucherByMerchantIdAsync(Voucher voucher);
 
         Task<Voucher> GetVoucherByStatusAsync(Voucher voucher);
@@ -33,7 +29,6 @@ namespace VoucherServiceBL.Repository
         Task<long> UpdateVoucherStatusByCodeAsync(Voucher voucher);
 
         Task DeleteVoucherByCodeAsync(string code);
-
-        // Task<int> DeleteVoucherById(Voucher voucher);
+        
     }
 }

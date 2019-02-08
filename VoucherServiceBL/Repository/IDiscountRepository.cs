@@ -13,6 +13,7 @@ namespace VoucherServiceBL.Repository
         Task<Discount> GetDiscountVoucherAsync(Voucher voucher);
         Task<IEnumerable<Discount>> GetAllDiscountVouchersFilterByMerchantIdAsync(string merchantId);
         Task<int> CreateDiscountVoucherAsync(IList<Discount> vouchersList);
+        Task<int> UpdateRedemptionCount(Discount discount);
 
     }
 

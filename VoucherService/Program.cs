@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using VoucherService.MQ;
 using Serilog;
 
 namespace VoucherService
@@ -23,6 +24,7 @@ namespace VoucherService
         private static string _environmentName;
         public static void Main(string[] args)
         {
+<<<<<<< HEAD
             Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(Configuration).CreateLogger();
             
@@ -34,6 +36,11 @@ namespace VoucherService
             } finally {
                 Log.CloseAndFlush();
             }
+=======
+
+            CreateWebHostBuilder(args).Build().Run();
+            
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

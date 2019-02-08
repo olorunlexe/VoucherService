@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -15,8 +16,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+<<<<<<< HEAD
 using Serilog;
+=======
+using RabbitMQ.Client;
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
 using VoucherService.MQ;
+using VoucherServiceBL.HangFire;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.Mongo;
 using VoucherServiceBL.Repository.SqlServer;
@@ -37,12 +43,29 @@ namespace VoucherService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton<IHostedService, Subscribers>();
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSingleton<IHostedService, GiftRedemption>();
-            //services.AddSingleton<IHostedService, GiftRedemptionUpdate>();
+            //services.AddSingleton<IHostedService, HostRunner>();
+            services.AddSingleton(new ConnectionFactory()
+            {
+                HostName = "192.168.99.100",
+                Port = 5672,
+                UserName = "guest",
+                RequestedHeartbeat = 120,
+                Password = "guest"
 
+            });
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddTransient<IGiftVoucherService,GiftVoucherService>();
 
+            services.AddTransient<IDiscountVoucherService,DiscountVoucherService>();
 
             services.AddTransient<IDiscountVoucherService, DiscountVoucherService>();
 
@@ -103,10 +126,21 @@ namespace VoucherService
                 app.UseHsts();
             }
 
+<<<<<<< HEAD
             //logging
             loggerFactory.AddSerilog();
             app.UseHttpsRedirection();
+=======
+            //app.UseHttpsRedirection();
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
             app.UseMvc();
+            
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            //{
+            //    Authorization = new[] { new HangFireDashBoardAuthorizationFilter() },
+            //});
         }
     }
 }

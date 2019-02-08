@@ -18,10 +18,11 @@ namespace VoucherServiceBL.Model
         public string Prefix { get; set; }
         public string Suffix { get; set; }
         public string CodePattern { get; set; }
-
-        [Range(3, 15)]
+        
         public int CodeLength { get; set; }
-        // [RegularExpression("^[Alphanumeric|Numeric|Alphabet]$")]
+
+        [Required(AllowEmptyStrings = false)]
+        [RegularExpression("^Alphanumeric$|^Numeric$|^Alphabet$|alphanumeric$|^numeric$|^alphabet$")]
         public string CharacterSet { get; set; }
         public string Separator { get; set; }
         public DateTime CreationDate { get; set; }

@@ -11,12 +11,16 @@ using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.SqlServer;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
+<<<<<<< HEAD
 using VoucherServiceBL.Events;
 using Serilog;
+=======
+using Hangfire;
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
 
 namespace VoucherServiceBL.Service
 {
-    public class BaseService:IVoucherService
+    public class BaseService : IVoucherService
     {
 
         private IGiftVoucherService _giftVoucherService;
@@ -27,7 +31,7 @@ namespace VoucherServiceBL.Service
 
         //inject the services
         public BaseService(IGiftVoucherService giftService, IDiscountVoucherService discountService,
-                           IValueVoucherService valueService, IVoucherRepository voucherRepository,ILogger<BaseService> logger)
+                           IValueVoucherService valueService, IVoucherRepository voucherRepository, ILogger<BaseService> logger)
         {
             this._giftVoucherService = giftService;
             this._discountVoucherService = discountService;
@@ -35,20 +39,20 @@ namespace VoucherServiceBL.Service
             this._baseRepository = voucherRepository;
             this._logger = logger;
         }
-
-        // private BaseRepository GetBaseRepository()
-        // {
-        //     IGiftRepository giftRepository =  _giftVoucherService.GiftRepository as GiftRepository;
-        //     return giftRepository as BaseRepository;
-        // }
+        
 
         public async Task<int?> CreateVoucher(VoucherRequest voucherRequest)
         {
             var numOfVouchersCreated = 0;
 
             //let each voucher service handle its own creation
-                try
+            try
+            {
+                voucherRequest.CreationDate = DateTime.Now;
+
+                if (voucherRequest.VoucherType.ToUpper() == "GIFT")
                 {
+<<<<<<< HEAD
                     voucherRequest.CreationDate = DateTime.Now;
                     voucherRequest.Metadata = Guid.NewGuid().ToString();
                     
@@ -78,10 +82,14 @@ namespace VoucherServiceBL.Service
                             numOfVouchersCreated, voucherRequest.MerchantId, voucherGeneratedEvent);
         
                     return numOfVouchersCreated;                
+=======
+                    numOfVouchersCreated += await _giftVoucherService.CreateGiftVoucher(voucherRequest);
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
                 }
-                catch (VoucherCreateException ex) //TODO: something happened handle it
-                //if some error occurred and not all voucher could be created log the error
+
+                else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT")
                 {
+<<<<<<< HEAD
                     //TODO: Log the error event (VoucherGenerationFailed)
                     var generationFailedEvent = new VoucherGenerationFailedEvent() {
                         EventId = Guid.NewGuid(), EventTime = DateTime.Now, MerchantId = voucherRequest.MerchantId,
@@ -94,10 +102,33 @@ namespace VoucherServiceBL.Service
                     
                     //handle the error here; what should happen, try again or what
                     return null;                    
+=======
+                    numOfVouchersCreated += await _discountVoucherService.CreateDiscountVoucher(voucherRequest);
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
                 }
+
+                else
+                {
+                    numOfVouchersCreated += await _valueVoucherService.CreateValueVoucher(voucherRequest);
+
+                }
+
+                //Log the event (Voucher Created) 
+                _logger.LogInformation("Created {Number}: vouchers for {Merchant}",
+                        numOfVouchersCreated, voucherRequest.MerchantId);
+
+                return numOfVouchersCreated;
+            }
+            catch (VoucherCreateException ex) //something happened handle it
+                                              //if some error occurred and not all voucher could be created log the error
+            {
+                //Log the error
+                _logger.LogError(ex, "An error occured while creating vouchers for {Merchant}", voucherRequest.MerchantId);
+                return null;
+            }
         }
 
-        
+
         public Task<Voucher> GetVoucherByCode(string code)
         {
             return _baseRepository.GetVoucherByCodeAsync(code);
@@ -108,7 +139,7 @@ namespace VoucherServiceBL.Service
         /// </summary>
         /// <param name="merchantId">the id of the merchant that created the vouchers</param>
         /// <returns>a list of vouchers</returns>
-        public Task<IEnumerable<Voucher>> GetAllVouchers(string merchantId) 
+        public Task<IEnumerable<Voucher>> GetAllVouchers(string merchantId)
         {
             return _baseRepository.GetAllVouchersFilterByMerchantIdAsync(merchantId);
         }
@@ -117,6 +148,7 @@ namespace VoucherServiceBL.Service
         {
             try
             {
+<<<<<<< HEAD
                 Task deleteTask = _baseRepository.DeleteVoucherByCodeAsync(code);
                 var deleteEvent = new VoucherDeletedEvent() {
                         EventId = Guid.NewGuid(), EventTime = DateTime.Now,
@@ -128,6 +160,16 @@ namespace VoucherServiceBL.Service
             }
 
             catch (Exception ex) 
+=======
+                return _baseRepository.DeleteVoucherByCodeAsync(code);
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "Could not perform delete operation on voucher with {Code}", code);
+                return null;
+            }
+            catch (MongoException ex)
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
             {
                 var deleteFailedEvent = new VoucherDeletionFailedEvent() {
                         EventId = Guid.NewGuid(), EventTime = DateTime.Now,
@@ -148,6 +190,7 @@ namespace VoucherServiceBL.Service
             {
                 //get the voucher that is to be updated
                 var voucher = await GetVoucherByCode(code);
+<<<<<<< HEAD
                 voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
 
 
@@ -175,6 +218,15 @@ namespace VoucherServiceBL.Service
                 };
 
                 return recordsAffected;
+=======
+                switch (voucher.VoucherStatus.ToUpper())
+                {
+                    case "ACTIVE": voucher.VoucherStatus = "INACTIVE"; break;
+                    case "INACTIVE": voucher.VoucherStatus = "ACTIVE"; break;
+                    default: voucher.VoucherStatus = "ACTIVE"; break;
+                }
+                return await _baseRepository.UpdateVoucherStatusByCodeAsync(voucher);
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
             }
 
             catch (Exception ex)
@@ -201,6 +253,7 @@ namespace VoucherServiceBL.Service
             {
                 var voucher = await GetVoucherByCode(code);
                 Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
+<<<<<<< HEAD
                 
                 var previousAmount = giftVoucher.GiftAmount;
 
@@ -216,9 +269,15 @@ namespace VoucherServiceBL.Service
                     };
 
                 _logger.LogInformation("Updated a voucher: {@UpdateEvent}", updatedEvent);
+=======
+                giftVoucher.GiftAmount += amount;
+                giftVoucher.GiftBalance += amount;
+                await _giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change 
+
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
                 return voucher;
-            }              
-            
+            }
+
             catch (VoucherUpdateException ex)
             {
                 var updatedFailedEvent = new VoucherUpdateFailedEvent() {
@@ -232,7 +291,26 @@ namespace VoucherServiceBL.Service
                 _logger.LogDebug(ex, "Could not perform update operation on voucher with {Code}", code);
                 return null;
             }
+        }
 
+        public async Task<Voucher> UpdateGiftVoucherBalance(string code, long amount)
+        {
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
+                giftVoucher.GiftAmount = amount; // do the update
+                await _giftVoucherService.UpdateGiftVoucherBalance(giftVoucher); //persist the change   
+                                                                                 
+
+                return voucher;
+            }
+
+            catch (VoucherUpdateException ex)
+            {
+                _logger.LogError(ex, "Could not perform update operation on voucher with {Code}", code);
+                return null;
+            }
         }
 
         public async Task<long?> UpdateVoucherExpiryDate(string code, DateTime newDate)
@@ -243,6 +321,7 @@ namespace VoucherServiceBL.Service
                 var voucher = await GetVoucherByCode(code);
                 var oldDate = voucher.ExpiryDate;
                 voucher.ExpiryDate = newDate;
+<<<<<<< HEAD
                 var recordsAffected = await _baseRepository.UpdateVoucherExpiryDateByCodeAsync(voucher);
                 
                 var updatedEvent = new VoucherUpdatedEvent() {
@@ -255,6 +334,9 @@ namespace VoucherServiceBL.Service
 
                 _logger.LogInformation("Voucher expiry date updated: {@ExpiryUpdateEvent}", updatedEvent);
                 return recordsAffected;
+=======
+                return await _baseRepository.UpdateVoucherExpiryDateByCodeAsync(voucher);                
+>>>>>>> 329272def250e790152112a1a1eb90a563960eb2
             }
             catch (VoucherUpdateException ex)
             {
@@ -275,7 +357,7 @@ namespace VoucherServiceBL.Service
         {
             try
             {
-               return  _giftVoucherService.GetAllGiftVouchers(merchantId);            
+                return _giftVoucherService.GetAllGiftVouchers(merchantId);
             }
             catch (SqlException ex)
             {
@@ -291,8 +373,21 @@ namespace VoucherServiceBL.Service
 
         public async Task<Gift> GetGiftVoucher(string code)
         {
-            var voucher = await GetVoucherByCode(code);
-            return await _giftVoucherService.GetGiftVoucher(voucher);
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                return await _giftVoucherService.GetGiftVoucher(voucher);
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "Invalid Voucher");
+                return null;
+            }
+            catch (MongoException ex)
+            {
+                _logger.LogError(ex, "Invalid Voucher");
+                return null;
+            }
         }
 
         public async Task<Value> GetValueVoucher(string code)
@@ -316,5 +411,12 @@ namespace VoucherServiceBL.Service
             var voucher = await GetVoucherByCode(code);
             return await _discountVoucherService.GetDiscountVoucher(voucher);
         }
+
+        public async Task UpdateRedemptionCount(string code)
+        {
+            var discount = await GetDiscountVoucher(code);
+            await _discountVoucherService.UpdateRedemptionCount(discount);
+        }
     }
+
 }

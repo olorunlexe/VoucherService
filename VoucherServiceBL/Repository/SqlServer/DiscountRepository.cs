@@ -39,11 +39,11 @@ namespace VoucherServiceBL.Repository.SqlServer
                     parameters.Add("@DiscountUnit", discount.DiscountUnit);
                     parameters.Add("@ExpiryDate", discount.ExpiryDate);
 
-                    return await conn.ExecuteAsync("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
+                   return await conn.ExecuteAsync("usp_CreateDiscountVoucher", parameters, commandType: CommandType.StoredProcedure);
                 }
         }
 
-        public Task<int> CreateDiscountVoucherAsync(IList<Discount> vouchersList)
+        public async Task<int> CreateDiscountVoucherAsync(IList<Discount> vouchersList)
         {
 
             DiscountStreamingSqlRecord record = new DiscountStreamingSqlRecord(vouchersList);
@@ -72,7 +72,7 @@ namespace VoucherServiceBL.Repository.SqlServer
 
                 command.Parameters.Add(param);
                 command.CommandTimeout = 120;
-                return command.ExecuteNonQueryAsync();
+                return await command.ExecuteNonQueryAsync();
 
             }
             catch (System.Exception)
@@ -119,6 +119,11 @@ namespace VoucherServiceBL.Repository.SqlServer
                 parameters.Add("@MerchantId", voucher.MerchantId);
                 return await conn.QuerySingleAsync<Discount>("usp_GetVoucherByCodeFilterByMerchantId",parameters, commandType: CommandType.StoredProcedure);
             }
+        }
+
+        public Task<int> UpdateRedemptionCount(Discount discount)
+        {
+            throw new NotImplementedException();
         }
     }
 
