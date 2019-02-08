@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Serilog;
 using VoucherService.MQ;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.Mongo;
@@ -53,8 +54,6 @@ namespace VoucherService
             services.AddTransient<IDiscountRepository, MongoDiscountRepository>();
             services.AddTransient<IValueRepository, MongoValueRepository>();
             
-
-
             services.AddMongo(Configuration);
 
 
@@ -89,7 +88,7 @@ namespace VoucherService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseCors("MyPolicy");
             // Add this line to ensure authentication is enabled
@@ -104,6 +103,8 @@ namespace VoucherService
                 app.UseHsts();
             }
 
+            //logging
+            loggerFactory.AddSerilog();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

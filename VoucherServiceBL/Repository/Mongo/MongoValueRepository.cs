@@ -16,7 +16,6 @@ namespace VoucherServiceBL.Repository.Mongo
         public MongoValueRepository(MongoClient client, IConfiguration config, ILogger<Value> logger):base(client, config)
             {
                 _logger = logger;
-                // BsonClassMap.RegisterClassMap<Value>();
 
             }
         public async Task<int> CreateValueVoucherAsync(Value value)
@@ -33,6 +32,7 @@ namespace VoucherServiceBL.Repository.Mongo
         public async Task<IEnumerable<Value>> GetAllValueVouchersAsync(string merchantId)
         {
             var filter = Builders<Voucher>.Filter.Eq("merchant_id", merchantId);
+            BsonClassMap.RegisterClassMap<Value>();
             var cursor = await _vouchers.FindAsync( filter);
 
             var vouchers = await cursor.ToListAsync();

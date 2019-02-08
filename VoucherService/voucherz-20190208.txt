@@ -1,0 +1,137 @@
+===> 2019-02-08 07:48:04.18 +01:00 [Information] User profile is available. Using '"/home/dunamis/.aspnet/DataProtection-Keys"' as key repository; keys will not be encrypted at rest.
+===> 2019-02-08 07:48:06.68 +01:00 [Fatal] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (None of the specified endpoints were reachable) ---> RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified endpoints were reachable ---> System.AggregateException: One or more errors occurred. (Connection failed) ---> RabbitMQ.Client.Exceptions.ConnectFailureException: Connection failed ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException: Connection refused 192.168.99.100:5672
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__272_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at RabbitMQ.Client.TcpClientAdapter.ConnectAsync(String host, Int32 port)
+   at RabbitMQ.Client.Impl.TaskExtensions.TimeoutAfter(Task task, Int32 millisecondsTimeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, Int32 timeout)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingAddressFamily(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 timeout, AddressFamily family)
+   at RabbitMQ.Client.Impl.SocketFrameHandler..ctor(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 connectionTimeout, Int32 readTimeout, Int32 writeTimeout)
+   at RabbitMQ.Client.ConnectionFactory.CreateFrameHandler(AmqpTcpEndpoint endpoint)
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   at RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Init(IEndpointResolver endpoints)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at VoucherService.MQ.GiftRedemption.CodeReceiver() in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 37
+   at VoucherService.MQ.GiftRedemption.ExecuteAsync(CancellationToken stoppingToken) in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 159
+   at VoucherService.MQ.BackgroundService.StartAsync(CancellationToken cancellationToken) in /home/dunamis/VoucherService/VoucherService/MQ/BackgroundService.cs:line 21
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.<>c__DisplayClass3_0.<StartAsync>b__0(IHostedService service)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified endpoints were reachable ---> System.AggregateException: One or more errors occurred. (Connection failed) ---> RabbitMQ.Client.Exceptions.ConnectFailureException: Connection failed ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException: Connection refused 192.168.99.100:5672
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__272_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at RabbitMQ.Client.TcpClientAdapter.ConnectAsync(String host, Int32 port)
+   at RabbitMQ.Client.Impl.TaskExtensions.TimeoutAfter(Task task, Int32 millisecondsTimeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, Int32 timeout)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingAddressFamily(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 timeout, AddressFamily family)
+   at RabbitMQ.Client.Impl.SocketFrameHandler..ctor(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 connectionTimeout, Int32 readTimeout, Int32 writeTimeout)
+   at RabbitMQ.Client.ConnectionFactory.CreateFrameHandler(AmqpTcpEndpoint endpoint)
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   at RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Init(IEndpointResolver endpoints)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at VoucherService.MQ.GiftRedemption.CodeReceiver() in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 37
+   at VoucherService.MQ.GiftRedemption.ExecuteAsync(CancellationToken stoppingToken) in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 159
+   at VoucherService.MQ.BackgroundService.StartAsync(CancellationToken cancellationToken) in /home/dunamis/VoucherService/VoucherService/MQ/BackgroundService.cs:line 21
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.<>c__DisplayClass3_0.<StartAsync>b__0(IHostedService service)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+===> 2019-02-08 07:49:15.00 +01:00 [Information] Request starting HTTP/1.1 POST http://localhost:5000/api/v1/ application/json 490
+===> 2019-02-08 07:49:15.19 +01:00 [Information] Request finished in 192.5263ms 307 
+===> 2019-02-08 07:49:15.20 +01:00 [Information] Connection id ""0HLKDI653MD63"", Request id ""0HLKDI653MD63:00000001"": the application completed without reading the entire request body.
+===> 2019-02-08 07:49:15.72 +01:00 [Information] Request starting HTTP/1.1 POST https://localhost:5001/api/v1/ application/json 490
+===> 2019-02-08 07:49:16.50 +01:00 [Information] Route matched with "{action = \"CreateVoucher\", controller = \"Voucher\"}". Executing action "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)"
+===> 2019-02-08 07:49:17.33 +01:00 [Information] Executing action method "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)" with arguments (["VoucherServiceBL.Model.VoucherRequest"]) - Validation state: Valid
+===> 2019-02-08 07:49:19.97 +01:00 [Information] Created 2: vouchers for "fr" :VoucherGeneratedEvent { NumberGenerated: 2, VoucherCode: null, EventId: 04c5512f-7df9-4d83-bcfd-fa94f4261a99, Message: "New Vouchers created", EventTime: 02/08/2019 07:49:19, MerchantId: "fr", VoucherType: null }
+===> 2019-02-08 07:49:20.00 +01:00 [Information] Executed action method "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)", returned result "Microsoft.AspNetCore.Mvc.CreatedAtActionResult" in 2657.2053ms.
+===> 2019-02-08 07:49:20.01 +01:00 [Information] Executing ObjectResult, writing value of type '"<>f__AnonymousType0`2[[System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'.
+===> 2019-02-08 07:49:20.05 +01:00 [Information] Executed action "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)" in 3540.9758ms
+===> 2019-02-08 07:49:20.06 +01:00 [Information] Request finished in 4337.9176ms 201 application/json; charset=utf-8
+===> 2019-02-08 07:58:30.51 +01:00 [Information] Request starting HTTP/1.1 POST http://localhost:5000/api/v1/ application/json 492
+===> 2019-02-08 07:58:30.86 +01:00 [Information] Request finished in 372.1704ms 307 
+===> 2019-02-08 07:58:30.87 +01:00 [Information] Connection id ""0HLKDI653MD65"", Request id ""0HLKDI653MD65:00000001"": the application completed without reading the entire request body.
+===> 2019-02-08 07:58:31.89 +01:00 [Information] Request starting HTTP/1.1 POST https://localhost:5001/api/v1/ application/json 492
+===> 2019-02-08 07:58:32.22 +01:00 [Information] Route matched with "{action = \"CreateVoucher\", controller = \"Voucher\"}". Executing action "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)"
+===> 2019-02-08 07:58:32.56 +01:00 [Information] Executing action method "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)" with arguments (["VoucherServiceBL.Model.VoucherRequest"]) - Validation state: Valid
+===> 2019-02-08 07:58:32.62 +01:00 [Information] Created 5: vouchers for "fr" :VoucherGeneratedEvent { NumberGenerated: 5, VoucherCode: null, EventId: 81bc4175-22c5-4fe9-83b4-101bb3eece36, Message: "New Vouchers created", EventTime: 02/08/2019 07:58:32, MerchantId: "fr", VoucherType: null }
+===> 2019-02-08 07:58:32.62 +01:00 [Information] Executed action method "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)", returned result "Microsoft.AspNetCore.Mvc.CreatedAtActionResult" in 65.7669ms.
+===> 2019-02-08 07:58:32.62 +01:00 [Information] Executing ObjectResult, writing value of type '"<>f__AnonymousType0`2[[System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'.
+===> 2019-02-08 07:58:32.70 +01:00 [Information] Executed action "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)" in 482.1833ms
+===> 2019-02-08 07:58:32.70 +01:00 [Information] Request finished in 810.4517ms 201 application/json; charset=utf-8
+===> 2019-02-08 08:32:08.21 +01:00 [Information] User profile is available. Using '"/home/dunamis/.aspnet/DataProtection-Keys"' as key repository; keys will not be encrypted at rest.
+===> 2019-02-08 08:32:10.88 +01:00 [Fatal] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (None of the specified endpoints were reachable) ---> RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified endpoints were reachable ---> System.AggregateException: One or more errors occurred. (Connection failed) ---> RabbitMQ.Client.Exceptions.ConnectFailureException: Connection failed ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException: Connection refused 192.168.99.100:5672
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__272_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at RabbitMQ.Client.TcpClientAdapter.ConnectAsync(String host, Int32 port)
+   at RabbitMQ.Client.Impl.TaskExtensions.TimeoutAfter(Task task, Int32 millisecondsTimeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, Int32 timeout)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingAddressFamily(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 timeout, AddressFamily family)
+   at RabbitMQ.Client.Impl.SocketFrameHandler..ctor(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 connectionTimeout, Int32 readTimeout, Int32 writeTimeout)
+   at RabbitMQ.Client.ConnectionFactory.CreateFrameHandler(AmqpTcpEndpoint endpoint)
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   at RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Init(IEndpointResolver endpoints)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at VoucherService.MQ.GiftRedemption.CodeReceiver() in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 37
+   at VoucherService.MQ.GiftRedemption.ExecuteAsync(CancellationToken stoppingToken) in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 159
+   at VoucherService.MQ.BackgroundService.StartAsync(CancellationToken cancellationToken) in /home/dunamis/VoucherService/VoucherService/MQ/BackgroundService.cs:line 21
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.<>c__DisplayClass3_0.<StartAsync>b__0(IHostedService service)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified endpoints were reachable ---> System.AggregateException: One or more errors occurred. (Connection failed) ---> RabbitMQ.Client.Exceptions.ConnectFailureException: Connection failed ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException: Connection refused 192.168.99.100:5672
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__272_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at RabbitMQ.Client.TcpClientAdapter.ConnectAsync(String host, Int32 port)
+   at RabbitMQ.Client.Impl.TaskExtensions.TimeoutAfter(Task task, Int32 millisecondsTimeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, Int32 timeout)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingAddressFamily(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 timeout, AddressFamily family)
+   at RabbitMQ.Client.Impl.SocketFrameHandler..ctor(AmqpTcpEndpoint endpoint, Func`2 socketFactory, Int32 connectionTimeout, Int32 readTimeout, Int32 writeTimeout)
+   at RabbitMQ.Client.ConnectionFactory.CreateFrameHandler(AmqpTcpEndpoint endpoint)
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   at RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Init(IEndpointResolver endpoints)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at VoucherService.MQ.GiftRedemption.CodeReceiver() in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 37
+   at VoucherService.MQ.GiftRedemption.ExecuteAsync(CancellationToken stoppingToken) in /home/dunamis/VoucherService/VoucherService/MQ/GiftRedemption.cs:line 159
+   at VoucherService.MQ.BackgroundService.StartAsync(CancellationToken cancellationToken) in /home/dunamis/VoucherService/VoucherService/MQ/BackgroundService.cs:line 21
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.<>c__DisplayClass3_0.<StartAsync>b__0(IHostedService service)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+===> 2019-02-08 08:32:47.34 +01:00 [Information] Request starting HTTP/1.1 POST http://localhost:5000/api/v1/ application/json 489
+===> 2019-02-08 08:32:47.48 +01:00 [Information] Request finished in 143.9088ms 307 
+===> 2019-02-08 08:32:47.50 +01:00 [Information] Connection id ""0HLKDIUFKQDSC"", Request id ""0HLKDIUFKQDSC:00000001"": the application completed without reading the entire request body.
+===> 2019-02-08 08:32:47.97 +01:00 [Information] Request starting HTTP/1.1 POST https://localhost:5001/api/v1/ application/json 489
+===> 2019-02-08 08:32:48.40 +01:00 [Information] Route matched with "{action = \"CreateVoucher\", controller = \"Voucher\"}". Executing action "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)"
+===> 2019-02-08 08:32:48.89 +01:00 [Information] Executing action method "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)" with arguments (["VoucherServiceBL.Model.VoucherRequest"]) - Validation state: Valid
+===> 2019-02-08 08:32:49.51 +01:00 [Information] Created 15: vouchers for "fr" :VoucherGeneratedEvent { NumberGenerated: 15, VoucherCode: null, EventId: 097c0dcf-04a4-4fe4-8f72-8d142223cd77, Message: "New Vouchers created", EventTime: 02/08/2019 08:32:49, MerchantId: "fr", VoucherType: null }
+===> 2019-02-08 08:32:49.53 +01:00 [Information] Executed action method "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)", returned result "Microsoft.AspNetCore.Mvc.CreatedAtActionResult" in 631.2555ms.
+===> 2019-02-08 08:32:49.54 +01:00 [Information] Executing ObjectResult, writing value of type '"<>f__AnonymousType0`2[[System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'.
+===> 2019-02-08 08:32:49.59 +01:00 [Information] Executed action "VoucherService.Controllers.VoucherController.CreateVoucher (VoucherService)" in 1190.1956ms
+===> 2019-02-08 08:32:49.60 +01:00 [Information] Request finished in 1631.2419ms 201 application/json; charset=utf-8
