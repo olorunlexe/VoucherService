@@ -19,12 +19,12 @@ namespace VoucherServiceBL.Service
         Task<long?> UpdateVoucherExpiryDate(string code, DateTime newDate);
 
         Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId);
-         Task<Gift> GetGiftVoucher(string code);
+        Task<Gift> GetGiftVoucher(string code);
 
         Task<Value> GetValueVoucher(string code);
         Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId);
 
         Task<IEnumerable<Discount>> GetAllDiscountVouchers(string merchantId);
-        Task<Discount> GetDiscountVoucher(string code);        //Rest of common methods
+        Task<Discount> GetDiscountVoucher(string code);       
     }
 }

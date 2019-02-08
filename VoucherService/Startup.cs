@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using RabbitMQ.Client;
 using VoucherService.MQ;
+using VoucherServiceBL.HangFire;
 using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.Mongo;
 using VoucherServiceBL.Repository.SqlServer;
@@ -38,6 +40,8 @@ namespace VoucherService
         {
             services.AddMvc();
             services.AddSingleton<IHostedService, Subscribers>();
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddSingleton<IHostedService, HostRunner>();
             services.AddSingleton(new ConnectionFactory()
@@ -49,6 +53,12 @@ namespace VoucherService
                 Password = "guest"
 
             });
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddTransient<IGiftVoucherService,GiftVoucherService>();
 
             services.AddTransient<IDiscountVoucherService,DiscountVoucherService>();
@@ -116,6 +126,13 @@ namespace VoucherService
 
             //app.UseHttpsRedirection();
             app.UseMvc();
+            
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            //{
+            //    Authorization = new[] { new HangFireDashBoardAuthorizationFilter() },
+            //});
         }
     }
 }

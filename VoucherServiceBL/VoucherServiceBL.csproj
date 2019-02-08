@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Hangfire" Version="1.6.22" />
+    <PackageReference Include="Hangfire.Dashboard.Authorization" Version="2.1.0" />
     <PackageReference Include="IdentityModel" Version="3.10.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.7.3" />

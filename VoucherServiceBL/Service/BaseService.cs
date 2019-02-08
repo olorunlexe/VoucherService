@@ -11,6 +11,7 @@ using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.SqlServer;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
+using Hangfire;
 
 namespace VoucherServiceBL.Service
 {
@@ -33,12 +34,7 @@ namespace VoucherServiceBL.Service
             this._baseRepository = voucherRepository;
             this._logger = logger;
         }
-
-        // private BaseRepository GetBaseRepository()
-        // {
-        //     IGiftRepository giftRepository =  _giftVoucherService.GiftRepository as GiftRepository;
-        //     return giftRepository as BaseRepository;
-        // }
+        
 
         public async Task<int?> CreateVoucher(VoucherRequest voucherRequest)
         {
@@ -65,18 +61,17 @@ namespace VoucherServiceBL.Service
 
                 }
 
-                //TODO: Log the event (Voucher Created) 
+                //Log the event (Voucher Created) 
                 _logger.LogInformation("Created {Number}: vouchers for {Merchant}",
                         numOfVouchersCreated, voucherRequest.MerchantId);
 
                 return numOfVouchersCreated;
             }
-            catch (VoucherCreateException ex) //TODO: something happened handle it
+            catch (VoucherCreateException ex) //something happened handle it
                                               //if some error occurred and not all voucher could be created log the error
             {
-                //TODO: Log the error
+                //Log the error
                 _logger.LogError(ex, "An error occured while creating vouchers for {Merchant}", voucherRequest.MerchantId);
-                //handle the error here; what should happen, try again or what
                 return null;
             }
         }
@@ -121,7 +116,6 @@ namespace VoucherServiceBL.Service
             {
                 //get the voucher that is to be updated
                 var voucher = await GetVoucherByCode(code);
-                //voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
                 switch (voucher.VoucherStatus.ToUpper())
                 {
                     case "ACTIVE": voucher.VoucherStatus = "INACTIVE"; break;
@@ -148,9 +142,9 @@ namespace VoucherServiceBL.Service
             {
                 var voucher = await GetVoucherByCode(code);
                 Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
-                giftVoucher.GiftAmount = amount; // do the update
-                await _giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change   
-                                                                          //get the full gift voucher:TODO, I really wish we could avoid this
+                giftVoucher.GiftAmount += amount;
+                giftVoucher.GiftBalance += amount;
+                await _giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change 
 
                 return voucher;
             }
@@ -170,7 +164,7 @@ namespace VoucherServiceBL.Service
                 Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
                 giftVoucher.GiftAmount = amount; // do the update
                 await _giftVoucherService.UpdateGiftVoucherBalance(giftVoucher); //persist the change   
-                                                                                 //get the full gift voucher:TODO, I really wish we could avoid this
+                                                                                 
 
                 return voucher;
             }
@@ -189,7 +183,7 @@ namespace VoucherServiceBL.Service
                 //get the voucher that is to be updated
                 var voucher = await GetVoucherByCode(code);
                 voucher.ExpiryDate = newDate;
-                return await _baseRepository.UpdateVoucherExpiryDateByCodeAsync(voucher); //TODO: look into this:::await this                
+                return await _baseRepository.UpdateVoucherExpiryDateByCodeAsync(voucher);                
             }
             catch (VoucherUpdateException ex)
             {
@@ -218,8 +212,21 @@ namespace VoucherServiceBL.Service
 
         public async Task<Gift> GetGiftVoucher(string code)
         {
-            var voucher = await GetVoucherByCode(code);
-            return await _giftVoucherService.GetGiftVoucher(voucher);
+            try
+            {
+                var voucher = await GetVoucherByCode(code);
+                return await _giftVoucherService.GetGiftVoucher(voucher);
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "Invalid Voucher");
+                return null;
+            }
+            catch (MongoException ex)
+            {
+                _logger.LogError(ex, "Invalid Voucher");
+                return null;
+            }
         }
 
         public async Task<Value> GetValueVoucher(string code)
