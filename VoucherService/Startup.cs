@@ -130,10 +130,6 @@ namespace VoucherService
             
             app.UseHangfireServer();
             app.UseHangfireDashboard();
-            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            //{
-            //    Authorization = new[] { new HangFireDashBoardAuthorizationFilter() },
-            //});
         }
     }
 }
