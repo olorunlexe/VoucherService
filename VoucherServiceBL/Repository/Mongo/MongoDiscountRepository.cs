@@ -58,9 +58,18 @@ namespace VoucherServiceBL.Repository.Mongo
                                v.VoucherType == voucher.VoucherType);
 
             var voucherCursor = await _vouchers.FindAsync<Discount>(filter);
-            return await voucherCursor.FirstOrDefaultAsync();
+            var res = await voucherCursor.FirstOrDefaultAsync();
+            return res;
         }
 
+        //public async Task<Gift> GetGiftVoucherAsync(Voucher voucher)
+        //{
+        //    var filter = Builders<Voucher>.Filter.Where(v =>
+        //                                   v.Code == voucher.Code && v.MerchantId == voucher.MerchantId &&
+        //                                   v.VoucherType == voucher.VoucherType);
+        //    var voucherCursor = await _vouchers.FindAsync<Gift>(filter);
+        //    return await voucherCursor.FirstOrDefaultAsync();
+        //}
         public async Task<int> UpdateRedemptionCount(Discount discount)
         {
 

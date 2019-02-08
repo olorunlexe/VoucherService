@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using VoucherServiceBL.Events;
 using Serilog;
 using Hangfire;
+using System.Reflection;
 
 namespace VoucherServiceBL.Service
 {
@@ -46,53 +47,17 @@ namespace VoucherServiceBL.Service
             try
             {
                 voucherRequest.CreationDate = DateTime.Now;
+                voucherRequest.Metadata = Guid.NewGuid().ToString();
+
 
                 if (voucherRequest.VoucherType.ToUpper() == "GIFT")
                 {
-                    voucherRequest.CreationDate = DateTime.Now;
-                    voucherRequest.Metadata = Guid.NewGuid().ToString();
-                    
-                    if (voucherRequest.VoucherType.ToUpper() == "GIFT" )
-                    {
-                        numOfVouchersCreated += await _giftVoucherService.CreateGiftVoucher(voucherRequest);
-                    } 
-                        
-                    else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT") 
-                    {
-                        numOfVouchersCreated += await _discountVoucherService.CreateDiscountVoucher(voucherRequest);
-                    }
-                        
-                    else 
-                    {
-                        numOfVouchersCreated += await _valueVoucherService.CreateValueVoucher(voucherRequest);    
-                        
-                    }
-
-                    //TODO: Log the event (VoucherCreated) 
-                    var voucherGeneratedEvent = new VoucherGeneratedEvent() {
-                        EventId = Guid.NewGuid(), EventTime = DateTime.Now, MerchantId = voucherRequest.MerchantId,
-                        NumberGenerated = numOfVouchersCreated, Message = "New Vouchers created"
-                    };
-
-                    _logger.LogInformation("Created {Number}: vouchers for {Merchant} :{@Event}", 
-                            numOfVouchersCreated, voucherRequest.MerchantId, voucherGeneratedEvent);
-        
-                    return numOfVouchersCreated;                
+                    numOfVouchersCreated += await _giftVoucherService.CreateGiftVoucher(voucherRequest);
                 }
 
                 else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT")
                 {
-                    //TODO: Log the error event (VoucherGenerationFailed)
-                    var voucherGeneratedEvent = new VoucherGeneratedEvent() {
-                        EventId = Guid.NewGuid(), EventTime = DateTime.Now, MerchantId = voucherRequest.MerchantId,
-                        NumberGenerated = numOfVouchersCreated, Message = "New Vouchers created"
-                    };
-
-                    _logger.LogInformation("Created {Number}: vouchers for {Merchant} :{@Event}", 
-                            numOfVouchersCreated, voucherRequest.MerchantId, voucherGeneratedEvent);
-                    
-                    //handle the error here; what should happen, try again or what
-                    return null;                    
+                    numOfVouchersCreated += await _discountVoucherService.CreateDiscountVoucher(voucherRequest);
                 }
 
                 else
@@ -101,17 +66,38 @@ namespace VoucherServiceBL.Service
 
                 }
 
-                //Log the event (Voucher Created) 
-                _logger.LogInformation("Created {Number}: vouchers for {Merchant}",
-                        numOfVouchersCreated, voucherRequest.MerchantId);
+                //TODO: Log the event (VoucherCreated) 
+                var voucherGeneratedEvent = new VoucherGeneratedEvent()
+                {
+                    EventId = Guid.NewGuid(),
+                    EventTime = DateTime.Now,
+                    MerchantId = voucherRequest.MerchantId,
+                    NumberGenerated = numOfVouchersCreated,
+                    Message = "New Vouchers created"
+                };
+
+                _logger.LogInformation("Created {Number}: vouchers for {Merchant} :{@Event}",
+                        numOfVouchersCreated, voucherRequest.MerchantId, voucherGeneratedEvent);
 
                 return numOfVouchersCreated;
             }
+
             catch (VoucherCreateException ex) //something happened handle it
                                               //if some error occurred and not all voucher could be created log the error
             {
                 //Log the error
-                _logger.LogError(ex, "An error occured while creating vouchers for {Merchant}", voucherRequest.MerchantId);
+                var creationError = new VoucherGenerationFailedEvent()
+                {
+                    EventId = Guid.NewGuid(),
+                    EventTime = DateTime.Now,
+                    MerchantId = voucherRequest.MerchantId,
+                    FailureReason = ex.Message,
+                    Message = "Failed to generate voucher",
+                    VoucherType = voucherRequest.VoucherType,
+                    NumberToGenerate = voucherRequest.NumbersOfVoucherToCreate
+                };
+                _logger.LogError("Could not generate voucher: {@creationError}", creationError);
+                _logger.LogDebug(ex, "An error occured while creating vouchers for {Merchant}", voucherRequest.MerchantId);
                 return null;
             }
         }
@@ -119,11 +105,23 @@ namespace VoucherServiceBL.Service
 
         public async Task<Voucher> GetVoucherByCode(string code)
         {
-            string encryptedCode = CodeGenerator.Encrypt(code);
-            Voucher voucher = await _baseRepository.GetVoucherByCodeAsync(encryptedCode);
-            string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
-            voucher.Code = decryptedCode;
-            return voucher;
+            
+            Voucher voucher = await _baseRepository.GetVoucherByCodeAsync(code);
+            try
+            {
+
+                if (voucher != null)
+                {
+
+                    return voucher;
+                }
+            }
+            catch (TargetException ex)
+            {
+                return null;
+            }
+          
+            return null;
         }
 
         /// <summary>
@@ -237,21 +235,31 @@ namespace VoucherServiceBL.Service
                 
                 var previousAmount = giftVoucher.GiftAmount;
 
-                giftVoucher.GiftAmount = amount; // do the update
-                await _giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change   
-    
-                //log the event
-                var updatedEvent = new VoucherUpdatedEvent() {
-                        EventId = Guid.NewGuid(), EventTime = DateTime.Now, MerchantId = voucher.MerchantId,
-                        Message = "Update performed on voucher", VoucherCode = voucher.Code, 
-                        VoucherType = voucher.VoucherType, PropertyUpdated = new PropertyUpdated() {
-                        PropertyName = "GiftAmount",  PreviousValue = previousAmount, NewValue = giftVoucher.GiftAmount}
-                    };
-
-                _logger.LogInformation("Updated a voucher: {@UpdateEvent}", updatedEvent);
                 giftVoucher.GiftAmount += amount;
                 giftVoucher.GiftBalance += amount;
+    
+
+                //log the event
+                var updatedEvent = new VoucherUpdatedEvent()
+                {
+                    EventId = Guid.NewGuid(),
+                    EventTime = DateTime.Now,
+                    MerchantId = voucher.MerchantId,
+                    Message = "Update performed on voucher",
+                    VoucherCode = voucher.Code,
+                    VoucherType = voucher.VoucherType,
+                    PropertyUpdated = new PropertyUpdated()
+                    {
+                        PropertyName = "GiftAmount",
+                        PreviousValue = previousAmount,
+                        NewValue = giftVoucher.GiftAmount
+                    }
+                };
+
+                _logger.LogInformation("Updated a voucher: {@UpdateEvent}", updatedEvent);
                 await _giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change 
+                string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+                voucher.Code = decryptedCode;
 
                 return voucher;
             }

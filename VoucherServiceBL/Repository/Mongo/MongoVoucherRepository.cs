@@ -45,10 +45,11 @@ namespace VoucherServiceBL.Repository.Mongo
         public async Task<Voucher> GetVoucherByCodeAsync(string code)
         {
             var filter = Builders<Voucher>.Filter.Eq("code", code);
-            IFindFluent<Voucher, Voucher> cursor = ConstructProjection(filter);            
-            return await cursor.SingleOrDefaultAsync();
+            IFindFluent<Voucher, Voucher> cursor = ConstructProjection(filter);
+            var res = await cursor.SingleOrDefaultAsync<Voucher>();
+            return res;
         }
-
+    
         public async Task<Voucher> GetVoucherByCodeFilterByMerchantIdAsync(Voucher voucher)
         {
             var filter = Builders<Voucher>.Filter

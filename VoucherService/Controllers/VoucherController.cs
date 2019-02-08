@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using VoucherServiceBL.Domain;
 using VoucherServiceBL.Model;
 using VoucherServiceBL.Service;
-
+using VoucherServiceBL.Util;
 
 namespace VoucherService.Controllers
 {
@@ -56,7 +56,10 @@ namespace VoucherService.Controllers
         [HttpGet("{code}")]
         public async Task<ActionResult<Voucher>> GetVoucher([FromRoute] string code)
         {
-            var voucher = await baseVoucherService.GetVoucherByCode(code);
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            var voucher = await baseVoucherService.GetVoucherByCode(encryptedCode);
+            string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+            voucher.Code = decryptedCode;
             if (voucher == null) return NotFound(new {Message = "voucher not found"});
             return  Ok(voucher);
         }
