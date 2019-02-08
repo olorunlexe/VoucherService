@@ -18,8 +18,7 @@ namespace VoucherServiceBL.Model
         public string Prefix { get; set; }
         public string Suffix { get; set; }
         public string CodePattern { get; set; }
-
-        [Range(3, 15)]
+        
         public int CodeLength { get; set; }
 
         [Required(AllowEmptyStrings = false)]

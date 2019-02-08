@@ -58,7 +58,7 @@ namespace VoucherService.Controllers
         {
             var voucher = await baseVoucherService.GetVoucherByCode(code);
             if (voucher == null) return NotFound(new {Message = "voucher not found"});
-            return  voucher;
+            return  Ok(voucher);
         }
 
         [HttpGet("all")]

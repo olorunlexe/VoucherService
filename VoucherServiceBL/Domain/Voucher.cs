@@ -13,8 +13,9 @@ namespace VoucherServiceBL.Domain
     [Table("Voucher")]
     public class Voucher
     {
-        [BsonId]
+        //    [BsonId]
         [BsonIgnoreIfDefault]
+        [JsonIgnore]
         public ObjectId _id { get; set; }
 
         [BsonIgnore]
@@ -26,12 +27,12 @@ namespace VoucherServiceBL.Domain
         [BsonElement("voucher_type")]
         public string VoucherType { get; set; }
        
-        [JsonConverter(typeof(MicrosecondEpochConverter))]
+        //[JsonConverter(typeof(MicrosecondEpochConverter))]
 
         [BsonElement("expiry_date")]
         public DateTime ExpiryDate { get; set; }
         
-        [JsonConverter(typeof(MicrosecondEpochConverter))]
+        //[JsonConverter(typeof(MicrosecondEpochConverter))]
 
         [BsonElement("creation_date")]
         public DateTime CreationDate { get; set; }
