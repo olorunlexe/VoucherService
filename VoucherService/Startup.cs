@@ -16,11 +16,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-<<<<<<< HEAD
 using Serilog;
-=======
 using RabbitMQ.Client;
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
 using VoucherService.MQ;
 using VoucherServiceBL.HangFire;
 using VoucherServiceBL.Repository;

@@ -44,15 +44,9 @@ namespace VoucherServiceBL.Repository.Mongo
 
         public async Task<IEnumerable<Value>> GetAllValueVouchersAsync(string merchantId)
         {
-<<<<<<< HEAD
-            var filter = Builders<Voucher>.Filter.Eq("merchant_id", merchantId);
-            BsonClassMap.RegisterClassMap<Value>();
-            var cursor = await _vouchers.FindAsync( filter);
-=======
             var filter = Builders<Voucher>.Filter.Where(g => g.MerchantId == merchantId &&
                                              g.VoucherType.ToUpper() == VoucherType.VALUE.ToString());
             var cursor = await _vouchers.FindAsync<Value>(filter);
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
 
             var values = await cursor.ToListAsync();
             return values;

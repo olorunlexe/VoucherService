@@ -43,7 +43,6 @@
           "lib/netstandard1.3/DnsClient.dll": {}
         }
       },
-<<<<<<< HEAD
       "Elasticsearch.Net/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -60,7 +59,6 @@
         },
         "runtime": {
           "lib/netstandard1.3/Elasticsearch.Net.dll": {}
-=======
       "GreenPipes/2.1.3": {
         "type": "package",
         "dependencies": {
@@ -156,7 +154,6 @@
         },
         "runtime": {
           "lib/netstandard1.3/Hangfire.SqlServer.dll": {}
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
         }
       },
       "IdentityModel/3.10.5": {
