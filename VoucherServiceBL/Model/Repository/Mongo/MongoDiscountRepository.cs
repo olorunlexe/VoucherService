@@ -52,14 +52,10 @@ namespace VoucherServiceBL.Repository.Mongo
 
         public async Task<int> UpdateRedemptionCount(Discount discount)
         {
-            var voucherToUpdate = await GetDiscountVoucherAsync(discount);
-            if (voucherToUpdate == null)
-            {
-                _logger.LogInformation("Problem occurred updating the voucher");
-            }
+            
             //discount.RedemptionCount += 1;
 
-            var filter = Builders<Voucher>.Filter.Eq("code", voucherToUpdate.Code);
+            var filter = Builders<Voucher>.Filter.Eq("code", discount.Code);
             var updateDef = Builders<Voucher>.Update.Set("redemption_count", discount.RedemptionCount += 1);
 
             var cursor = await _vouchers.UpdateOneAsync(filter, updateDef);

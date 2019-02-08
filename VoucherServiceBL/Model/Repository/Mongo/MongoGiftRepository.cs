@@ -74,17 +74,11 @@ namespace VoucherServiceBL.Repository.Mongo
         {
             //get the voucher to update first
             //to check the previous balance and add to it
-            var voucherToUpdate = await GetGiftVoucherAsync(gift);
-            if (voucherToUpdate == null)
-            {
-                _logger.LogInformation("Problem occurred updating the voucher");
-                return null;
-            }
-            gift.GiftBalance = gift.GiftBalance - voucherToUpdate.GiftBalance;
+      
+           // gift.GiftBalance = gift.GiftBalance - voucherToUpdate.GiftBalance;
 
-            var filter = Builders<Voucher>.Filter.Eq("code", voucherToUpdate.Code);
-            var updateDef = Builders<Voucher>.Update.Set("gift_balance", voucherToUpdate.GiftBalance);
-
+            var filter = Builders<Voucher>.Filter.Eq("code", gift.Code);
+            var updateDef = Builders<Voucher>.Update.Set("gift_balance", gift.GiftBalance);
             var cursor = await _vouchers.UpdateOneAsync(filter, updateDef);
 
             return (int)cursor.ModifiedCount; //FIXME: casting long to int TODO: may throw execption handle

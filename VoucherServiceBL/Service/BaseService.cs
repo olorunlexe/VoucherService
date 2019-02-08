@@ -82,9 +82,13 @@ namespace VoucherServiceBL.Service
         }
 
 
-        public Task<Voucher> GetVoucherByCode(string code)
+        public async Task<Voucher> GetVoucherByCode(string code)
         {
-            return _baseRepository.GetVoucherByCodeAsync(code);
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            Voucher voucher =await _baseRepository.GetVoucherByCodeAsync(encryptedCode);
+            string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+            voucher.Code = decryptedCode;
+            return voucher;
         }
 
         /// <summary>
@@ -92,16 +96,23 @@ namespace VoucherServiceBL.Service
         /// </summary>
         /// <param name="merchantId">the id of the merchant that created the vouchers</param>
         /// <returns>a list of vouchers</returns>
-        public Task<IEnumerable<Voucher>> GetAllVouchers(string merchantId)
+        public async Task<IEnumerable<Voucher>> GetAllVouchers(string merchantId)
         {
-            return _baseRepository.GetAllVouchersFilterByMerchantIdAsync(merchantId);
+            var vouchers = await _baseRepository.GetAllVouchersFilterByMerchantIdAsync(merchantId);
+            foreach(var voucher in vouchers)
+            {
+                string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+                voucher.Code = decryptedCode;
+            }
+            return vouchers;
         }
 
         public Task DeleteVoucher(string code)
         {
             try
             {
-                return _baseRepository.DeleteVoucherByCodeAsync(code);
+                string encryptedCode = CodeGenerator.Encrypt(code);
+                return _baseRepository.DeleteVoucherByCodeAsync(encryptedCode);
             }
             catch (SqlException ex)
             {
@@ -120,7 +131,8 @@ namespace VoucherServiceBL.Service
             try
             {
                 //get the voucher that is to be updated
-                var voucher = await GetVoucherByCode(code);
+                string encryptedCode = CodeGenerator.Encrypt(code);
+                var voucher = await GetVoucherByCode(encryptedCode);
                 //voucher.VoucherStatus = voucher.VoucherStatus== "ACTIVE" ? "INACTIVE" : "ACTIVE";
                 switch (voucher.VoucherStatus.ToUpper())
                 {
@@ -146,12 +158,12 @@ namespace VoucherServiceBL.Service
         {
             try
             {
-                var voucher = await GetVoucherByCode(code);
+                string encryptedCode = CodeGenerator.Encrypt(code);
+                var voucher = await GetVoucherByCode(encryptedCode);
                 Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
                 giftVoucher.GiftAmount = amount; // do the update
                 await _giftVoucherService.UpdateGiftVoucher(giftVoucher); //persist the change   
                                                                           //get the full gift voucher:TODO, I really wish we could avoid this
-
                 return voucher;
             }
 
@@ -164,22 +176,23 @@ namespace VoucherServiceBL.Service
 
         public async Task<Voucher> UpdateGiftVoucherBalance(string code, long amount)
         {
-            try
-            {
-                var voucher = await GetVoucherByCode(code);
-                Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
-                giftVoucher.GiftAmount = amount; // do the update
+            //try
+            //{
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            var voucher = await GetVoucherByCode(encryptedCode);
+            Gift giftVoucher = await _giftVoucherService.GetGiftVoucher(voucher); //returning a gift voucher
+                giftVoucher.GiftBalance = amount; // do the update
                 await _giftVoucherService.UpdateGiftVoucherBalance(giftVoucher); //persist the change   
                                                                                  //get the full gift voucher:TODO, I really wish we could avoid this
 
                 return voucher;
-            }
+            //}
 
-            catch (VoucherUpdateException ex)
-            {
-                _logger.LogError(ex, "Could not perform update operation on voucher with {Code}", code);
-                return null;
-            }
+            //catch (VoucherUpdateException ex)
+            //{
+            //    _logger.LogError(ex, "Could not perform update operation on voucher with {Code}", code);
+            //    return null;
+            //}
         }
 
         public async Task<long?> UpdateVoucherExpiryDate(string code, DateTime newDate)
@@ -187,7 +200,8 @@ namespace VoucherServiceBL.Service
             try
             {
                 //get the voucher that is to be updated
-                var voucher = await GetVoucherByCode(code);
+                string encryptedCode = CodeGenerator.Encrypt(code);
+                var voucher = await GetVoucherByCode(encryptedCode);
                 voucher.ExpiryDate = newDate;
                 return await _baseRepository.UpdateVoucherExpiryDateByCodeAsync(voucher); //TODO: look into this:::await this                
             }
@@ -198,11 +212,17 @@ namespace VoucherServiceBL.Service
             }
         }
 
-        public Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
+        public async Task<IEnumerable<Gift>> GetAllGiftVouchers(string merchantId)
         {
             try
             {
-                return _giftVoucherService.GetAllGiftVouchers(merchantId);
+                var vouchers= await _giftVoucherService.GetAllGiftVouchers(merchantId);
+                foreach (var voucher in vouchers)
+                {
+                    string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+                    voucher.Code = decryptedCode;
+                }
+                return vouchers;
             }
             catch (SqlException ex)
             {
@@ -218,35 +238,60 @@ namespace VoucherServiceBL.Service
 
         public async Task<Gift> GetGiftVoucher(string code)
         {
-            var voucher = await GetVoucherByCode(code);
-            return await _giftVoucherService.GetGiftVoucher(voucher);
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            var voucher = await GetVoucherByCode(encryptedCode);
+            Gift voucherResponse= await _giftVoucherService.GetGiftVoucher(voucher);
+            string decryptedCode = CodeGenerator.Decrypt(voucherResponse.Code);
+            voucherResponse.Code = decryptedCode;
+            return voucherResponse;
         }
 
         public async Task<Value> GetValueVoucher(string code)
         {
-            var voucher = await GetVoucherByCode(code);
-            return await _valueVoucherService.GetValueVoucher(voucher);
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            var voucher = await GetVoucherByCode(encryptedCode);
+            Value voucherResponse= await _valueVoucherService.GetValueVoucher(voucher);
+            string decryptedCode = CodeGenerator.Decrypt(voucherResponse.Code);
+            voucherResponse.Code = decryptedCode;
+            return voucherResponse;
         }
 
-        public Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
+        public async Task<IEnumerable<Value>> GetAllValueVouchers(string merchantId)
         {
-            return _valueVoucherService.GetAllValueVouchers(merchantId);
+            var vouchers=await _valueVoucherService.GetAllValueVouchers(merchantId);
+            foreach (var voucher in vouchers)
+            {
+                string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+                voucher.Code = decryptedCode;
+            }
+            return vouchers;
         }
 
-        public Task<IEnumerable<Discount>> GetAllDiscountVouchers(string merchantId)
+        public async Task<IEnumerable<Discount>> GetAllDiscountVouchers(string merchantId)
         {
-            return _discountVoucherService.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+            var vouchers=await _discountVoucherService.GetAllDiscountVouchersFilterByMerchantId(merchantId);
+            foreach (var voucher in vouchers)
+            {
+                string decryptedCode = CodeGenerator.Decrypt(voucher.Code);
+                voucher.Code = decryptedCode;
+            }
+            return vouchers;
         }
 
         public async Task<Discount> GetDiscountVoucher(string code)
         {
-            var voucher = await GetVoucherByCode(code);
-            return await _discountVoucherService.GetDiscountVoucher(voucher);
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            var voucher = await GetVoucherByCode(encryptedCode);
+            Discount voucherResponse= await _discountVoucherService.GetDiscountVoucher(voucher);
+            string decryptedCode = CodeGenerator.Decrypt(voucherResponse.Code);
+            voucherResponse.Code = decryptedCode;
+            return voucherResponse;
         }
 
         public async Task UpdateRedemptionCount(string code)
         {
-            var discount = await GetDiscountVoucher(code);
+            string encryptedCode = CodeGenerator.Encrypt(code);
+            var discount = await GetDiscountVoucher(encryptedCode);
             await _discountVoucherService.UpdateRedemptionCount(discount);
         }
     }
