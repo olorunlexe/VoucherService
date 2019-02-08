@@ -73,8 +73,20 @@ namespace VoucherServiceBL.Util
 
         public static string Encrypt(string code)
         {
-            //apply hashing algorithm to the code
-            return code;
+            Console.WriteLine("Original: " + code);
+            byte[] byteCode = Encoding.UTF8.GetBytes(code);
+            string codeEncrpted = Convert.ToBase64String(byteCode);
+            Console.WriteLine("Encrpted Code: " + codeEncrpted);
+            return codeEncrpted;
+        }
+
+        public static string Decrypt(string code)
+        {
+            
+            byte[] byteCode = Convert.FromBase64String(code);
+            string codeDecrypted = Encoding.UTF8.GetString(byteCode);
+            Console.WriteLine("Decrypted Code: " + codeDecrypted);
+            return codeDecrypted;
         }
 
         public static string HashedCode(VoucherRequest voucherRequest)  //TODO: move to a util class so it can be shared by all services

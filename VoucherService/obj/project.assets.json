@@ -43,6 +43,24 @@
           "lib/netstandard1.3/DnsClient.dll": {}
         }
       },
+      "Elasticsearch.Net/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.3.0",
+          "NETStandard.Library": "1.6.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.3.0",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Elasticsearch.Net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Elasticsearch.Net.dll": {}
+        }
+      },
       "GreenPipes/2.1.3": {
         "type": "package",
         "dependencies": {
@@ -3386,7 +3404,7 @@
           }
         }
       },
-      "Serilog/2.5.0": {
+      "Serilog/2.6.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.0.1",
@@ -3438,6 +3456,20 @@
           "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
         }
       },
+      "Serilog.Settings.Configuration/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyModel": "2.0.4",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "2.0.0",
+          "Serilog": "2.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Serilog.Settings.Configuration.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Serilog.Settings.Configuration.dll": {}
+        }
+      },
       "Serilog.Sinks.Console/3.1.1": {
         "type": "package",
         "dependencies": {
@@ -3451,6 +3483,23 @@
         },
         "runtime": {
           "lib/netcoreapp1.1/Serilog.Sinks.Console.dll": {}
+        }
+      },
+      "Serilog.Sinks.Elasticsearch/6.5.0": {
+        "type": "package",
+        "dependencies": {
+          "Elasticsearch.Net": "6.0.0",
+          "NETStandard.Library": "1.6.0",
+          "Serilog": "2.6.0",
+          "Serilog.Sinks.File": "4.0.0",
+          "Serilog.Sinks.PeriodicBatching": "2.1.1",
+          "Serilog.Sinks.RollingFile": "3.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.Sinks.Elasticsearch.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.Elasticsearch.dll": {}
         }
       },
       "Serilog.Sinks.File/4.0.0": {
@@ -3470,6 +3519,36 @@
         },
         "runtime": {
           "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
+        }
+      },
+      "Serilog.Sinks.PeriodicBatching/2.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.0.0",
+          "System.Collections.Concurrent": "4.0.12",
+          "System.Threading.Timer": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.2/Serilog.Sinks.PeriodicBatching.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.2/Serilog.Sinks.PeriodicBatching.dll": {}
+        }
+      },
+      "Serilog.Sinks.RollingFile/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog.Sinks.File": "3.2.0",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Text.Encoding.Extensions": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -3569,10 +3648,10 @@
           "lib/netstandard1.3/System.Collections.Specialized.dll": {}
         }
       },
-      "System.ComponentModel/4.0.1": {
+      "System.ComponentModel/4.3.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime": "4.1.0"
+          "System.Runtime": "4.3.0"
         },
         "compile": {
           "ref/netstandard1.0/System.ComponentModel.dll": {}
@@ -3590,12 +3669,12 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
-      "System.ComponentModel.Primitives/4.1.0": {
+      "System.ComponentModel.Primitives/4.3.0": {
         "type": "package",
         "dependencies": {
-          "System.ComponentModel": "4.0.1",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime": "4.1.0"
+          "System.ComponentModel": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0"
         },
         "compile": {
           "ref/netstandard1.0/System.ComponentModel.Primitives.dll": {}
@@ -3604,24 +3683,24 @@
           "lib/netstandard1.0/System.ComponentModel.Primitives.dll": {}
         }
       },
-      "System.ComponentModel.TypeConverter/4.1.0": {
+      "System.ComponentModel.TypeConverter/4.3.0": {
         "type": "package",
         "dependencies": {
-          "System.Collections": "4.0.11",
-          "System.Collections.NonGeneric": "4.0.1",
-          "System.Collections.Specialized": "4.0.1",
-          "System.ComponentModel": "4.0.1",
-          "System.ComponentModel.Primitives": "4.1.0",
-          "System.Globalization": "4.0.11",
-          "System.Linq": "4.1.0",
-          "System.Reflection": "4.1.0",
-          "System.Reflection.Extensions": "4.0.1",
-          "System.Reflection.Primitives": "4.0.1",
-          "System.Reflection.TypeExtensions": "4.1.0",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime": "4.1.0",
-          "System.Runtime.Extensions": "4.1.0",
-          "System.Threading": "4.0.11"
+          "System.Collections": "4.3.0",
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel": "4.3.0",
+          "System.ComponentModel.Primitives": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0"
         },
         "compile": {
           "ref/netstandard1.5/System.ComponentModel.TypeConverter.dll": {}
@@ -5458,6 +5537,7 @@
           "Microsoft.Extensions.Configuration": "2.1.1",
           "MongoDB.Driver": "2.7.3",
           "Serilog.AspNetCore": "2.1.1",
+          "Serilog.Settings.Configuration": "3.0.1",
           "Serilog.Sinks.Console": "3.1.1",
           "Serilog.Sinks.File": "4.0.0"
         },
@@ -5501,6 +5581,23 @@
         "lib/net45/DnsClient.xml",
         "lib/netstandard1.3/DnsClient.dll",
         "lib/netstandard1.3/DnsClient.xml"
+      ]
+    },
+    "Elasticsearch.Net/6.0.0": {
+      "sha512": "lQWkIHDwvVlw+6p4S73shfazRywINRGkPhVDKJoTANPJOEb81cOx2eN2PVVwN8i4uJao8CzPt2NVvgCrpWJUwQ==",
+      "type": "package",
+      "path": "elasticsearch.net/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "elasticsearch.net.6.0.0.nupkg.sha512",
+        "elasticsearch.net.nuspec",
+        "lib/net45/Elasticsearch.Net.dll",
+        "lib/net45/Elasticsearch.Net.xml",
+        "lib/net46/Elasticsearch.Net.dll",
+        "lib/net46/Elasticsearch.Net.xml",
+        "lib/netstandard1.3/Elasticsearch.Net.dll",
+        "lib/netstandard1.3/Elasticsearch.Net.xml"
       ]
     },
     "GreenPipes/2.1.3": {
@@ -6672,7 +6769,7 @@
       ]
     },
     "Microsoft.AspNetCore.Routing.Abstractions/2.1.1": {
-      "sha512": "+Yxsy/ZcCthcziktuhfC6WpQ/cZzgD/IsQ96xefNKrCzIm9jXjfNK3ONsoScvyFFihNohp7zAVPiic5J6CvUDw==",
+      "sha512": "9saJjHhST3JmFKuZ1mPU9FJcpgUyPNoJxRMSV2nkSjiEekQN4jxswtBBeIRVDonjq50KKqSWbcyyQtvV4tgKzw==",
       "type": "package",
       "path": "microsoft.aspnetcore.routing.abstractions/2.1.1",
       "files": [
@@ -6875,7 +6972,7 @@
       ]
     },
     "Microsoft.AspNetCore.StaticFiles/2.1.1": {
-      "sha512": "3xumS58evfsC4cd8OXtYRafbwuVk5c37dsGQ1E1m0wZvRVUXScRWkTGdcPJcijoImlhoQK2pj6sY7NFMc5PfbQ==",
+      "sha512": "Jb4YKaDpPqrcSBxGChOCUmgkuqRKkwe3t5o6GWeoNUENf4hQDuobUvouXKHVw3KuEFIBVArZB984fuVGQW0eAw==",
       "type": "package",
       "path": "microsoft.aspnetcore.staticfiles/2.1.1",
       "files": [
@@ -7394,7 +7491,7 @@
       ]
     },
     "Microsoft.Extensions.DependencyInjection/2.1.1": {
-      "sha512": "2nshYaLTn73Ie+/yTkb7EZIXwQeFIXsYCBy/jSY9bMayYykGNjdWa25frayhuPAGVbZpEgfgp3d4JRVEuVyEqQ==",
+      "sha512": "ZPFcDUbSwaEVWMyef8+9GqiTAghHX+eLeIEW032i4LDFAdyM4J4brV0UzChlKtClT7cuip/Of6G+veDnO3/bCw==",
       "type": "package",
       "path": "microsoft.extensions.dependencyinjection/2.1.1",
       "files": [
@@ -7528,7 +7625,7 @@
       ]
     },
     "Microsoft.Extensions.Hosting/2.1.1": {
-      "sha512": "JCQMO9b49MO7b2e3myP6b0KsAJvRL9auv0A/Pn4w2Q1dt9D29tWvuji8b2jGfHVZcal9GRbtwwdnAD1mN4x3VQ==",
+      "sha512": "429Rqyy8tzVZq9UJCKqD+r/9XobPYn/xGxMPyQxmqOZJQPjXXzYAjjZhQ5onCWPFPWbfw430RKRyBTa341kCJA==",
       "type": "package",
       "path": "microsoft.extensions.hosting/2.1.1",
       "files": [
@@ -7749,12 +7846,11 @@
       ]
     },
     "Microsoft.Extensions.PlatformAbstractions/1.1.0": {
-      "sha512": "BMUkmjwSnuazDGkID3QbHTP7eomEmUxO4IKJqBWoB4r0mNij/3i5yWVQqynzm6tKVFvCskQrd6+uACTuxdUrOw==",
+      "sha512": "H6ZsQzxYw/6k2DfEQRXdC+vQ6obd6Uba3uGJrnJ2vG4PRXjQZ7seB13JdCfE72abp8E6Fk3gGgDzfJiLZi5ZpQ==",
       "type": "package",
       "path": "microsoft.extensions.platformabstractions/1.1.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "lib/net451/Microsoft.Extensions.PlatformAbstractions.dll",
         "lib/net451/Microsoft.Extensions.PlatformAbstractions.xml",
         "lib/netstandard1.3/Microsoft.Extensions.PlatformAbstractions.dll",
@@ -9015,12 +9111,11 @@
       ]
     },
     "Owin/1.0.0": {
-      "sha512": "S87+AKxSxfhXRzIQfm6WBxfGbnzECLG8bmVp3lRiwjeYG9YBJ0AXd+2Xn7I7aqwwj0j4erSpX6H9OhXy+qQ7tw==",
+      "sha512": "OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
       "type": "package",
       "path": "owin/1.0.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "lib/net40/Owin.dll",
         "owin.1.0.0.nupkg.sha512",
         "owin.nuspec"
@@ -9342,10 +9437,10 @@
         "version.txt"
       ]
     },
-    "Serilog/2.5.0": {
-      "sha512": "1uxuc49NByFrDrLszFOWqpUCL7pA9nc1SAgKPB3J7aNq6ChIvQmb64JIuY2hvK/K7YlWK/FGb3FYdxsFGWA+Mw==",
+    "Serilog/2.6.0": {
+      "sha512": "Fu2/UuD0LfHstCqPHrMmI4ZtQL4ns9TMTP2I/TeGSBO2ju7YN9J/5hiM+ElhL4DXnYpK0StbFcMRa8z5yLAqMw==",
       "type": "package",
-      "path": "serilog/2.5.0",
+      "path": "serilog/2.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -9357,7 +9452,7 @@
         "lib/netstandard1.0/Serilog.xml",
         "lib/netstandard1.3/Serilog.dll",
         "lib/netstandard1.3/Serilog.xml",
-        "serilog.2.5.0.nupkg.sha512",
+        "serilog.2.6.0.nupkg.sha512",
         "serilog.nuspec"
       ]
     },
@@ -9395,6 +9490,23 @@
         "serilog.extensions.logging.nuspec"
       ]
     },
+    "Serilog.Settings.Configuration/3.0.1": {
+      "sha512": "udEqsSmGDgeEaIZacxMT8IOMuDRSBuLm7wxmBvQBkEL27bnfZCtIU8rcWM5Joi36bwKe7sL3qfhN3CK5/wG9NQ==",
+      "type": "package",
+      "path": "serilog.settings.configuration/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net451/Serilog.Settings.Configuration.dll",
+        "lib/net451/Serilog.Settings.Configuration.xml",
+        "lib/net461/Serilog.Settings.Configuration.dll",
+        "lib/net461/Serilog.Settings.Configuration.xml",
+        "lib/netstandard2.0/Serilog.Settings.Configuration.dll",
+        "lib/netstandard2.0/Serilog.Settings.Configuration.xml",
+        "serilog.settings.configuration.3.0.1.nupkg.sha512",
+        "serilog.settings.configuration.nuspec"
+      ]
+    },
     "Serilog.Sinks.Console/3.1.1": {
       "sha512": "fI0fxK/dcV0yYdAqdrJ4EWS7AnSyvlyDNV0HkZF32AYNHu7TXKnmN6QQyFJiwCHZFp6ghksVAhwh+tHsplHDFA==",
       "type": "package",
@@ -9412,6 +9524,21 @@
         "serilog.sinks.console.nuspec"
       ]
     },
+    "Serilog.Sinks.Elasticsearch/6.5.0": {
+      "sha512": "lkd3g7J6f8nRpZnHctBoEQa1+q9XtlRJp1tttDKm9eDldAiHcshYdvtgEEHNgtV0FzPw0FDIQfIuZUGfM1Ozww==",
+      "type": "package",
+      "path": "serilog.sinks.elasticsearch/6.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Sinks.Elasticsearch.dll",
+        "lib/net45/Serilog.Sinks.Elasticsearch.xml",
+        "lib/netstandard1.3/Serilog.Sinks.Elasticsearch.dll",
+        "lib/netstandard1.3/Serilog.Sinks.Elasticsearch.xml",
+        "serilog.sinks.elasticsearch.6.5.0.nupkg.sha512",
+        "serilog.sinks.elasticsearch.nuspec"
+      ]
+    },
     "Serilog.Sinks.File/4.0.0": {
       "sha512": "zWVGmDMLHqKg4zGh4dJgKee3yMLgMSLIFdBhXQUGKGJG6F4rpQJmp/Ts+SYBkmjCfsAbUh8NtJfXXGCEOf9mXg==",
       "type": "package",
@@ -9425,6 +9552,38 @@
         "lib/netstandard1.3/Serilog.Sinks.File.xml",
         "serilog.sinks.file.4.0.0.nupkg.sha512",
         "serilog.sinks.file.nuspec"
+      ]
+    },
+    "Serilog.Sinks.PeriodicBatching/2.1.1": {
+      "sha512": "b5MblvWJrT9qxRwLs0GiEHCc8iqbOKY0kWQP46RJE6slTZT7k40RbiRR2QLAQjCNRAJl/UJxr5GZ+8jsEmHRBA==",
+      "type": "package",
+      "path": "serilog.sinks.periodicbatching/2.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Sinks.PeriodicBatching.dll",
+        "lib/net45/Serilog.Sinks.PeriodicBatching.xml",
+        "lib/netstandard1.1/Serilog.Sinks.PeriodicBatching.dll",
+        "lib/netstandard1.1/Serilog.Sinks.PeriodicBatching.xml",
+        "lib/netstandard1.2/Serilog.Sinks.PeriodicBatching.dll",
+        "lib/netstandard1.2/Serilog.Sinks.PeriodicBatching.xml",
+        "serilog.sinks.periodicbatching.2.1.1.nupkg.sha512",
+        "serilog.sinks.periodicbatching.nuspec"
+      ]
+    },
+    "Serilog.Sinks.RollingFile/3.3.0": {
+      "sha512": "iBTJlu/YGishKRZ5SkSXkAly3zSezopfnKWbbh4eesHAacMqv7G+Cx32ytlkjbmymMWYB/nrNwS4IBSqAiF/OA==",
+      "type": "package",
+      "path": "serilog.sinks.rollingfile/3.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Sinks.RollingFile.dll",
+        "lib/net45/Serilog.Sinks.RollingFile.xml",
+        "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll",
+        "lib/netstandard1.3/Serilog.Sinks.RollingFile.xml",
+        "serilog.sinks.rollingfile.3.3.0.nupkg.sha512",
+        "serilog.sinks.rollingfile.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -9743,13 +9902,12 @@
         "system.collections.specialized.nuspec"
       ]
     },
-    "System.ComponentModel/4.0.1": {
-      "sha512": "3AOvy/bB7s8yAkolZOlqGeLDrPySuYsgkk7hKIBWn5a/Le7V16PDYQIzj7w7hi4UUXXmEmN/ZehNlAi5eD9r5w==",
+    "System.ComponentModel/4.3.0": {
+      "sha512": "VyGn1jGRZVfxnh8EdvDCi71v3bMXrsu8aYJOwoV7SNDLVhiEqwP86pPMyRGsDsxhXAm2b3o9OIqeETfN5qfezw==",
       "type": "package",
-      "path": "system.componentmodel/4.0.1",
+      "path": "system.componentmodel/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9798,7 +9956,7 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
-        "system.componentmodel.4.0.1.nupkg.sha512",
+        "system.componentmodel.4.3.0.nupkg.sha512",
         "system.componentmodel.nuspec"
       ]
     },
@@ -9891,13 +10049,12 @@
         "version.txt"
       ]
     },
-    "System.ComponentModel.Primitives/4.1.0": {
-      "sha512": "mAaj8PXxM7hUSIJYm9chhSe90HaIVyl8vb4JJO0M7fRaeBqSaaveHdRAmOL0LcOxp7kf9Vb8HujCe02DUqG5HQ==",
+    "System.ComponentModel.Primitives/4.3.0": {
+      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
       "type": "package",
-      "path": "system.componentmodel.primitives/4.1.0",
+      "path": "system.componentmodel.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9926,17 +10083,16 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
-        "system.componentmodel.primitives.4.1.0.nupkg.sha512",
+        "system.componentmodel.primitives.4.3.0.nupkg.sha512",
         "system.componentmodel.primitives.nuspec"
       ]
     },
-    "System.ComponentModel.TypeConverter/4.1.0": {
-      "sha512": "jcj79VC96yxc/rgLB59+g4675iVts1XrfC97dniMEvmJhRl8cG7qRO3EsJQwNw8cFL6RenFxn/CGfUhgj32SdQ==",
+    "System.ComponentModel.TypeConverter/4.3.0": {
+      "sha512": "16pQ6P+EdhcXzPiEK4kbA953Fu0MNG2ovxTZU81/qsCd1zPRsKc3uif5NgvllCY598k6bI0KUyKW8fanlfaDQg==",
       "type": "package",
-      "path": "system.componentmodel.typeconverter/4.1.0",
+      "path": "system.componentmodel.typeconverter/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9979,17 +10135,16 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
-        "system.componentmodel.typeconverter.4.1.0.nupkg.sha512",
+        "system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
         "system.componentmodel.typeconverter.nuspec"
       ]
     },
     "System.Composition/1.0.31": {
-      "sha512": "CbzwbjxT04VU+JzQuPOYfUCybzBtbGZdqGJS9482dDBoBHbt3Zz0QAJ/Cjzpmq5xdL+hhW4FYWf/3wq2OCVXgg==",
+      "sha512": "I+D26qpYdoklyAVUdqwUBrEIckMNjAYnuPJy/h9dsQItpQwVREkDFs4b4tkBza0kT2Yk48Lcfsv2QQ9hWsh9Iw==",
       "type": "package",
       "path": "system.composition/1.0.31",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "system.composition.1.0.31.nupkg.sha512",
@@ -10025,12 +10180,11 @@
       ]
     },
     "System.Composition.Hosting/1.0.31": {
-      "sha512": "KlZ4qkaa1p/U2WKr353XeQ9bjrxBwn9FcD5k9WFEuV1MloDMnTnhUwQU7h1WigvsCYykzoRdnDLq33wnUPwBeg==",
+      "sha512": "fN1bT4RX4vUqjbgoyuJFVUizAl2mYF5VAb+bVIxIYZSSc0BdnX+yGAxcavxJuDDCQ1K+/mdpgyEFc8e9ikjvrg==",
       "type": "package",
       "path": "system.composition.hosting/1.0.31",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Composition.Hosting.dll",
@@ -10105,12 +10259,11 @@
       ]
     },
     "System.Data.Common/4.1.0": {
-      "sha512": "DeahGetUucjHvnBefS9NPhnkQunFmJ/DEI+88kHe49Grj8jUW2VYI8O+fI4N24zyHDF78qMUT74/WLWlD9KKeA==",
+      "sha512": "epU8jeTe7aE7RqGHq9rZ8b0Q4Ah7DgubzHQblgZMSqgW1saW868WmooSyC5ywf8upLBkcVLDu93W9GPWUYsU2Q==",
       "type": "package",
       "path": "system.data.common/4.1.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10156,7 +10309,7 @@
       ]
     },
     "System.Data.SqlClient/4.5.1": {
-      "sha512": "qXTvTFkBds7bnN+ntBMHGvmH3pCAkfT4TE1z2Xvfqo4wKMQC77O4aXsYCc7dzCESC+/Gom6l0GLuebpFx7MDvg==",
+      "sha512": "cTPUCClr34EGBnyazUeciMD6sNm9aiE/li3uGvJ7z5dGup9QxKwysUeKXIrCO0E5KtQQAzGORFEYmowyEpcL2A==",
       "type": "package",
       "path": "system.data.sqlclient/4.5.1",
       "files": [
@@ -10235,6 +10388,7 @@
       "path": "system.diagnostics.contracts/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10612,12 +10766,11 @@
       ]
     },
     "System.Diagnostics.TraceSource/4.3.0": {
-      "sha512": "PXWAEqWXamctxvdYSlHY+HG0e++cVkg0FwiqtiOZ4Ziy31GD9uab2QAgkuDKUARcCdVq3DfruvdMnPfalEJbNw==",
+      "sha512": "VnYp1NxGx8Ww731y2LJ1vpfb/DKVNKEZ8Jsh5SgQTZREL/YpWRArgh9pI8CDLmgHspZmLL697CaLvH85qQpRiw==",
       "type": "package",
       "path": "system.diagnostics.tracesource/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11217,7 +11370,7 @@
       ]
     },
     "System.IO.Pipelines/4.5.0": {
-      "sha512": "Kq9eZWVKN9khHhkatLWLLxYCs3j9qSNMZELqn2YG1YsCMv6bPmAtaN0CfA6l7vxFbiV02C996Dy7yHO8DkaJLg==",
+      "sha512": "kPBg1oHIqNgZzzIbAFVTfMLmqYid6juXFJv7VnQf7m9K6ooLD8sGZq9rsB+4wZLrgKm0t3TuhBXyPE1StpjqvQ==",
       "type": "package",
       "path": "system.io.pipelines/4.5.0",
       "files": [
@@ -12582,7 +12735,7 @@
       ]
     },
     "System.Runtime.CompilerServices.Unsafe/4.5.1": {
-      "sha512": "qUJMNWhbm9oZ3XaMFiEMiYmRPszbnXIkRIi7+4b2Md2xZ6JUOepf0/kY3S85qistRohl9OdMe4PsO+RdG2kTIQ==",
+      "sha512": "x/3d5xb+mc9e4I2GOOT+HPRWMZLbYjNN/kYKsb0fyUKcWizn/t1CIrGRLIBhv7H0ptYEt+WTTztdPmwSUMyKig==",
       "type": "package",
       "path": "system.runtime.compilerservices.unsafe/4.5.1",
       "files": [
@@ -12850,12 +13003,11 @@
       ]
     },
     "System.Runtime.Loader/4.3.0": {
-      "sha512": "G6WmvAI9yOEi5GOWtZT3+pJWHXGaat59qZKQ7Z75fGpacllPmLizNFZvZXj3CysSyMkQBsm50b9xTM/x9L3yCQ==",
+      "sha512": "DHMaRn8D8YCK2GG2pw+UzNxn/OHVfaWx7OTLBD/hPegHZZgcZh3H6seWegrC4BYwsfuGrywIuT+MQs+rPqRLTQ==",
       "type": "package",
       "path": "system.runtime.loader/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -13015,6 +13167,7 @@
       "path": "system.runtime.serialization.xml/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -14025,12 +14178,11 @@
       ]
     },
     "System.Threading.Overlapped/4.3.0": {
-      "sha512": "JWEtWIoYBHzMmgt2I/1e4FFG6veDL4yzA1Y7iuEY2G+GyZyrzqx/GQlM92M+d81D1cH2dp2KRhbZdQebn8Q+RA==",
+      "sha512": "m3HQ2dPiX/DSTpf+yJt8B0c+SRvzfqAJKx+QDWi+VLhz8svLT23MVjEOHPF/KiSLeArKU/iHescrbLd3yVgyNg==",
       "type": "package",
       "path": "system.threading.overlapped/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net46/System.Threading.Overlapped.dll",
@@ -14166,6 +14318,7 @@
       "path": "system.threading.tasks.parallel/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -14349,7 +14502,7 @@
       ]
     },
     "System.ValueTuple/4.5.0": {
-      "sha512": "xZtSZNEHGa+tGsKuP4sh257vxJ/yemShz4EusmomkynMzuEDDjVaErBNewpzEF6swUgbcrSQAX3ELsEp1zCOwA==",
+      "sha512": "fa3P1cPe2SlrjCjJ/yc3mcXkDj4GQORmileNFYBtBZh2qddzwRubagAkj8yz/yF9oLvJVqaZYar9l2SCqNKDJg==",
       "type": "package",
       "path": "system.valuetuple/4.5.0",
       "files": [
@@ -14538,6 +14691,7 @@
       "path": "system.xml.xmldocument/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -14646,6 +14800,7 @@
       "path": "system.xml.xpath/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -14734,29 +14889,31 @@
       "MongoDB.Driver >= 2.7.3",
       "RabbitMQ.Client >= 5.1.0",
       "Serilog.AspNetCore >= 2.1.1",
+      "Serilog.Settings.Configuration >= 3.0.1",
       "Serilog.Sinks.Console >= 3.1.1",
+      "Serilog.Sinks.ElasticSearch >= 6.5.0",
       "Serilog.Sinks.File >= 4.0.0",
       "VoucherServiceBL >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hp\\.nuget\\packages\\": {},
+    "C:\\Users\\therapy\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
+      "projectUniqueName": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherService\\VoucherService.csproj",
       "projectName": "VoucherService",
-      "projectPath": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\VoucherService.csproj",
-      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherService\\obj\\",
+      "projectPath": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherService\\VoucherService.csproj",
+      "packagesPath": "C:\\Users\\therapy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\therapy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -14769,8 +14926,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj": {
-              "projectPath": "C:\\Users\\hp\\Documents\\GitHub\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj"
+            "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj": {
+              "projectPath": "C:\\Users\\therapy\\source\\repos\\VoucherService\\VoucherServiceBL\\VoucherServiceBL.csproj"
             }
           }
         }
@@ -14828,9 +14985,17 @@
             "target": "Package",
             "version": "[2.1.1, )"
           },
+          "Serilog.Settings.Configuration": {
+            "target": "Package",
+            "version": "[3.0.1, )"
+          },
           "Serilog.Sinks.Console": {
             "target": "Package",
             "version": "[3.1.1, )"
+          },
+          "Serilog.Sinks.ElasticSearch": {
+            "target": "Package",
+            "version": "[6.5.0, )"
           },
           "Serilog.Sinks.File": {
             "target": "Package",

@@ -10,11 +10,9 @@ namespace VoucherServiceBL.Repository.Mongo
 {
     public class MongoVoucherRepository :BaseMongoRepository, IVoucherRepository
     {
-        private IMongoCollection<Voucher> _vouchers;
         public MongoVoucherRepository(MongoClient client, IConfiguration config):base(client, config)
-        {
-            _vouchers = _database.GetCollection<Voucher>(nameof(_vouchers));
-        }
+        {}
+        
         public Task DeleteVoucherByCodeAsync(string code)
         {
             return _vouchers.DeleteOneAsync(v => v.Code == code);
