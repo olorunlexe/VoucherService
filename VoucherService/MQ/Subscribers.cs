@@ -69,9 +69,9 @@ namespace VoucherService.MQ
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
-                var deserialized = JsonConvert.DeserializeObject<Gift>(message);
-                _logger.LogDebug("Received Value Object:", deserialized.Code, deserialized.GiftBalance);
-                baseVoucherService.UpdateGiftVoucherAmount(deserialized.Code, deserialized.GiftBalance);
+                var deserialized = JsonConvert.DeserializeObject<Value>(message);
+                _logger.LogDebug("Received Value Object:", deserialized.Code, deserialized.ValueAmount);
+                baseVoucherService.ActivateOrDeactivateVoucher(deserialized.Code);
                 _logger.LogDebug("Successful Update of ValueVoucher:", deserialized.Code);
             };
 
