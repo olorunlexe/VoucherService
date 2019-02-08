@@ -123,13 +123,9 @@ namespace VoucherService
                 app.UseHsts();
             }
 
-<<<<<<< HEAD
             //logging
             loggerFactory.AddSerilog();
             app.UseHttpsRedirection();
-=======
-            //app.UseHttpsRedirection();
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
             app.UseMvc();
             
             app.UseHangfireServer();

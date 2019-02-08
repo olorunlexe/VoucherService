@@ -92,7 +92,6 @@
           "lib/netstandard1.3/DnsClient.dll": {}
         }
       },
-<<<<<<< HEAD
       "Elasticsearch.Net/6.0.0": {
         "dependencies": {
           "Microsoft.CSharp": "4.5.0",
@@ -110,8 +109,7 @@
           }
         },
         "compile": {
-          "lib/netstandard1.3/Elasticsearch.Net.dll": {}
-=======
+          "lib/netstandard1.3/Elasticsearch.Net.dll": {},
       "GreenPipes/2.1.3": {
         "dependencies": {
           "Microsoft.Extensions.PlatformAbstractions": "1.1.0",
@@ -216,7 +214,6 @@
         },
         "compile": {
           "lib/netstandard1.3/Hangfire.SqlServer.dll": {}
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
         }
       },
       "IdentityModel/3.10.5": {
@@ -4344,14 +4341,12 @@
       "path": "dnsclient/1.0.7",
       "hashPath": "dnsclient.1.0.7.nupkg.sha512"
     },
-<<<<<<< HEAD
     "Elasticsearch.Net/6.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-lQWkIHDwvVlw+6p4S73shfazRywINRGkPhVDKJoTANPJOEb81cOx2eN2PVVwN8i4uJao8CzPt2NVvgCrpWJUwQ==",
       "path": "elasticsearch.net/6.0.0",
-      "hashPath": "elasticsearch.net.6.0.0.nupkg.sha512"
-=======
+      "hashPath": "elasticsearch.net.6.0.0.nupkg.sha512",
     "GreenPipes/2.1.3": {
       "type": "package",
       "serviceable": true,
@@ -4393,7 +4388,6 @@
       "sha512": "sha512-5ZJfRfGr6zhdFnAtLbhTdXebV3jjDF0tqG6/RT5ruMuEkDh+a3rigWokwoM3n3Ch63YIuy6QzDJLMdqc5w71bw==",
       "path": "hangfire.sqlserver/1.6.22",
       "hashPath": "hangfire.sqlserver.1.6.22.nupkg.sha512"
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
     },
     "IdentityModel/3.10.5": {
       "type": "package",
@@ -4706,15 +4700,12 @@
     "System.ComponentModel/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-VyGn1jGRZVfxnh8EdvDCi71v3bMXrsu8aYJOwoV7SNDLVhiEqwP86pPMyRGsDsxhXAm2b3o9OIqeETfN5qfezw==",
       "path": "system.componentmodel/4.3.0",
-      "hashPath": "system.componentmodel.4.3.0.nupkg.sha512"
-=======
+      "hashPath": "system.componentmodel.4.3.0.nupkg.sha512",
       "sha512": "sha512-3AOvy/bB7s8yAkolZOlqGeLDrPySuYsgkk7hKIBWn5a/Le7V16PDYQIzj7w7hi4UUXXmEmN/ZehNlAi5eD9r5w==",
       "path": "system.componentmodel/4.0.1",
       "hashPath": "system.componentmodel.4.0.1.nupkg.sha512"
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
     },
     "System.ComponentModel.Primitives/4.3.0": {
       "type": "package",

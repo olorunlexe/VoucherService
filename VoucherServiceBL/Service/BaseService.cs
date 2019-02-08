@@ -11,12 +11,9 @@ using VoucherServiceBL.Repository;
 using VoucherServiceBL.Repository.SqlServer;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
-<<<<<<< HEAD
 using VoucherServiceBL.Events;
 using Serilog;
-=======
 using Hangfire;
->>>>>>> 329272def250e790152112a1a1eb90a563960eb2
 
 namespace VoucherServiceBL.Service
 {
@@ -86,14 +83,13 @@ namespace VoucherServiceBL.Service
                 else if (voucherRequest.VoucherType.ToUpper() == "DISCOUNT")
                 {
                     //TODO: Log the error event (VoucherGenerationFailed)
-                    var generationFailedEvent = new VoucherGenerationFailedEvent() {
+                    var voucherGeneratedEvent = new VoucherGeneratedEvent() {
                         EventId = Guid.NewGuid(), EventTime = DateTime.Now, MerchantId = voucherRequest.MerchantId,
-                        NumberToGenerate = voucherRequest.NumbersOfVoucherToCreate, Message = "Could not generate the vouchers",
-                        FailureReason = ex.Message
+                        NumberGenerated = numOfVouchersCreated, Message = "New Vouchers created"
                     };
 
-                    _logger.LogError("Failed to Generate vouchers: {@Event}", generationFailedEvent);
-                    _logger.LogDebug(ex, "An error occured while creating vouchers for {Merchant}", voucherRequest.MerchantId);
+                    _logger.LogInformation("Created {Number}: vouchers for {Merchant} :{@Event}", 
+                            numOfVouchersCreated, voucherRequest.MerchantId, voucherGeneratedEvent);
                     
                     //handle the error here; what should happen, try again or what
                     return null;                    
