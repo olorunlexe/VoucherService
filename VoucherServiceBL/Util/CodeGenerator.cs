@@ -95,6 +95,8 @@ namespace VoucherServiceBL.Util
             string characterSet;
             string code;
 
+           
+            //Fragile code
             switch (voucherRequest.CharacterSet.ToLower() )
             {
                 case "alphabet": characterSet = Constants.ALPHABET_CHARACTERS; break;
@@ -102,6 +104,7 @@ namespace VoucherServiceBL.Util
                 case "alphanumeric": characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS; break;
                 default : characterSet = Constants.ALPHABET_CHARACTERS + Constants.NUMBER_CHARACTERS; break;
             }
+            //end of fragile code
 
             if (!string.IsNullOrEmpty(voucherRequest.CodePattern))
             {
